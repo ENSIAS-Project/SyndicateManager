@@ -6,4 +6,5 @@ Ce dépôt hébergera toutes les données relatives au projet nommé "Applicatio
 contient les images maquettes de l'application
 - Besoins :
 contient fichier format md qui decrit les Besions
-
+- Rapport :
+contient les fichiers du rapport (format latex)
