@@ -1,0 +1,14 @@
+## Latex cache
+**/*.aux
+**/*.bbl
+**/*.blg
+**/*.bcf
+**/*.fdb*
+**/*.lof
+**/*.log
+**/*.lot
+**/*.run.xml
+**/*.toc
+**/*.fls
+
+
