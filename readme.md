@@ -4,7 +4,9 @@ Ce dépôt hébergera toutes les données relatives au projet nommé "Applicatio
 ## Les Dossiers
 - Maquette :
 contient les images maquettes de l'application
-- Besoins :
-contient fichier format md qui decrit les Besions
+- Scrum :
+contient les fichiers en format .md de la méthodologie Scrum
 - Rapport :
 contient les fichiers du rapport (format latex)
+- AndroidProject :
+contient les fichiers du projet Android
