@@ -57,7 +57,7 @@ fun LoginView(){
         Button(onClick={},modifier = Modifier.fillMaxWidth()){
             Text("LOGIN", Modifier.padding(vertical = 8.dp))
         }
-        Spacer(modifier = Modifier.padding(20.dp))
+        Spacer(modifier = Modifier.padding(30.dp))
     }
 }
 @Composable
