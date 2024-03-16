@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.daggerHilt)
+    kotlin("kapt")
 }
 
 android {
@@ -60,9 +62,19 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android) // add coroutines AKA threads
     implementation (libs.androidx.lifecycle.viewmodel.ktx.v220)
 
+    //dagger Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.androidx)
+    implementation(libs.androidx.navigation.common.ktx)
+    implementation(libs.androidx.navigation.compose)
+    // kapt
+    kapt(libs.kapt)
+    kapt(libs.kaptx)
+
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    //firebase
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
@@ -72,4 +84,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+// allow refs to generated code
+kapt{
+    correctErrorTypes = true
 }
