@@ -13,6 +13,11 @@ googleServices = "4.4.1"
 firebaseAuth = "22.3.1"
 firebase-firestore = "24.10.3"
 lifecycleViewmodelKtx = "2.7.0"
+daggerHilt = "2.51"
+daggerHiltx = "1.2.0"
+google ="4.4.1"
+navigationCommonKtx = "2.7.4"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,7 +40,17 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebase-firestore" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 
+hilt-android = {group = "com.google.dagger",name = "hilt-android",version.ref = "daggerHilt"}
+kapt = {group = "com.google.dagger",name = "hilt-android-compiler",version.ref = "daggerHilt"}
+hilt-androidx = {group = "androidx.hilt",name = "hilt-navigation-compose",version.ref = "daggerHiltx"}
+kaptx = {group = "androidx.hilt",name = "hilt-compiler",version.ref = "daggerHiltx"}
+
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCommonKtx" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+googleServices = {id = "com.google.gms.google-services", version.ref = "google"}
+daggerHilt = {id = "com.google.dagger.hilt.android", version.ref= "daggerHilt" }
 
