@@ -1,8 +1,15 @@
 package com.ensias.syndicatemanager.ui.view.components
 
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import com.ensias.syndicatemanager.ui.view.roundedCornerShape
+
 
 @Composable
 fun EmailField(value: String, onNewValue: (String) -> Unit) {
@@ -10,7 +17,9 @@ fun EmailField(value: String, onNewValue: (String) -> Unit) {
         value = value,
         singleLine = true,
         onValueChange = {onNewValue(it)},
-        label = { Text(text = "Email")}
+        label = { Text(text = "Email")},
+       modifier = Modifier.width(260.dp)
+         //   .roundedCornerShape()
     )
 
 }
