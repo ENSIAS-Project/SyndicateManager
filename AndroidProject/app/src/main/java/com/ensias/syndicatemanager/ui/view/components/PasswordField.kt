@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.ensias.syndicatemanager.ui.view.roundedCornerShape
 
 @Composable
 fun PasswordField(value: String, onNewValue: (String) -> Unit) {
