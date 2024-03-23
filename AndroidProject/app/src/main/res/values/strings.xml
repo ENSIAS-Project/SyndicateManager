@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Syndicate Manager</string>
+    <string name="UNDEFINED_ERROR">Un probleme est servenu veuillez ressayer</string>
+    <string name="INVALID_CREDENTIAL_EXCEPTION">Email ou Mot de passe incorrecte</string>
+    <string name="INVALID_EMAIL_EXCEPTION">Email malformate</string>
+    <string name="INVALID_USER_ID">l\'identifiant utilisateur est invalide</string>
+    <string name="USER_DATA_MISSING_EXCEPTION">les donnes de l\'utilisateur sont invalides</string>
+    <string name="DEAD_LINE_EXCEEDED">pas de connexion fiable</string>
+    <string name="LOGIN_SCREEN_LOGIN_BTN">connectez-vous</string>
+    <string name="LOGIN_SCREEN_SIGNUP_BTN">s\'inscrire</string>
 
 </resources>

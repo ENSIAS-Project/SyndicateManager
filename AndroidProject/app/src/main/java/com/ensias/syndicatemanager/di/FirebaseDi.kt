@@ -1,5 +1,6 @@
 package com.ensias.syndicatemanager.di
 
+import com.ensias.syndicatemanager.SyndicateManagerAppState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,5 +16,6 @@ import dagger.hilt.components.SingletonComponent
 object FirebaseDi {
     @Provides fun fireauth(): FirebaseAuth = Firebase.auth
     @Provides fun firestore(): FirebaseFirestore = Firebase.firestore
+
 
 }

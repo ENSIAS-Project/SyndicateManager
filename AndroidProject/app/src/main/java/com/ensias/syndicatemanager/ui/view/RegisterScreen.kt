@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -29,30 +27,28 @@ import com.ensias.syndicatemanager.ui.view.components.PasswordField
 import com.ensias.syndicatemanager.viewmodels.AuthViewModel
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     openAndPopUp: (String, String) -> Unit,
-    open:(String) -> Unit,
     authViewModel: AuthViewModel = hiltViewModel()
-    
+
 ){
     val uiState by authViewModel.uiState
     LoginBackground()
-    LoginScreenContent(
+    RegisterScreenContent(
         state = uiState,
         setName = authViewModel::setname,
         setPass = authViewModel::setpass,
-        logIn = {authViewModel.login(openAndPopUp)},
-        signupscreen = {authViewModel.signupscreen(open)}
-        )
+        signup = {authViewModel.signup(openAndPopUp)}
+    )
 }
 
 @Composable
-fun LoginScreenContent(
+fun RegisterScreenContent(
     state: LoginUiState,
     setName: (String) -> Unit,
     setPass: (String) -> Unit,
-    logIn:() -> Unit,
-    signupscreen: () -> Unit
+    signup : () -> Unit
+
 ){
     // to ensure recomposition everytime uiState changes
     Column(
@@ -62,44 +58,28 @@ fun LoginScreenContent(
     ) {
         //Spacer(modifier = Modifier.padding(150.dp))
         EmailField(value = state.email, setName)
-        Spacer(modifier=Modifier.padding(2.dp))//space
-        PasswordField(value = state.password,setPass)
         Spacer(modifier=Modifier.padding(10.dp))//space
-        Button(
-            onClick = { logIn() },
-            modifier = Modifier.width(150.dp),
-            colors=ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary)
-        )   {
-            Text(text = stringResource(R.string.LOGIN_SCREEN_LOGIN_BTN),Modifier.padding(vertical=8.dp),
-                color = MaterialTheme.colorScheme.onSecondary)
-        }
-        Button(
-            onClick = { signupscreen() },
-            modifier = Modifier.width(150.dp),
-            colors=ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
-        )   {
-            Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer)
-        }
-        Spacer(modifier=Modifier.padding(2.dp))//space
+        PasswordField(value = state.password,setPass)
+        Spacer(modifier=Modifier.padding(20.dp))//space
+
+
+            Button(
+                onClick = { signup() },
+                modifier = Modifier.width(150.dp),
+                colors=ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF))
+            )   {
+                Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),Color.Black)
+            }
+
+        Spacer(modifier=Modifier.padding(20.dp))
     }
 }
-
-//TODO: remove this if its not needed
-@Composable
-fun Modifier.roundedCornerShape():Modifier=this then
-        Modifier.clip(MaterialTheme.shapes.medium)
-
-
 @PreviewLightDark
 @Composable
-fun LoginPreview(){
+fun registerPreviewPreview(){
     SyndicateManagerTheme {
         LoginBackground()
         val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword",)
-        LoginScreenContent(state,{},{},{}) {}
+        RegisterScreenContent(state,{},{},{})
     }
 }

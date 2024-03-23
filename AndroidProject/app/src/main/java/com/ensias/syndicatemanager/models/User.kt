@@ -6,9 +6,11 @@ data class User (
     //SEE :  https://firebase.google.com/docs/firestore/manage-data/add-data#custom_objects
     var IS_ADMIN    : Boolean   = false,
     val name        : String    = "",
-    val familyname  : String    = ""
+    val familyname  : String    = "",
+    val ID          : String    = "",
+    val Email       : String    = ""
 ){
     override fun toString(): String {
-        return super.toString()+"IS_ADMIN $IS_ADMIN name : $name  fname : $familyname"
+        return super.toString()+"ID $ID IS_ADMIN $IS_ADMIN name : $name  fname : $familyname"
     }
 }
