@@ -32,7 +32,7 @@ import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 
 @Composable
-fun LoginBackground(){
+fun LoginBackground(h:Int,Y:Int){
     Box(modifier= Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)
@@ -54,7 +54,8 @@ fun LoginBackground(){
                 RoundedCornerShape(50.dp, 50.dp, 0.dp, 0.dp)
             )
             .align(Alignment.BottomCenter)
-            .height(360.dp)
+          //  .height(360.dp)
+            .height(h.dp)
             .fillMaxWidth()
         )
         //image logo
@@ -88,15 +89,18 @@ fun LoginBackground(){
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
-                ) ,  modifier = Modifier.offset(y = (-40).dp)
+                ) , // modifier = Modifier.offset(y = (-40).dp)
+                modifier = Modifier.offset(y =Y.dp)
             )
         }
     }
 }
+
 @PreviewLightDark
 @Composable
 fun preview(){
     SyndicateManagerTheme {
-        LoginBackground()
+        LoginBackground(360,(-40))
+
     }
 }

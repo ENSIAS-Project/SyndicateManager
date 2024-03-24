@@ -5,16 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -36,7 +39,7 @@ fun LoginScreen(
     
 ){
     val uiState by authViewModel.uiState
-    LoginBackground()
+    LoginBackground(400,(-40))
     LoginScreenContent(
         state = uiState,
         setName = authViewModel::setname,
@@ -63,14 +66,16 @@ fun LoginScreenContent(
         //Spacer(modifier = Modifier.padding(150.dp))
         EmailField(value = state.email, setName)
         Spacer(modifier=Modifier.padding(2.dp))//space
-        PasswordField(value = state.password,setPass)
+        PasswordField(value = state.password,setPass,"mot de pass")
         Spacer(modifier=Modifier.padding(10.dp))//space
+        Text(text = "Mot de pass oublié")
         Button(
             onClick = { logIn() },
             modifier = Modifier.width(150.dp),
             colors=ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary)
         )   {
+
             Text(text = stringResource(R.string.LOGIN_SCREEN_LOGIN_BTN),Modifier.padding(vertical=8.dp),
                 color = MaterialTheme.colorScheme.onSecondary)
         }
@@ -88,18 +93,14 @@ fun LoginScreenContent(
     }
 }
 
-//TODO: remove this if its not needed
-@Composable
-fun Modifier.roundedCornerShape():Modifier=this then
-        Modifier.clip(MaterialTheme.shapes.medium)
 
 
 @PreviewLightDark
 @Composable
 fun LoginPreview(){
     SyndicateManagerTheme {
-        LoginBackground()
-        val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword",)
+        LoginBackground(400,(-44))
+        val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword")
         LoginScreenContent(state,{},{},{}) {}
     }
 }

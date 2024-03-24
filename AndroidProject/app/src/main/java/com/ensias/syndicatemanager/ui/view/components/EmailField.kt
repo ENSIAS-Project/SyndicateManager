@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.ensias.syndicatemanager.ui.view.roundedCornerShape
 
 
 @Composable
@@ -19,7 +18,6 @@ fun EmailField(value: String, onNewValue: (String) -> Unit) {
         onValueChange = {onNewValue(it)},
         label = { Text(text = "Email")},
        modifier = Modifier.width(260.dp)
-         //   .roundedCornerShape()
     )
 
 }

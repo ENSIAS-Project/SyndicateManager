@@ -42,6 +42,7 @@ class AuthViewModel  @Inject constructor(
         }
     }
 
+
     private fun loginExceptionHandler(e: AuthException) {
         SnackbarManager.showMessage(e.getmessage())
     }

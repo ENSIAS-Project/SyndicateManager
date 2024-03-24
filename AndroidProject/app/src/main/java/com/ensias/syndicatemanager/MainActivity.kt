@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.LoginScreen
-import com.ensias.syndicatemanager.ui.view.RegisterScreen
+//import com.ensias.syndicatemanager.ui.view.RegisterScreen
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -116,9 +116,9 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                 //    popUpTo("auth"){inclusive = true}
                 // }
             }
-            composable(route=SIGNUP){
-                RegisterScreen(openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)})
-            }
+       //     composable(route=SIGNUP){
+         //     RegisterScreen(openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)})
+           //}
             composable(route=RESET_PASSWORD){
                 Column {
                     Text(text = "RESET PASSWORD SCREEN")

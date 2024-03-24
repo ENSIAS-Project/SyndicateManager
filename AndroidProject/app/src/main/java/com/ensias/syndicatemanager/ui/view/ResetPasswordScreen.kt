@@ -1,5 +1,6 @@
 package com.ensias.syndicatemanager.ui.view
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.ensias.syndicatemanager.ui.state.SignUpUiState
+
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,35 +23,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ensias.syndicatemanager.R
 import com.ensias.syndicatemanager.ui.state.LoginUiState
-import com.ensias.syndicatemanager.ui.state.SignUpUiState
+
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.EmailField
 import com.ensias.syndicatemanager.ui.view.components.LoginBackground
-import com.ensias.syndicatemanager.ui.view.components.NomField
 import com.ensias.syndicatemanager.ui.view.components.PasswordField
-import com.ensias.syndicatemanager.ui.view.components.PrenomField
-import com.ensias.syndicatemanager.viewmodels.AuthViewModel
 
 @Composable
-fun RegisterScreen(
-    openAndPopUp: (String, String) -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
-
-){
-    val uiState by authViewModel.uiState
+fun ResetPasswordScreen(){
     LoginBackground(400,(-50))
-    RegisterScreenContent(
-        state = uiState,
-        setName = authViewModel::setname,
-        setPass = authViewModel::setpass,
-        signup = {authViewModel.signup(openAndPopUp)}
-    )
 }
 
 @Composable
-fun RegisterScreenContent(
+fun ResetPasswordScreenContent(
     state: LoginUiState,
-    setName:(String)->Unit,
+    setName: (String) -> Unit,
     setPass: (String) -> Unit,
     signup : () -> Unit
 
@@ -59,32 +48,33 @@ fun RegisterScreenContent(
         verticalArrangement = Arrangement.spacedBy(10.dp,alignment=Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //Spacer(modifier = Modifier.padding(150.dp))
-        NomField(value = state.email, setName)
-        Spacer(modifier=Modifier.padding(10.dp))//space
-        PasswordField(value = state.password,setPass,"password")
-        Spacer(modifier=Modifier.padding(10.dp))//space
+        EmailField(value = state.email, setName)
+        Spacer(modifier=Modifier.padding(2.dp))//space
+        PasswordField(value = state.password,setPass,"nouveau mot de pass")
+        Spacer(modifier=Modifier.padding(2.dp))
+        PasswordField(value = state.password,setPass,"confirmation mot de pass")
+        Spacer(modifier=Modifier.padding(10.dp))
 
 
+        Button(
+            onClick = { signup() },
+            modifier = Modifier.width(150.dp),
+            colors=ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF))
+        )   {
+            Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),Color.Black)
+        }
 
-            Button(
-                onClick = { signup() },
-                modifier = Modifier.width(150.dp),
-                colors=ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF))
-            )   {
-                Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),Color.Black)
-            }
-
-        Spacer(modifier=Modifier.padding(20.dp))
+        Spacer(modifier=Modifier.padding(5.dp))
     }
+
 }
-/*
+
 @PreviewLightDark
 @Composable
-fun registerPreviewPreview(){
+fun ResetPasswordPreview(){
     SyndicateManagerTheme {
-        LoginBackground(400,(-50))
-        val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword",)
-        RegisterScreenContent(state,{},{},{})
-    }
-}*/
+        LoginBackground(400, (-44))
+        val state: LoginUiState = LoginUiState("", "")
+
+        ResetPasswordScreenContent(state,{},{},{})
+    }}
