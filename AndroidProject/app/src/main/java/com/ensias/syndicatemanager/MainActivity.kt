@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,8 +36,11 @@ import androidx.navigation.compose.rememberNavController
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.LoginScreen
+import com.ensias.syndicatemanager.ui.view.ResetPasswordScreen
+import com.ensias.syndicatemanager.ui.view.SignUpScreen
 //import com.ensias.syndicatemanager.ui.view.RegisterScreen
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
+import com.ensias.syndicatemanager.ui.view.components.LoginBackground
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 
@@ -116,14 +120,16 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                 //    popUpTo("auth"){inclusive = true}
                 // }
             }
-       //     composable(route=SIGNUP){
-         //     RegisterScreen(openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)})
-           //}
+            composable(route=SIGNUP){
+             // RegisterScreen(openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)})
+                LoginBackground(550,(-80))
+                SignUpScreen(
+                    openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)},
+                    open = {route -> appState.navigate(route)}
+                )
+           }
             composable(route=RESET_PASSWORD){
-                Column {
-                    Text(text = "RESET PASSWORD SCREEN")
-
-                }
+                ResetPasswordScreen()
             }
         }
         navigation(
@@ -133,9 +139,14 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
             composable(route= MONTH_VIEW){
                 Column {
                     Text(text = "user is ${Repo.user.name}")
+                    Spacer(modifier=Modifier.padding(10.dp))
+                    Text(text = "user is ${Repo.user.familyname}")
+                    Spacer(modifier=Modifier.padding(10.dp))
+                    Text(text = "user is ${Repo.user.email}")
+                    Spacer(modifier=Modifier.padding(10.dp))
+                    Text(text = "user is ${Repo.user.id}")
 
                 }
             }
-
         }
         }

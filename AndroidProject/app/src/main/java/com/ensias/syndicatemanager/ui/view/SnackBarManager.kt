@@ -1,6 +1,7 @@
 package com.ensias.syndicatemanager.ui.view
 
 import androidx.annotation.StringRes
+import com.ensias.syndicatemanager.exceptions.AuthException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +17,10 @@ object SnackbarManager {
 
     fun showMessage( message: String) {
         messages.value = SnackbarMessage.StringSnackbar(message)
+    }
+
+    fun showMessage(exception : AuthException){
+        showMessage(exception.getmessage())
     }
 
     fun showMessage(message: SnackbarMessage) {

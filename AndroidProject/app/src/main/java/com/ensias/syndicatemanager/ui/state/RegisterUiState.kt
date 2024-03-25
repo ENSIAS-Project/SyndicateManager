@@ -1,8 +1,10 @@
 package com.ensias.syndicatemanager.ui.state
 
-data class SignUpUiState(
+data class RegisterUiState(
     val prenom: String = "",
     val nom: String="",
+    val email: String ="",
     val password: String = "",
-    val logged : Boolean = false
+    val confirmpass: String = "",
+    val validmail : Boolean = true
 )

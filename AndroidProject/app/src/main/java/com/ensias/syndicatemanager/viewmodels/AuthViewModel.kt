@@ -9,10 +9,13 @@ import com.ensias.syndicatemanager.MAIN
 import com.ensias.syndicatemanager.SIGNUP
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.exceptions.AuthException
+import com.ensias.syndicatemanager.exceptions.impl.RegisterPasswordMismatchException
 import com.ensias.syndicatemanager.models.LoginUiModel
+import com.ensias.syndicatemanager.models.RegisterUiModel
 import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.ui.state.LoginUiState
+import com.ensias.syndicatemanager.ui.state.RegisterUiState
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,21 +25,24 @@ import javax.inject.Inject
 class AuthViewModel  @Inject constructor(
     private val accountService : AccountService,
     ) :ViewModel(){
-    var uiState = mutableStateOf(LoginUiState())
+    var loginUistate = mutableStateOf(LoginUiState())
     private set
+    var registerUistate = mutableStateOf(RegisterUiState())
     private val TAG : String = "LoginviewModel"
 
     fun login(openAndPopUp: (String, String) -> Unit){
-        Log.d(TAG,"login with ${uiState.value.email} and ${uiState.value.password}")
+        Log.d(TAG,"login with ${loginUistate.value.email} and ${loginUistate.value.password}")
+        loginUistate.value = loginUistate.value.copy(logging = true)
         viewModelScope.launch {  // the recommended way to call suspend function inside viewmodels
             try {
-                accountService.authenticate(LoginUiModel(uiState.value.email,uiState.value.password)) {
+                accountService.authenticate(LoginUiModel(loginUistate.value.email,loginUistate.value.password)) {
                     setUser(it)
                     openAndPopUp(MAIN, LOGIN)
                 }
 
             } catch (e: AuthException){
                 loginExceptionHandler(e)
+                loginUistate.value = loginUistate.value.copy(logging = true)
 
             }
         }
@@ -48,13 +54,14 @@ class AuthViewModel  @Inject constructor(
     }
     private fun setUser(user: User){
         // User successsfully logged
-        Repo.user = user // set it on th repo
+        Repo.user = user // set it on the repo
+        Repo.logged = true
     }
 
     fun logout(){
         viewModelScope.launch {
             accountService.logout()
-            uiState.value =uiState.value.copy(logged = false)
+            Repo.logged=false
         }
     }
 
@@ -62,28 +69,69 @@ class AuthViewModel  @Inject constructor(
         open(SIGNUP)
     }
 
-    fun setname(newemail:String){
-        uiState.value = uiState.value.copy(email = newemail)
+    fun setLoginEmail(newemail:String){
+        loginUistate.value = loginUistate.value.copy(email = newemail)
     }
-    fun setpass(newpass:String){
-        uiState.value = uiState.value.copy(password = newpass)
+    fun setLoginPassword(newpass:String){
+        loginUistate.value = loginUistate.value.copy(password = newpass)
     }
 
-    fun signup(openAndPopUp: (String, String) -> Unit) {
-        Log.d(TAG,"signup with ${uiState.value.email} and ${uiState.value.password}")
-        Repo.user = User(Email = uiState.value.email, name = "TO_BE_IMPLEMENTED", familyname = "TO_BE_IMPLEMENTED,")
+    fun onLoginEmailValidation(valid: Boolean) {
+        loginUistate.value = loginUistate.value.copy(validmail = valid)
+    }
+
+    fun register(openAndPopUp: (String, String) -> Unit) {
+        Log.d(TAG,"register with ${registerUistate.value.email} and ${registerUistate.value.password}")
+        if(! (registerUistate.value.password.equals(registerUistate.value.confirmpass))){
+            // passwords mismatch
+            // notify the user via snackbar
+            SnackbarManager.showMessage(RegisterPasswordMismatchException())
+            return // don't proceed via registration
+        }
+        Repo.user = User(
+            email = registerUistate.value.email,
+            IS_ADMIN = false,
+            name = registerUistate.value.prenom,
+            familyname = registerUistate.value.nom
+        )
         viewModelScope.launch {  // the recommended way to call suspend function inside viewmodels
-            try {
-                accountService.SignUp(LoginUiModel(uiState.value.email,uiState.value.password)) {
+            try { //Re(registerUistate.value.email,registerUistate.value.password)
+                accountService.Register(RegisterUiModel(
+                    nom =       registerUistate.value.nom,
+                    prenom =    registerUistate.value.prenom,
+                    password =  registerUistate.value.password,
+                    email =     registerUistate.value.email
+                )) {
                     setUser(it)
                     openAndPopUp(MAIN, LOGIN)
                 }
-
-            } catch (e: AuthException){
-                loginExceptionHandler(e)
-
-            }
+            } catch (e: AuthException){ loginExceptionHandler(e) }
         }
     }
+
+    fun setRegisterName(s: String) {
+        registerUistate.value = registerUistate.value.copy(nom = s)
+    }
+
+    fun setFamilyname(s: String) {
+        registerUistate.value = registerUistate.value.copy(prenom = s)
+    }
+
+    fun setEmail(s: String) {
+        registerUistate.value = registerUistate.value.copy(email = s)
+    }
+
+    fun setRegisterPass(s: String) {
+        registerUistate.value = registerUistate.value.copy(password = s)
+    }
+
+    fun setVerificationPass(s: String) {
+        registerUistate.value = registerUistate.value.copy(confirmpass = s)
+    }
+
+    fun onRegisterEmailValidation(valid: Boolean) {
+        registerUistate.value = registerUistate.value.copy(validmail = valid)
+    }
+
 
 }

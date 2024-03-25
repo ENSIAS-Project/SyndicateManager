@@ -5,7 +5,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ensias.syndicatemanager.R
 
 @Composable
 fun PrenomField(value: String, onNewValue: (String) -> Unit) {
@@ -13,7 +15,7 @@ fun PrenomField(value: String, onNewValue: (String) -> Unit) {
         value = value,
         singleLine = true,
         onValueChange = {onNewValue(it)},
-        label = { Text(text = "Prenom") },
+        label = { Text(text = stringResource(id = R.string.FAMILY_NAME)) },
         modifier = Modifier.width(260.dp)
     )
 

@@ -7,10 +7,10 @@ data class User (
     var IS_ADMIN    : Boolean   = false,
     val name        : String    = "",
     val familyname  : String    = "",
-    val ID          : String    = "",
-    val Email       : String    = ""
+    val id          : String    = "",
+    val email       : String    = ""
 ){
     override fun toString(): String {
-        return super.toString()+"ID $ID IS_ADMIN $IS_ADMIN name : $name  fname : $familyname"
+        return super.toString()+"ID $id IS_ADMIN $IS_ADMIN name : $name  fname : $familyname"
     }
 }

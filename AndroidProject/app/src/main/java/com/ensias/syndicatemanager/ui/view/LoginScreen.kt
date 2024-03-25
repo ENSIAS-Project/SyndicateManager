@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,13 +38,14 @@ fun LoginScreen(
     authViewModel: AuthViewModel = hiltViewModel()
     
 ){
-    val uiState by authViewModel.uiState
-    LoginBackground(400,(-40))
+    val uiState by authViewModel.loginUistate
+    LoginBackground(400,(-40)) //FIXME : background shouldnt be here
     LoginScreenContent(
         state = uiState,
-        setName = authViewModel::setname,
-        setPass = authViewModel::setpass,
+        setName = authViewModel::setLoginEmail,
+        setPass = authViewModel::setLoginPassword,
         logIn = {authViewModel.login(openAndPopUp)},
+        onEmailValidation = {valid -> authViewModel.onLoginEmailValidation(valid)},
         signupscreen = {authViewModel.signupscreen(open)}
         )
 }
@@ -55,6 +56,7 @@ fun LoginScreenContent(
     setName: (String) -> Unit,
     setPass: (String) -> Unit,
     logIn:() -> Unit,
+    onEmailValidation:(Boolean) -> Unit,
     signupscreen: () -> Unit
 ){
     // to ensure recomposition everytime uiState changes
@@ -64,30 +66,43 @@ fun LoginScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //Spacer(modifier = Modifier.padding(150.dp))
-        EmailField(value = state.email, setName)
+        EmailField(value = state.email, valid = state.validmail,onEmailValidation, setName)
         Spacer(modifier=Modifier.padding(2.dp))//space
         PasswordField(value = state.password,setPass,"mot de pass")
         Spacer(modifier=Modifier.padding(10.dp))//space
         Text(text = "Mot de pass oublié")
-        Button(
-            onClick = { logIn() },
-            modifier = Modifier.width(150.dp),
-            colors=ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary)
-        )   {
+        Column (
+            modifier = Modifier.height(100.dp)
+        ){
+            if(state.logging){
+                CircularProgressIndicator(
+                    modifier = Modifier,
+                    strokeWidth = ProgressIndicatorDefaults.CircularStrokeWidth,
+                    trackColor = MaterialTheme.colorScheme.onSurface, // TODO:a changer,
+                    strokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap
+                )
+            }else{
+                Button(
+                    onClick = { logIn() },
+                    modifier = Modifier.width(150.dp),
+                    colors=ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary)
+                )   {
 
-            Text(text = stringResource(R.string.LOGIN_SCREEN_LOGIN_BTN),Modifier.padding(vertical=8.dp),
-                color = MaterialTheme.colorScheme.onSecondary)
-        }
-        Button(
-            onClick = { signupscreen() },
-            modifier = Modifier.width(150.dp),
-            colors=ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
-        )   {
-            Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    Text(text = stringResource(R.string.LOGIN_SCREEN_LOGIN_BTN),Modifier.padding(vertical=8.dp),
+                        color = MaterialTheme.colorScheme.onSecondary)
+                }
+                Button(
+                    onClick = { signupscreen() },
+                    modifier = Modifier.width(150.dp),
+                    colors=ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+                    )
+                )   {
+                    Text(text = stringResource(R.string.LOGIN_SCREEN_SIGNUP_BTN),Modifier.padding(vertical=8.dp),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer)
+                }
+            }
         }
         Spacer(modifier=Modifier.padding(2.dp))//space
     }
@@ -99,8 +114,8 @@ fun LoginScreenContent(
 @Composable
 fun LoginPreview(){
     SyndicateManagerTheme {
-        LoginBackground(400,(-44))
-        val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword")
-        LoginScreenContent(state,{},{},{}) {}
+        LoginBackground(400,(-44))  // FIXME: this shouldn't be here
+        val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword",logging = false)
+        LoginScreenContent(state,{},{},{},{},{})
     }
 }

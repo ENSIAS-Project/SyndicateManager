@@ -8,5 +8,10 @@
     <string name="DEAD_LINE_EXCEEDED">pas de connexion fiable</string>
     <string name="LOGIN_SCREEN_LOGIN_BTN">connectez-vous</string>
     <string name="LOGIN_SCREEN_SIGNUP_BTN">s\'inscrire</string>
+    <string name="ERROR_DIFFERENT_PASSWORDS">les mots de passes sont differents</string>
+    <string name="NAME">nom</string>
+    <string name="FAMILY_NAME">prenom</string>
+    <string name="PASSWORD">mot de passe</string>
+    <string name="RETYPE_PASSWORD">retapez le mot de passe</string>
 
 </resources>

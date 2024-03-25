@@ -1,8 +1,5 @@
 package com.ensias.syndicatemanager.service.impl
 
-import android.util.Log
-import com.ensias.syndicatemanager.SyndicateManagerAppState
-import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.exceptions.AuthException
 import com.ensias.syndicatemanager.exceptions.impl.DeadLineExceeded
 import com.ensias.syndicatemanager.exceptions.impl.InvalidCredentialsException
@@ -11,12 +8,12 @@ import com.ensias.syndicatemanager.exceptions.impl.MalFormatedEmailException
 import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.exceptions.impl.UserDataMissingException
 import com.ensias.syndicatemanager.models.LoginUiModel
+import com.ensias.syndicatemanager.models.RegisterUiModel
 import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,7 +35,7 @@ class FireBaseAccountService @Inject  constructor(
     override suspend fun authenticate(login: LoginUiModel, onResult: (User) -> Unit) {
         try {
             auth.signInWithEmailAndPassword(login.email, login.pass)
-                .addOnCompleteListener { authListerner(it,type = "signin",onResult) }
+                .addOnCompleteListener { loginListerner( it, onResult) }
                 .await()
         } catch (e: Exception) { throw authException(e) }
     }
@@ -48,32 +45,48 @@ class FireBaseAccountService @Inject  constructor(
     }
 
     @Throws(AuthException::class)
-    override fun SignUp(authdetails: LoginUiModel, onResult: (User) -> Unit) {
+    override fun Register(authdetails: RegisterUiModel, onResult: (User) -> Unit) {
         try {
-            auth.createUserWithEmailAndPassword(authdetails.email, authdetails.pass)
-                .addOnCompleteListener { authListerner(it,type = "signup",onResult) }
+            auth.createUserWithEmailAndPassword(authdetails.email, authdetails.password)
+                .addOnCompleteListener { registerListerner(it,authdetails,onResult) }
         } catch (e: Exception) { throw authException(e) }
     }
 
-    fun authListerner(task: Task<AuthResult>,type:String, onResult: (User) -> Unit){
+    fun loginListerner(
+        task: Task<AuthResult>,
+        onResult: (User) -> Unit
+    ){
         if (task.isSuccessful) {
             // Authentication successful
-            // get or set firestore
-            if(type.equals("signin")){
                 getUserData(task,auth.currentUser?.uid,onResult)
-            }else{
-                setUserData(task,auth.currentUser?.uid,onResult)
-            }
 
         }
     }
 
+    fun registerListerner(
+        task: Task<AuthResult>,
+        authdetails: RegisterUiModel,
+        onResult: (User) -> Unit
+    ){
+        if (task.isSuccessful) {
+            // Authentication successful
+                setUserData(task,auth.currentUser?.uid,authdetails,onResult)
+            }
+        }
+
+
     @Throws(AuthException::class)
-    private fun setUserData(task: Task<AuthResult>, uid: String?, onResult: (User) -> Unit) {
+    private fun setUserData(
+        task: Task<AuthResult>,
+        uid: String?,
+        authdetails: RegisterUiModel,
+        onResult: (User) -> Unit
+    ) {
+
         if(uid==null){
             throw InvalidUserIdException()
         }else{
-            var dat : User = User(IS_ADMIN = false, name = Repo.user.name, familyname = Repo.user.familyname,ID = uid)
+            var dat  = User(IS_ADMIN = false, name = authdetails.prenom, email = authdetails.email, familyname = authdetails.nom,id = uid)
             store.collection(USER_COLLECTION)
                 .document(uid)
                 .set(dat, SetOptions.merge())

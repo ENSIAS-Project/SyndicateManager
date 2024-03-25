@@ -84,7 +84,7 @@ fun LoginBackground(h:Int,Y:Int){
 
         ) {
             Text(
-                text = "WELCOME NEIGHBOR",
+                text = "WELCOME NEIGHBOR", // FIXME : turn this into resource in xml file
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,

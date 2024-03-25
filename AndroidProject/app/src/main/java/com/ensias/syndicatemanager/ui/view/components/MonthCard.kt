@@ -21,7 +21,7 @@ import com.ensias.syndicatemanager.R
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
-fun MonthCard(){
+fun MonthCard(){ // TODO: add paremeters of the card into the screen
     Card(
         colors = CardDefaults.cardColors(
             //if (isSelected) MaterialTheme.colorScheme.primaryContainer else
@@ -49,7 +49,7 @@ fun MonthImage() {
         modifier = Modifier
             .size(100.dp)
             .padding(8.dp),
-        painter = painterResource(id = R.drawable.calendrier),
+        painter = painterResource(id = R.drawable.calendar),
         //colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
         contentDescription = null
     )

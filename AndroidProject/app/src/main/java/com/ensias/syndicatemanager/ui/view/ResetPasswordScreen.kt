@@ -11,16 +11,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.ensias.syndicatemanager.ui.state.SignUpUiState
 
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ensias.syndicatemanager.R
 import com.ensias.syndicatemanager.ui.state.LoginUiState
 
@@ -31,15 +28,17 @@ import com.ensias.syndicatemanager.ui.view.components.PasswordField
 
 @Composable
 fun ResetPasswordScreen(){
-    LoginBackground(400,(-50))
+    LoginBackground(400,(-50)) // FIXME : same comment
+    //ResetPasswordScreenContent(state = , setName = , setPass = ) //TODO: ANAS: implement this
+    Text(text = "a reset Screen to be implemented")
 }
 
 @Composable
 fun ResetPasswordScreenContent(
-    state: LoginUiState,
+    state: LoginUiState, //FIXME ADD A RESET PASSWORD UI STATE
     setName: (String) -> Unit,
-    setPass: (String) -> Unit,
-    signup : () -> Unit
+    onEmailValidation:(Boolean) -> Unit,
+    resetPassword : () -> Unit
 
 ){
     // to ensure recomposition everytime uiState changes
@@ -48,16 +47,16 @@ fun ResetPasswordScreenContent(
         verticalArrangement = Arrangement.spacedBy(10.dp,alignment=Alignment.Bottom),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EmailField(value = state.email, setName)
-        Spacer(modifier=Modifier.padding(2.dp))//space
-        PasswordField(value = state.password,setPass,"nouveau mot de pass")
-        Spacer(modifier=Modifier.padding(2.dp))
-        PasswordField(value = state.password,setPass,"confirmation mot de pass")
-        Spacer(modifier=Modifier.padding(10.dp))
+        EmailField(value = state.email, valid = state.validmail,onEmailValidation, setName)
+        //Spacer(modifier=Modifier.padding(2.dp))//space
+        //PasswordField(value = state.password,setPass,"nouveau mot de pass")
+        //Spacer(modifier=Modifier.padding(2.dp))
+        //PasswordField(value = state.password,setPass,"confirmation mot de pass")
+        //Spacer(modifier=Modifier.padding(10.dp))
 
 
         Button(
-            onClick = { signup() },
+            onClick = { resetPassword() },
             modifier = Modifier.width(150.dp),
             colors=ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF))
         )   {
