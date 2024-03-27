@@ -92,7 +92,7 @@ fun RegisterScreenContent(
 
 @PreviewLightDark
 @Composable
-fun registerPreviewPreview(){
+fun RegisterPreviewPreview(){
     SyndicateManagerTheme {
         LoginBackground(460,(-60))
         val state : RegisterUiState=RegisterUiState("nisrine","Bakhouche","")

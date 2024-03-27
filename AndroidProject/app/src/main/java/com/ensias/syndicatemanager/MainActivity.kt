@@ -110,7 +110,7 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
             route = AUTH
         ){
             composable(route=LOGIN){
-
+                LoginBackground(450,(-40))
                 LoginScreen(
                     openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)},
                     open = {route -> appState.navigate(route)}
@@ -129,7 +129,11 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                 )
            }
             composable(route=RESET_PASSWORD){
-                ResetPasswordScreen()
+                LoginBackground(400,(-50))
+                ResetPasswordScreen(
+                    openAndPopUp = {route,popup -> appState.navigateAndPopUp(route,popup)},
+                    open = {route -> appState.navigate(route)}
+                )
             }
         }
         navigation(

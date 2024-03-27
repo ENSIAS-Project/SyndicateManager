@@ -1,0 +1,54 @@
+image example:
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{ensias.png}
+\caption{An example of an image}
+\label{fig : ensias logo}
+\end{figure}
+
+to reference to the previous fugure you can use \ref{fig : ensias logo}
+
+inline figures can be made this way 
+\begin{figure}[h]
+     \centering
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{ensias.png}
+         \caption{a caption}
+         \label{fig:y equals x}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{ensias.png}
+         \caption{$math cap E=mc^2$}
+         \label{fig:three sin x}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{ensias.png}
+         \caption{$y=5/x$}
+         \label{fig:five over x}
+     \end{subfigure}
+        \caption{Three simple graphs}
+        \label{fig:three graphs}
+\end{figure}
+
+an example of a table :
+
+\begin{table}[h]
+\centering
+\begin{tabular}{||l | l | l||}
+\hline
+A & B & C \\
+\hline
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+\hline
+\hline
+\end{tabular}
+\caption{very basic table}
+\label{tab:abc}
+\end{table}

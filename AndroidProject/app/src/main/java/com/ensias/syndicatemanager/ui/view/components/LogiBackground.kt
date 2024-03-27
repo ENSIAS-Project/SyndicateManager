@@ -18,12 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +31,7 @@ import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 
 @Composable
-fun LoginBackground(h:Int,Y:Int){
+fun LoginBackground(h:Int,y:Int){
     Box(modifier= Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)
@@ -54,7 +53,7 @@ fun LoginBackground(h:Int,Y:Int){
                 RoundedCornerShape(50.dp, 50.dp, 0.dp, 0.dp)
             )
             .align(Alignment.BottomCenter)
-          //  .height(360.dp)
+            //  .height(360.dp)
             .height(h.dp)
             .fillMaxWidth()
         )
@@ -84,13 +83,13 @@ fun LoginBackground(h:Int,Y:Int){
 
         ) {
             Text(
-                text = "WELCOME NEIGHBOR", // FIXME : turn this into resource in xml file
+                text = stringResource(R.string.WELCOME_NEIGHBOR),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                 ) , // modifier = Modifier.offset(y = (-40).dp)
-                modifier = Modifier.offset(y =Y.dp)
+                modifier = Modifier.offset(y =y.dp)
             )
         }
     }
@@ -98,7 +97,7 @@ fun LoginBackground(h:Int,Y:Int){
 
 @PreviewLightDark
 @Composable
-fun preview(){
+fun Preview(){
     SyndicateManagerTheme {
         LoginBackground(360,(-40))
 

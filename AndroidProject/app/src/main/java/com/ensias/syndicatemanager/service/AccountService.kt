@@ -11,6 +11,9 @@ interface AccountService {
     suspend fun authenticate(login : LoginUiModel, onResult: (User) -> Unit)
 
     suspend fun logout()
+    @Throws(AuthException::class)
     abstract fun Register(Register: RegisterUiModel, onResult: (User) -> Unit)
+    @Throws(AuthException::class)
+    abstract fun reset(email: String,onResult: () -> Unit)
 
 }

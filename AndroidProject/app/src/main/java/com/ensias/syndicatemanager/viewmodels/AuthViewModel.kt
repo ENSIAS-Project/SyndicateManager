@@ -4,8 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ensias.syndicatemanager.AUTH
 import com.ensias.syndicatemanager.LOGIN
 import com.ensias.syndicatemanager.MAIN
+import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.RESET_PASSWORD
 import com.ensias.syndicatemanager.SIGNUP
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.exceptions.AuthException
@@ -16,6 +19,7 @@ import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.ui.state.LoginUiState
 import com.ensias.syndicatemanager.ui.state.RegisterUiState
+import com.ensias.syndicatemanager.ui.state.ResetUiState
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,6 +32,8 @@ class AuthViewModel  @Inject constructor(
     var loginUistate = mutableStateOf(LoginUiState())
     private set
     var registerUistate = mutableStateOf(RegisterUiState())
+        private set
+    var resetUiState = mutableStateOf(ResetUiState())
     private val TAG : String = "LoginviewModel"
 
     fun login(openAndPopUp: (String, String) -> Unit){
@@ -131,6 +137,25 @@ class AuthViewModel  @Inject constructor(
 
     fun onRegisterEmailValidation(valid: Boolean) {
         registerUistate.value = registerUistate.value.copy(validmail = valid)
+    }
+
+    fun resetSetEmail(s: String) {
+        resetUiState.value = resetUiState.value.copy(email = s)
+    }
+
+    fun resetPassword(openAndPopUp: (String, String) -> Unit) {
+        accountService.reset(resetUiState.value.email) {
+            SnackbarManager.showMessage(R.string.EMAIL_RESET_SNACK_BAR_MESSAGE)
+            openAndPopUp(AUTH, LOGIN)
+        }
+    }
+
+    fun onResetEmailValidation(b: Boolean) {
+        resetUiState.value = resetUiState.value.copy(isMailValid = b)
+    }
+
+    fun resetPasswordScreen(open: (String) -> Unit) {
+        open(RESET_PASSWORD)
     }
 
 
