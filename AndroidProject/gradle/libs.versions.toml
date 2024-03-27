@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0"
+agp = "8.3.1"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -8,15 +8,15 @@ espressoCore = "3.5.1"
 kotlinxCoroutinesAndroid = "1.7.3"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
-composeBom = "2024.02.02"
+composeBom = "2024.03.00"
 googleServices = "4.4.1"
 firebaseAuth = "22.3.1"
-firebase-firestore = "24.10.3"
+firebase-firestore = "24.11.0"
 lifecycleViewmodelKtx = "2.7.0"
 daggerHilt = "2.51"
 daggerHiltx = "1.2.0"
 google ="4.4.1"
-navigationCommonKtx = "2.7.4"
+navigationCommonKtx = "2.7.7"
 
 
 [libraries]
