@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68136718617",
+    "project_id": "syndicatemanager-ensias",
+    "storage_bucket": "syndicatemanager-ensias.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68136718617:android:3611ab8d8fbbcbbd2db588",
+        "android_client_info": {
+          "package_name": "com.ensias.syndicatemanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW-98Ai6rTTmIwtWQNQ5p0S2XLMzN1f3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
