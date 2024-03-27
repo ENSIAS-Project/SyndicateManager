@@ -39,14 +39,15 @@ fun LoginScreen(
     
 ){
     val uiState by authViewModel.loginUistate
-    LoginBackground(400,(-40)) //FIXME : background shouldnt be here
     LoginScreenContent(
         state = uiState,
         setName = authViewModel::setLoginEmail,
         setPass = authViewModel::setLoginPassword,
         logIn = {authViewModel.login(openAndPopUp)},
         onEmailValidation = {valid -> authViewModel.onLoginEmailValidation(valid)},
-        signupscreen = {authViewModel.signupscreen(open)}
+        signupscreen = {authViewModel.signupscreen(open)},
+        resetScreen = {authViewModel.resetPasswordScreen(open)}
+
         )
 }
 
@@ -57,7 +58,8 @@ fun LoginScreenContent(
     setPass: (String) -> Unit,
     logIn:() -> Unit,
     onEmailValidation:(Boolean) -> Unit,
-    signupscreen: () -> Unit
+    signupscreen: () -> Unit,
+    resetScreen:() -> Unit
 ){
     // to ensure recomposition everytime uiState changes
     Column(
@@ -70,9 +72,8 @@ fun LoginScreenContent(
         Spacer(modifier=Modifier.padding(2.dp))//space
         PasswordField(value = state.password,setPass,"mot de pass")
         Spacer(modifier=Modifier.padding(10.dp))//space
-        Text(text = "Mot de pass oublié")
         Column (
-            modifier = Modifier.height(100.dp)
+            modifier = Modifier.height(180.dp)
         ){
             if(state.logging){
                 CircularProgressIndicator(
@@ -82,6 +83,16 @@ fun LoginScreenContent(
                     strokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap
                 )
             }else{
+                Button(
+                    onClick = { resetScreen() },
+                    modifier = Modifier.width(150.dp),
+                    colors=ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+                    )
+                )   {
+                    Text(text = stringResource(R.string.RESET_PASSWORD),Modifier.padding(vertical=8.dp),
+                        color = MaterialTheme.colorScheme.onPrimaryContainer)
+                }
                 Button(
                     onClick = { logIn() },
                     modifier = Modifier.width(150.dp),
@@ -114,8 +125,8 @@ fun LoginScreenContent(
 @Composable
 fun LoginPreview(){
     SyndicateManagerTheme {
-        LoginBackground(400,(-44))  // FIXME: this shouldn't be here
+        LoginBackground(400,(-44))
         val state : LoginUiState= LoginUiState(email = "testemail@example.com", password = "testpassword",logging = false)
-        LoginScreenContent(state,{},{},{},{},{})
+        LoginScreenContent(state,{},{},{},{},{},{})
     }
 }

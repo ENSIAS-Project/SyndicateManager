@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,7 +55,7 @@ fun LoginBackground(h:Int,Y:Int){
                 RoundedCornerShape(50.dp, 50.dp, 0.dp, 0.dp)
             )
             .align(Alignment.BottomCenter)
-          //  .height(360.dp)
+            //  .height(360.dp)
             .height(h.dp)
             .fillMaxWidth()
         )
@@ -84,7 +85,7 @@ fun LoginBackground(h:Int,Y:Int){
 
         ) {
             Text(
-                text = "WELCOME NEIGHBOR", // FIXME : turn this into resource in xml file
+                text = stringResource(R.string.WELCOME_NEIGHBOR),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,

@@ -52,6 +52,22 @@ class FireBaseAccountService @Inject  constructor(
         } catch (e: Exception) { throw authException(e) }
     }
 
+    @Throws(AuthException::class)
+    override fun reset(email: String,onResult: () -> Unit) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            resetPasswordListener(task,onResult)
+        }
+    }
+
+    @Throws(AuthException::class)
+    private fun resetPasswordListener(task: Task<Void>, onResult: () -> Unit) {
+        if (task.isSuccessful) {
+            onResult()
+        }else{
+
+        }
+    }
+
     fun loginListerner(
         task: Task<AuthResult>,
         onResult: (User) -> Unit

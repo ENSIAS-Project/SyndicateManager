@@ -20,11 +20,10 @@
 \addbibresource{ref.bib} % set file with refs
 \usepackage{csquotes} % biblatex recommend it
 \usepackage{lipsum} % generate dummy text
-% set metadata
-%\usepackage{xmpincl}
-%\includexmp{meta.xmp} 
+% for UML diagrammes
+%\usepackage{tikz-uml}
 % set default path to images
-\graphicspath{ {Images/} } 
+\graphicspath{ {Images/}}  
 
 
 % set title
@@ -98,24 +97,37 @@
 \shipout\null
 \stepcounter{page} % in order to count for the blank page
 %-- les differents parties --
-\chapter{Remerciments} % add or remove * to enable/disable numbering
+\chapter*{Remerciments} % add or remove * to enable/disable numbering
+\addcontentsline{toc}{chapter}{Remerciments}
 \input{Chapters/remerciments}
 
-\chapter{Resume} % add or remove * to enable/disable numbering
+\chapter*{Resume} % add or remove * to enable/disable numbering
+\addcontentsline{toc}{chapter}{Resume}
 \input{Chapters/resume}
 
-\chapter{Abstract} % add or remove * to enable/disable numbering
+\chapter*{Abstract} % add or remove * to enable/disable numbering
+\addcontentsline{toc}{chapter}{Abstract}
 \input{Chapters/abstract}
 
 \tableofcontents % table des matieres
 \listoffigures % table des figures
+\addcontentsline{toc}{chapter}{Table des figures}
 \listoftables % table des tableau
+\addcontentsline{toc}{chapter}{Liste des tableax}
 
-\chapter{Introduction} % add or remove * to enable/disable numbering
+
+\chapter{Introduction générale} % add or remove * to enable/disable numbering
+%\addcontentsline{toc}{chapter}{Introduction générale}
 \input{Chapters/introduction}
 
-\chapter{Chapitre 1} % add or remove * to enable/disable numbering
+\chapter{Contexte générale  de projet} % add or remove * to enable/disable numbering
 \input{Chapters/chapitre1}
+
+\chapter{Conception de Projet}
+\input{Chapters/chapitre2}
+
+\chapter{Realisation}
+\input{Chapters/chapitre3}
 
 \appendix
 

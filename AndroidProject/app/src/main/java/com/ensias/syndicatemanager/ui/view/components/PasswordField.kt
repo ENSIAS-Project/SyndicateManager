@@ -15,12 +15,9 @@ fun PasswordField(value: String, onNewValue: (String) -> Unit,label:String) {
     OutlinedTextField(
         value = value,
         singleLine = true,
-        //TO DO : make it looks like ****** //FIXME: remove comments when the job is done
         visualTransformation = PasswordVisualTransformation(),
-
         onValueChange = {onNewValue(it)},
         label = { Text(text = label)},
         modifier = Modifier.width(260.dp)
     )
-
 }

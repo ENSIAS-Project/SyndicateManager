@@ -24,10 +24,8 @@ fun EmailField(value: String,valid:Boolean, onValidation: (Boolean) -> Unit, onN
             if(!focusState.hasFocus){
                 val email = Pattern.compile("^[\\w\\-\\.]+@([\\w-]+\\.)+[\\w-]{2,}\$") //Email REGEX
                 var m = email.matcher(value)
-                onValidation(m.matches()|| value.equals("")) // if the field is empty don't show it as a roblem
+                onValidation(m.matches()|| value.equals("")) // if the field is empty don't show it as a problem
             }
          },
-
     )
-
 }
