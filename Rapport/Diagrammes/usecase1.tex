@@ -1,11 +1,27 @@
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
-        \begin{umlsystem}[ x=0, y=0 ]{cas d'utilisation}
-        \umlactor[x=0,y=0]{user}
-        \end{umlsystem}
+        \begin{umlsystem}[x=3, fill=red!10]{application de gestion de syndique}
+            \umlusecase[name = seeSituation]{voir la situation}
+            \umlusecase[name = addSpending, y = -2]{ajouter depense}
+            \umlusecase[name = addBudget, y = -4]{ajouter cotisation} 
+            \umlusecase[name = auth,x = 5,y = -1]{s'authentifier}  
+            \end{umlsystem}
+        
+            \umlactor[x=-1]{utilisateur}
+            \umlactor[x =-1,y=-3]{administrateur}
+        
+        \umlinherit{administrateur}{utilisateur}
+        \umlassoc{utilisateur}{seeSituation}
+        \umlassoc{administrateur}{addSpending}
+        \umlassoc{administrateur}{addBudget}
+        \umlHVinclude[name=incl]{seeSituation}{auth}
+        \umlHVinclude[name=incl]{addSpending}{auth}
+        \umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+ 
     \end{tikzpicture}
-    \caption{An example of an usecase diag}
+    \caption{le diagramme de cas d'utilisation de l'application}
     \label{fig : usecase 1}
 \end{figure}
-\ref{fig : usecase fig}
+
+and this is a reference to the usecase fig : \ref{fig : usecase 1}

@@ -21,7 +21,7 @@
 \usepackage{csquotes} % biblatex recommend it
 \usepackage{lipsum} % generate dummy text
 % for UML diagrammes
-%\usepackage{tikz-uml}
+\usepackage{tikz-uml}
 % set default path to images
 \graphicspath{ {Images/}}  
 
@@ -54,18 +54,18 @@
 % title page    
 \begin{titlepage}
     \begin{minipage}[t]{0.2\textwidth}    %% b or t, default is c
-        \includegraphics[width=\linewidth]{ensias.png}
+      \centering\includegraphics[width=\linewidth]{ensias.png}
     \end{minipage}%
-  \begin{minipage}[t][2cm]{0.6\textwidth}
+  \begin{minipage}[t][2cm]{0.5\textwidth}
     \centering\bfseries\large
     \hfill
   \end{minipage}%
     \begin{minipage}[t]{0.2\textwidth}
-    \includegraphics[width=\linewidth]{um5.png}
+      \centering\includegraphics[width=\linewidth]{um5.png}
   \end{minipage}
   \begin{center}
   \vspace{0.2cm}
-  {\huge Ecole Nationale Supérieure d’Informatique et d’Analyse des Systèmes}\\
+  {\huge Ecole Nationale Supérieure d'Informatique et d'Analyse des Systèmes}\\
   \vspace{0.5cm}
   \textbf{FILIERE : GENIE LOGICIEL}
   \vspace{0.5cm}
@@ -77,13 +77,13 @@
   \vspace{1.5cm}
   \vfill
   \begin{minipage}[t]{0.45\textwidth}    %% b or t, default is c
-        \textit{Realise par :}\\
+    \raggedright\textit{Realise par :}\\
 
         BAKHOUCH Nisrine\\
         EL BOUZIYANI Anas
     \end{minipage}%
     \begin{minipage}[t]{0.45\textwidth}    %% b or t, default is c
-        \textit{Sous la direction de :}\\
+      \raggedright\textit{Sous la direction de :}\\
         
         Pr EL HAMLAOUI Mahmoud
     \end{minipage}%
@@ -133,7 +133,6 @@
 
 \addcontentsline{toc}{chapter}{ Bibliographie}
 \printbibliography
-
 \chapter{annexes} % add or remove * to enable/disable numbering
 \input{Chapters/annexes}
 
