@@ -41,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -67,6 +68,11 @@ dependencies {
     implementation(libs.hilt.androidx)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.navigation.compose)
+//    implementation(libs.material)
+  //  implementation(libs.androidx.appcompat)
+   // implementation(libs.androidx.constraintlayout)
+   // implementation(libs.androidx.navigation.fragment.ktx)
+  //  implementation(libs.androidx.navigation.ui.ktx)
     // kapt
     kapt(libs.kapt)
     kapt(libs.kaptx)

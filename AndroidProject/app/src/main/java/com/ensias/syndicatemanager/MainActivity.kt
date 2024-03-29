@@ -36,10 +36,12 @@ import androidx.navigation.compose.rememberNavController
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.LoginScreen
+import com.ensias.syndicatemanager.ui.view.OptionsAdminScreen
 import com.ensias.syndicatemanager.ui.view.ResetPasswordScreen
 import com.ensias.syndicatemanager.ui.view.SignUpScreen
 //import com.ensias.syndicatemanager.ui.view.RegisterScreen
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
+import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.LoginBackground
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -141,16 +143,8 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
             route =MAIN
         ){
             composable(route= MONTH_VIEW){
-                Column {
-                    Text(text = "user is ${Repo.user.name}")
-                    Spacer(modifier=Modifier.padding(10.dp))
-                    Text(text = "user is ${Repo.user.familyname}")
-                    Spacer(modifier=Modifier.padding(10.dp))
-                    Text(text = "user is ${Repo.user.email}")
-                    Spacer(modifier=Modifier.padding(10.dp))
-                    Text(text = "user is ${Repo.user.id}")
-
-                }
+               // BgForAllScreens("${Repo.user.name}")
+                OptionsAdminScreen()
             }
         }
         }
