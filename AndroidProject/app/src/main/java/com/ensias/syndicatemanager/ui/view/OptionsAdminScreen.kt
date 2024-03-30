@@ -92,7 +92,6 @@ fun OptionsAdminScreen() {
                 Scaffold(
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
-
                             icon = { Icon(Icons.Filled.Add, contentDescription = "") },
                             text = {},
                             onClick = {
@@ -105,7 +104,7 @@ fun OptionsAdminScreen() {
                         )
                     }
                 ) {
-                   contentPadding ->ListMonthScreen()
+                   contentPadding ->ListMonthScreen(contentPadding) // simple hack to alow grdle builds
                     //  content
 
 

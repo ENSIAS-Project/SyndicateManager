@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -20,11 +21,13 @@ import com.ensias.syndicatemanager.ui.view.components.MonthCard
 
 
 @Composable
-fun ListMonthScreen() {
+fun ListMonthScreen(contentPadding: PaddingValues) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background),
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(contentPadding)
+        ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BgForAllScreens()
@@ -61,7 +64,7 @@ fun PreviewListMonth() {
                 .background(color = MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ListMonthScreen()
+            ListMonthScreen(PaddingValues(10.dp))
         }
     }
 }
