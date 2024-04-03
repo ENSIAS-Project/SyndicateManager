@@ -16,4 +16,8 @@
     <string name="WELCOME_NEIGHBOR">WELCOME NEIGHBOR</string>
     <string name="RESET_PASSWORD">rénitialiser le mot de passe</string>
     <string name="EMAIL_RESET_SNACK_BAR_MESSAGE">Email a été envoyé veuillez vérifier</string>
+    <string name="GESTION_DES_UTILISATEURS">Gestion des utilisateurs</string>
+    <string name="AJOUT_DE_DEPENSES">Ajout de dépenses</string>
+    <string name="AJOUT_DE_COTISATION">Ajout de cotisations</string>
+
 </resources>

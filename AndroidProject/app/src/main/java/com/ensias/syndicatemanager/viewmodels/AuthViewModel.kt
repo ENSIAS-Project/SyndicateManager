@@ -36,7 +36,10 @@ class AuthViewModel  @Inject constructor(
     var resetUiState = mutableStateOf(ResetUiState())
     private val TAG : String = "LoginviewModel"
 
-    fun login(openAndPopUp: (String, String) -> Unit){
+    fun login(
+        openAndPopUp: (String, String) -> Unit,
+        toggleAdminUservalues: (isadmin: Boolean, logged: Boolean) -> Unit
+    ){
         Log.d(TAG,"login with ${loginUistate.value.email} and ${loginUistate.value.password}")
         loginUistate.value = loginUistate.value.copy(logging = true)
         viewModelScope.launch {  // the recommended way to call suspend function inside viewmodels
@@ -44,11 +47,12 @@ class AuthViewModel  @Inject constructor(
                 accountService.authenticate(LoginUiModel(loginUistate.value.email,loginUistate.value.password)) {
                     setUser(it)
                     openAndPopUp(MAIN, LOGIN)
+                    toggleAdminUservalues(it.IS_ADMIN,true)
                 }
 
             } catch (e: AuthException){
                 loginExceptionHandler(e)
-                loginUistate.value = loginUistate.value.copy(logging = true)
+                loginUistate.value = loginUistate.value.copy(logging = false)
 
             }
         }
@@ -64,12 +68,7 @@ class AuthViewModel  @Inject constructor(
         Repo.logged = true
     }
 
-    fun logout(){
-        viewModelScope.launch {
-            accountService.logout()
-            Repo.logged=false
-        }
-    }
+
 
     fun signupscreen(open: ( String) -> Unit){
         open(SIGNUP)
