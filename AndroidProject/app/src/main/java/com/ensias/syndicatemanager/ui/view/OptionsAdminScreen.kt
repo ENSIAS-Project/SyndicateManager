@@ -88,7 +88,8 @@ fun OptionsAdminScreen() {
 
                     }
                 }//,gesturesEnabled=false
-            ) {
+            )
+            {
                 Scaffold(
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
@@ -115,5 +116,9 @@ fun OptionsAdminScreen() {
     }
 }
 
+@Composable
+fun TestOptionAdminScreen(){
+
+}
 
 

@@ -1,11 +1,27 @@
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
-        \begin{umlsystem}[ x=0, y=0 ]{cas d'utilisation}
-        \umlactor[x=0,y=0]{user}
-        \end{umlsystem}
+        \begin{umlsystem}[x=3, fill=blue!10]{gestion des cotisations }
+            \umlusecase[name = addContribution]{ajouter cotisation}
+            \umlusecase[name = modifycotribution, y = -2]{rectifier cotisation} 
+            \umlusecase[name = deletecontribution, y = -4]{supprimer cotisation}
+            \umlusecase[name = auth,x = 4,y = -1]{s'authentifier}  
+            \end{umlsystem}
+        
+            \umlactor[x =-2,y=-3]{administrateur}
+        
+        \umlassoc{administrateur}{addContribution}
+        \umlassoc{administrateur}{modifycotribution}
+        \umlassoc{administrateur}{deletecontribution}
+
+        \umlHVinclude[name=incl,anchor1=0 , anchor2=40]{addContribution}{auth}
+        \umlHVinclude[name=incl]{modifycotribution}{auth}
+        \umlHVinclude[name=incl,anchor1=0 , anchor2=350]{deletecontribution}{auth}
+        %\umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+ 
     \end{tikzpicture}
-    \caption{An example of an usecase diag}
-    \label{fig : usecase 1}
+    \caption{le diagramme de cas d'utilisation detaillé pour les cotisations}
+    \label{fig : usecase 3}
 \end{figure}
-\ref{fig : usecase fig}
+
+%and this is a reference to the usecase fig : \ref{fig : usecase 3}
