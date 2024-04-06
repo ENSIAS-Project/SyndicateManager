@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.ui.state.MonthCardUIState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.MonthCardContent
@@ -60,6 +61,7 @@ fun ListMonthContent(
         ) {
             items(10) {
                 MonthCardContent(
+                    MonthCardUIState(1,2024,1000,800,300,500)
                 )
             }
         }

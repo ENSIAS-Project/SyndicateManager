@@ -23,14 +23,15 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.ui.state.MonthCardUIState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import java.util.Calendar
 
 @Composable
 fun MonthCardScreen(
-    m: Month
+    m: MonthCardUIState
 ) { // TODO: add paremeters of the card into the screen
-    MonthCardContent()
+    MonthCardContent(m)
 }
 
 @Composable
@@ -53,7 +54,7 @@ fun HorizontalLine(
 }
 
 @Composable
-fun MonthCardContent(){
+fun MonthCardContent(m: MonthCardUIState){
     Card(
         colors = CardDefaults.cardColors(
             //containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceContainer NOTE: no need for selection
@@ -70,14 +71,14 @@ fun MonthCardContent(){
 
         Row {
             Text(
-                text = "${"3"}", //TODO: make it based on uiState
+                text = "${m.month}", //TODO: make it based on uiState
                 modifier = Modifier.padding(15.dp),
                 style = MaterialTheme.typography.displayLarge,
                 fontFamily = FontFamily.Monospace,
 
                 )
             Text(
-                text = "${"2024"}", //TODO: make it based on uiState
+                text = "${m.year}", //TODO: make it based on uiState
                 modifier = Modifier.padding(top = 50.dp),
                 style = MaterialTheme.typography.titleSmall,
                 fontFamily = FontFamily.Monospace,
@@ -92,7 +93,7 @@ fun MonthCardContent(){
             {
                 Row {
                     Text(
-                        text = "${"1600"} DH", //TODO: make it based on uiState
+                        text = "${m.income} DH", //TODO: make it based on uiState
                         modifier = Modifier.padding(bottom = 10.dp, start = 20.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -101,7 +102,7 @@ fun MonthCardContent(){
                     Spacer(Modifier.weight(0.8f))
 
                     Text(
-                        text = "${"1200"} DH",
+                        text = "${m.previousBalance} DH",
                         modifier = Modifier.padding(bottom = 10.dp, start = 50.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -112,7 +113,7 @@ fun MonthCardContent(){
                 HorizontalLine(color = MaterialTheme.colorScheme.primary, strokeWidth = 4f)
                 Row {
                     Text(
-                        text = "${"1400"} DH",
+                        text = "${m.outcome} DH",
                         modifier = Modifier.padding(top = 10.dp, start = 20.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -120,7 +121,7 @@ fun MonthCardContent(){
                     )
                     Spacer(Modifier.weight(0.8f))
                     Text(
-                        text = "${"500"} DH",
+                        text = "${m.balance} DH",
                         modifier = Modifier.padding(top = 10.dp, start = 60.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -140,6 +141,6 @@ fun MonthCardContent(){
 @Composable
 fun PreviewMonthCard() {
     SyndicateManagerTheme {
-       MonthCardContent()
+       MonthCardContent(MonthCardUIState(3,2024,1200,1000,900,1100))
     }
 }
