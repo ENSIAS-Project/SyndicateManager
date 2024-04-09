@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="text_field_width_small">150dp</dimen>
+    <dimen name="text_field_width_medium">200dp</dimen>
+    <dimen name="text_field_width_large">300dp</dimen>
+</resources>

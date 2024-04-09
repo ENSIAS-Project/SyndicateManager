@@ -1,10 +1,9 @@
 package com.ensias.syndicatemanager.models
 
+import java.util.Date
+
 data class Month (
-    val income : Int,
-    val outcome: Int,
-    val balance: Int,
     val prevBalalnce : Int,
-    val month : Int,
-    val year : Int
+    val monthDate : Date,
+    val operations: List<Operation>
 )
