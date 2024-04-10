@@ -29,8 +29,8 @@ import com.ensias.syndicatemanager.viewmodels.MonthViewModel
 
 @Composable
 fun DetailMonthScreen(
-    month : Long,
-    year : Long,
+    month : Int,
+    year : Int,
     id : String?,
     monthViewModel: MonthViewModel = hiltViewModel()
 ) {
@@ -41,8 +41,8 @@ fun DetailMonthScreen(
 
 @Composable
 fun DetailMonthContent(
-    month:Long,
-    year:Long,
+    month:Int,
+    year:Int,
     list : List<Operation>){
     Column(
         modifier = Modifier
@@ -56,7 +56,7 @@ fun DetailMonthContent(
         Box{
             Row{
                 Text(
-                    text = "${month}",
+                    text = "${month+1}",
                     modifier = Modifier.padding(15.dp),
                     style = MaterialTheme.typography.displayLarge,
                     fontFamily = FontFamily.Monospace,
@@ -98,8 +98,8 @@ fun PreviewDetail() {
         ) {
             BgForAllScreens()
             val dummyList = ArrayList<Operation>()
-            dummyList.add(Operation(id="reference"))
-            dummyList.add(Operation())
+            dummyList.add(Operation(id = "ref",type = "c", value = 200))
+            dummyList.add(Operation(id = "test",type = "s", value = 200))
             DetailMonthContent(3,2024,
                 dummyList
             )

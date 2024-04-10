@@ -32,11 +32,10 @@ fun ListMonthScreen(
 ) {
     val monthlist = monthViewModel.monthList
         .collectAsStateWithLifecycle(emptyList())
-        //.collectAsState(emptyList())
    ListMonthContent(
        monthlist= monthlist.value,
        contentPadding= contentPadding,
-       clickedMonth = {id -> monthViewModel.onMonthSelect(id,open)}
+       clickedMonth = {id,m,y -> monthViewModel.onMonthSelect(id,m,y,open)}
    )
 }
 
@@ -44,8 +43,8 @@ fun ListMonthScreen(
 fun ListMonthContent(
     monthlist : List<Month>,
     contentPadding: PaddingValues,
-    clickedMonth:(id:String)-> Unit
-    ){
+    clickedMonth:(id:String,m:Int,y:Int)-> Unit
+){
     BgForAllScreens()
     Column(
         modifier = Modifier
@@ -65,7 +64,6 @@ fun ListMonthContent(
             ){month ->
                 MonthCard(month,clickedMonth)
             }
-
         }
     }
 }
@@ -86,9 +84,8 @@ fun PreviewListMonth() {
             dummylist.add(Month(id="ee"))
             ListMonthContent(
                 dummylist,
-                PaddingValues(10.dp),
-                {}
-                )
+                PaddingValues(10.dp)
+            ) { _: String, _: Int, _: Int -> }
         }
     }
 }

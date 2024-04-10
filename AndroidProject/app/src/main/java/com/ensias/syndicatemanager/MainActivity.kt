@@ -204,8 +204,11 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                 )
 
             ){backStackEntry ->
+                // get params from the navGraph
                 val monthID = backStackEntry.arguments?.getString(MONTH_ID)
-                 DetailMonthScreen(3,2024,monthID)
+                val monthval = backStackEntry.arguments?.getString(MONTH_VAL)!!.toInt()
+                val yearval = backStackEntry.arguments?.getString(YEAR_VAL)!!.toInt()
+                 DetailMonthScreen(monthval, yearval,monthID)
             }
         }
     }

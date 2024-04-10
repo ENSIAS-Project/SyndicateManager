@@ -45,11 +45,11 @@ fun HorizontalLine(
 
 @Composable
 fun MonthCard(
-    m: Month,
-    clickedMonth:(id:String) -> Unit
+    month: Month,
+    clickedMonth:(id:String,m:Int,y:Int) -> Unit
     ){
     Card(
-        onClick = {clickedMonth(m.id)},
+        onClick = {clickedMonth(month.id, getMonth(month.monthDate), getYear(month.monthDate)) },
         colors = CardDefaults.cardColors(
             //containerColor = if (isSelected) MaterialTheme.colorScheme.surfaceContainer NOTE: no need for selection
             //else MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -65,14 +65,14 @@ fun MonthCard(
 
         Row {
             Text(
-                text = "${getMonth(m.monthDate)+1}",
+                text = "${getMonth(month.monthDate)+1}",
                 modifier = Modifier.padding(15.dp),
                 style = MaterialTheme.typography.displayLarge,
                 fontFamily = FontFamily.Monospace,
 
                 )
             Text(
-                text = "${getYear(m.monthDate)}",
+                text = "${getYear(month.monthDate)}",
                 modifier = Modifier.padding(top = 50.dp),
                 style = MaterialTheme.typography.titleSmall,
                 fontFamily = FontFamily.Monospace,
@@ -87,7 +87,7 @@ fun MonthCard(
             {
                 Row {
                     Text(
-                        text = "${m.debit} DH",
+                        text = "${month.debit} DH",
                         modifier = Modifier.padding(bottom = 10.dp, start = 20.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -96,7 +96,7 @@ fun MonthCard(
                     Spacer(Modifier.weight(0.8f))
 
                     Text(
-                        text = "${m.prevBalance} DH",
+                        text = "${month.prevBalance} DH",
                         modifier = Modifier.padding(bottom = 10.dp, start = 50.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -107,7 +107,7 @@ fun MonthCard(
                 HorizontalLine(color = MaterialTheme.colorScheme.primary, strokeWidth = 4f)
                 Row {
                     Text(
-                        text = "${m.credit} DH",
+                        text = "${month.credit} DH",
                         modifier = Modifier.padding(top = 10.dp, start = 20.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -115,7 +115,7 @@ fun MonthCard(
                     )
                     Spacer(Modifier.weight(0.8f))
                     Text(
-                        text = "${m.currBalance} DH",
+                        text = "${month.currBalance} DH",
                         modifier = Modifier.padding(top = 10.dp, start = 60.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
@@ -135,7 +135,7 @@ fun MonthCard(
 @Composable
 fun PreviewMonthCard() {
     SyndicateManagerTheme {
-       MonthCard(Month(), clickedMonth = {})
+       MonthCard(Month(), clickedMonth = { s: String, l: Int, l1: Int -> })
     }
 }
 

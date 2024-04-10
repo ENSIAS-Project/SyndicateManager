@@ -1,38 +1,26 @@
 package com.ensias.syndicatemanager.service.impl
 
-import android.util.Log
-import com.ensias.syndicatemanager.di.Repo
-import com.ensias.syndicatemanager.exceptions.AuthException
-import com.ensias.syndicatemanager.exceptions.impl.NotLoggedException
+
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
-import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.dataObjects
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filter
-import java.util.Calendar
-import java.util.Date
-import java.util.LinkedList
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 class FireBaseDataService @Inject constructor(
     private val auth: FirebaseAuth,
     private val store : FirebaseFirestore,
 ) : DataService {
 
-    val MONTH_DATA_COLLECTION = "MonthData"
-    val SPEND_TYPES_COLLECTION = "spendTypes"
-    val LIST ="list"
-
+    private val MONTH_DATA_COLLECTION = "MonthData"
+    private val SPEND_TYPES_COLLECTION = "spendTypes"
+    private val LIST ="list"
     override val monthList: Flow<List<Month>>
         get() = auth.currentUser.run {
                 store
@@ -40,24 +28,13 @@ class FireBaseDataService @Inject constructor(
                     .orderBy("monthDate")
                     .dataObjects()
         }
-
-    val spendTypes: Flow<List<SpendType>>
+    override val spendTypes: Flow<List<SpendType>>
         get() = auth.currentUser.run {
             store
                 .collection(SPEND_TYPES_COLLECTION)
                 .orderBy("Date")
                 .dataObjects()
         }
-
-
-    override suspend fun addTempData(month: Month) {
-      //  store.collection(DATA_COLLECTION)
-        //    .document("test")
-         //   .set(month, SetOptions.merge())
-        //    .addOnSuccessListener { Log.d("FireBaseDataService","DONE") }
-         //   .addOnFailureListener{e-> Log.d("FireBaseDataService","ERROR") }
-    }
-
     override fun getOperationsFlow(id: String): Flow<List<Operation>> {
         return store
             .collection(MONTH_DATA_COLLECTION)
@@ -65,6 +42,69 @@ class FireBaseDataService @Inject constructor(
             .collection(LIST)
             .orderBy("date")
             .dataObjects<Operation>().catch { cause -> cause.printStackTrace() }
+    }
+    override fun updateMonth(m:Month, onResult: () -> Unit) {
+        store.collection(MONTH_DATA_COLLECTION)
+            .document(m.id)
+            .set(m, SetOptions.merge())
+            .addOnSuccessListener { onResult() }
+            .addOnFailureListener{e-> this.onFireStoreException(e)}
+    }
+    override fun addMonth(month: Month): String {
+        var ref:String =""
+        store
+            .collection(MONTH_DATA_COLLECTION)
+            .add(month)
+            .addOnSuccessListener { docRef ->
+                ref=docRef.id
+            }.addOnFailureListener{
+                onFireStoreException(it)
+            }
+        return ref
+    }
+    override fun addSpendType(spendType: SpendType,onResult:(s:String)->Unit) {
+        store
+            .collection(SPEND_TYPES_COLLECTION)
+            .add(spendType)
+            .addOnSuccessListener { docRef ->
+                onResult(docRef.id)
+            }.addOnFailureListener{
+                onFireStoreException(it)
+            }
+    }
+    override fun updateSpendType(spendType: SpendType,onResult:()->Unit) {
+        store
+            .collection(SPEND_TYPES_COLLECTION)
+            .document(spendType.id)
+            .set(spendType, SetOptions.merge())
+            .addOnSuccessListener { onResult() }
+            .addOnFailureListener{ onFireStoreException(it) }
+    }
+    override fun updateOperation(monthId: String,op: Operation, onResult: () -> Unit) {
+        store
+            .collection(MONTH_DATA_COLLECTION)
+            .document(monthId)
+            .collection(LIST)
+            .document(op.id)
+            .set(op, SetOptions.merge())
+            .addOnSuccessListener {onResult()  }
+            .addOnFailureListener{ onFireStoreException(it)  }
+    }
+    override fun addOperation(monthId :String,op: Operation, onResult: (id:String) -> Unit) {
+        store
+            .collection(MONTH_DATA_COLLECTION)
+            .document(monthId)
+            .collection(LIST)
+            .add(op)
+            .addOnSuccessListener { docRef ->
+                onResult(docRef.id)
+            }.addOnFailureListener{
+                onFireStoreException(it)
+            }
+    }
+
+    private fun onFireStoreException(e:Exception){
+        e.printStackTrace() // TODO create StoreException for each case
     }
 
 }
