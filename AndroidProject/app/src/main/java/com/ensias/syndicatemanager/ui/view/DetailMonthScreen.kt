@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,42 +18,57 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.ensias.syndicatemanager.models.Month
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
-import com.ensias.syndicatemanager.ui.view.components.DetailCardScreen
-import java.util.Calendar
+import com.ensias.syndicatemanager.ui.view.components.OperationCard
+import com.ensias.syndicatemanager.viewmodels.MonthViewModel
 
 
 @Composable
-fun DetailMonthScreen(descp:String,m:Month) {
-    DetailMonthContent(descp,m)
+fun DetailMonthScreen(
+    month : Int,
+    year : Int,
+    id : String?,
+    monthViewModel: MonthViewModel = hiltViewModel()
+) {
+    val opList = monthViewModel.getOperatioFlow(id)
+        .collectAsStateWithLifecycle(emptyList())
+    DetailMonthContent(month,year,opList.value)
 }
 
 @Composable
-fun DetailMonthContent(descp:String,m:Month){
+fun DetailMonthContent(
+    month:Int,
+    year:Int,
+    list : List<Operation>){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(color = MaterialTheme.colorScheme.background)
+            .padding(PaddingValues(12.dp))
+        ,
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
     ) {
         Box{
             Row{
                 Text(
-                    text = "${m.monthDate}", //TODO: find a better alternative
+                    text = "${month+1}",
                     modifier = Modifier.padding(15.dp),
                     style = MaterialTheme.typography.displayLarge,
                     fontFamily = FontFamily.Monospace,
+                    color = MaterialTheme.colorScheme.onBackground
 
                     )
                 Text(
-                    text = "/${m.monthDate}", //TODO: find a better alternative
+                    text = "${year}", //TODO: find a better alternative
                     modifier = Modifier.padding(top = 50.dp),
                     style = MaterialTheme.typography.titleSmall,
                     fontFamily = FontFamily.Monospace,
-
+                    color = MaterialTheme.colorScheme.onBackground
                     )}
         }
 
@@ -61,15 +77,11 @@ fun DetailMonthContent(descp:String,m:Month){
 
             contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
-            items(5) {
-                DetailCardScreen("a test description",Month(
-                    prevBalalnce = 160,
-                    operations = ArrayList<Operation>(),
-                    monthDate = Calendar.getInstance().time
-                    )
-                )
+            items(
+                list, key ={it.id}
+            ){op ->
+                OperationCard(op)
             }
-
         }
     }
 }
@@ -85,12 +97,11 @@ fun PreviewDetail() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BgForAllScreens()
-            DetailMonthScreen("cotisation mahmoud", //FIXME : description isn't for this purpose
-                Month(
-                prevBalalnce = 160,
-                operations = ArrayList<Operation>(),
-                monthDate = Calendar.getInstance().time
-                )
+            val dummyList = ArrayList<Operation>()
+            dummyList.add(Operation(id = "ref",type = "c", value = 200))
+            dummyList.add(Operation(id = "test",type = "s", value = 200))
+            DetailMonthContent(3,2024,
+                dummyList
             )
         }
     }

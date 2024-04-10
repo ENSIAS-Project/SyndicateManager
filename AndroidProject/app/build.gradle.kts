@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.hilt.androidx)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 //    implementation(libs.material)
   //  implementation(libs.androidx.appcompat)
    // implementation(libs.androidx.constraintlayout)

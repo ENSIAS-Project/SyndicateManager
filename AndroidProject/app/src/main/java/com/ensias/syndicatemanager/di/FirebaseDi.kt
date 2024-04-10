@@ -16,6 +16,7 @@ import dagger.hilt.components.SingletonComponent
 object FirebaseDi {
     @Provides fun fireauth(): FirebaseAuth = Firebase.auth
     @Provides fun firestore(): FirebaseFirestore = Firebase.firestore
+    @Provides fun getString():String = ""
 
 
 }

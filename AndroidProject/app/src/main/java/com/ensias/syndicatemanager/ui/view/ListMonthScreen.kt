@@ -8,39 +8,43 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.models.Month
-import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
-import com.ensias.syndicatemanager.ui.view.components.MonthCardContent
-import com.ensias.syndicatemanager.ui.view.components.button
-import com.ensias.syndicatemanager.viewmodels.AuthViewModel
+import com.ensias.syndicatemanager.ui.view.components.MonthCard
 import com.ensias.syndicatemanager.viewmodels.MonthViewModel
-import java.util.Calendar
 
 
 @Composable
 fun ListMonthScreen(
+    open:(String) -> Unit,
     contentPadding: PaddingValues,
     monthViewModel: MonthViewModel = hiltViewModel()
 ) {
-   ListMonthContent(contentPadding,{monthViewModel.tempimpldata()})
+    val monthlist = monthViewModel.monthList
+        .collectAsStateWithLifecycle(emptyList())
+   ListMonthContent(
+       monthlist= monthlist.value,
+       contentPadding= contentPadding,
+       clickedMonth = {id,m,y -> monthViewModel.onMonthSelect(id,m,y,open)}
+   )
 }
 
 @Composable
 fun ListMonthContent(
+    monthlist : List<Month>,
     contentPadding: PaddingValues,
-    testData:() -> Unit
-    ){
+    clickedMonth:(id:String,m:Int,y:Int)-> Unit
+){
     BgForAllScreens()
     Column(
         modifier = Modifier
@@ -50,17 +54,15 @@ fun ListMonthContent(
         ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = testData) {
-            Text(text = "test data")
-        }
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(20.dp),
 
-            contentPadding = PaddingValues(horizontal = 20.dp)
+            contentPadding = contentPadding
         ) {
-            items(10) {
-                MonthCardContent(
-                )
+            items(
+                monthlist, key ={it.id}
+            ){month ->
+                MonthCard(month,clickedMonth)
             }
         }
     }
@@ -77,7 +79,13 @@ fun PreviewListMonth() {
                 .background(color = MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ListMonthContent(PaddingValues(10.dp),{})
+            val dummylist =ArrayList<Month>()
+            dummylist.add(Month())
+            dummylist.add(Month(id="ee"))
+            ListMonthContent(
+                dummylist,
+                PaddingValues(10.dp)
+            ) { _: String, _: Int, _: Int -> }
         }
     }
 }

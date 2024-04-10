@@ -53,7 +53,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
+import com.ensias.syndicatemanager.ui.view.DetailMonthScreen
 import com.ensias.syndicatemanager.ui.view.ListMonthScreen
 import com.ensias.syndicatemanager.ui.view.LoginScreen
 import com.ensias.syndicatemanager.ui.view.ResetPasswordScreen
@@ -64,6 +66,7 @@ import com.ensias.syndicatemanager.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import androidx.navigation.NavType
 
     @AndroidEntryPoint
     class MainActivity : ComponentActivity() {
@@ -190,9 +193,22 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
             route =MAIN
         ){
             composable(route= MONTH_VIEW){
-               // BgForAllScreens("${Repo.user.name}")
-                //OptionsAdminScreen()
-                ListMonthScreen(contentPadding = PaddingValues(20.dp))
+                ListMonthScreen(
+                    open= {route -> appState.navigate(route)},
+                    contentPadding = PaddingValues(20.dp))
+            }
+            composable(
+                route= MONTH_DETAILS,
+                arguments = listOf(
+                    navArgument(MONTH_ID) { type = NavType.StringType },
+                )
+
+            ){backStackEntry ->
+                // get params from the navGraph
+                val monthID = backStackEntry.arguments?.getString(MONTH_ID)
+                val monthval = backStackEntry.arguments?.getString(MONTH_VAL)!!.toInt()
+                val yearval = backStackEntry.arguments?.getString(YEAR_VAL)!!.toInt()
+                 DetailMonthScreen(monthval, yearval,monthID)
             }
         }
     }

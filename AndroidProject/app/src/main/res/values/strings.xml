@@ -19,6 +19,7 @@
     <string name="GESTION_DES_UTILISATEURS">Gestion des utilisateurs</string>
     <string name="AJOUT_DE_DEPENSES">Ajout de dépenses</string>
     <string name="AJOUT_DE_COTISATION">Ajout de cotisations</string>
+    <string name="NOT_LOGGED_EXCEPTION">l\'utilisateur est deconnecté</string>
     <string name="TYPE_DE_DEPENSE">Type de depense</string>
     <string name="ELECTRICITE">Electricite</string>
     <string name="NETTOYAGE">Nettoyage</string>

@@ -19,7 +19,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.jvm.Throws
@@ -30,6 +32,12 @@ class FireBaseAccountService @Inject  constructor(
 ) : AccountService {
     val TAG = "FireBaseAccountService"
     val USER_COLLECTION = "Users"
+    override val userList: Flow<List<User>>
+        get() = auth.currentUser.run {
+            store
+                .collection(USER_COLLECTION)
+                .dataObjects()
+        }
 
     @Throws(AuthException::class)
     override suspend fun authenticate(login: LoginUiModel, onResult: (User) -> Unit) {
@@ -89,7 +97,6 @@ class FireBaseAccountService @Inject  constructor(
                 setUserData(task,auth.currentUser?.uid,authdetails,onResult)
             }
         }
-
 
     @Throws(AuthException::class)
     private fun setUserData(

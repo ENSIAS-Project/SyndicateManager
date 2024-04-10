@@ -3,6 +3,7 @@ package com.ensias.syndicatemanager.ui.view.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
@@ -17,16 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.ensias.syndicatemanager.models.Month
+import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
-fun DetailCardScreen(descrp: String, m: Month) { // TODO: add paremeters of the card into the screen
-    DetailCardContent()
-}
-
-@Composable
-fun DetailCardContent(){
+fun SpendCard(op: Operation){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -47,17 +43,15 @@ fun DetailCardContent(){
                 .fillMaxWidth(),
 
             ) {
-
             Text(
-                text = "${"descrp"}",
+                text = "DEPENSE",//op.id,
                 //  modifier = Modifier.padding(10.dp),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
                 fontFamily = FontFamily.Monospace,
+                color = MaterialTheme.colorScheme.onSurface
 
                 )
-
-
-
+            Spacer(modifier = Modifier.weight(1F))
             Column(
                 modifier = Modifier.padding(start = 50.dp),
 
@@ -65,28 +59,24 @@ fun DetailCardContent(){
 
                 Row() {
                     Text(
-                        text = "${"m.income"} DH",
+                        text = "${op.value} DH",
                         //  modifier = Modifier.padding( 10.dp),
                         style = MaterialTheme.typography.titleSmall,
-                        fontFamily = FontFamily.Monospace,
-                        )
+                        fontFamily = FontFamily.SansSerif,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
-                Row {
-                    Text(
-                        text = "${"m.outcome"} DH",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontFamily = FontFamily.Monospace,
-                        )
-                }
+
             }
         }
     }
 }
 @PreviewLightDark
-
 @Composable
-fun PreviewListMonth() {
+fun PreviewSpendMonth() {
     SyndicateManagerTheme {
-        DetailCardContent()
+        SpendCard(
+            Operation(type = "s")
+        )
     }
 }
