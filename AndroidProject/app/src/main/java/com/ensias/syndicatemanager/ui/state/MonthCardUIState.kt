@@ -1,10 +1,10 @@
 package com.ensias.syndicatemanager.ui.state
 
-class MonthCardUIState (
-    month:Int,
-    year:Int,
-    income:Int,
-    outcome:Int,
-    previousBalance:Int,
-    balance:Int
+data class MonthCardUIState (
+    val month:Long,
+    val year:Long,
+    val income:Long,
+    val outcome:Long,
+    val previousBalance:Long,
+    val balance:Long
 )

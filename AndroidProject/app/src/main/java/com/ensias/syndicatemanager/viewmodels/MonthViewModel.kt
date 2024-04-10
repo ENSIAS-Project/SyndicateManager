@@ -1,53 +1,40 @@
 package com.ensias.syndicatemanager.viewmodels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.ensias.syndicatemanager.di.Repo
-import com.ensias.syndicatemanager.models.Contribution
-import com.ensias.syndicatemanager.models.Expense
-import com.ensias.syndicatemanager.models.ExpenseType
-import com.ensias.syndicatemanager.models.Month
+import com.ensias.syndicatemanager.MONTHDETAILS
+import com.ensias.syndicatemanager.MONTH_DETAILS
+import com.ensias.syndicatemanager.exceptions.impl.RegisterPasswordMismatchException
+import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.service.DataService
+import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.LinkedList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
 class MonthViewModel @Inject constructor(
     private val dataService: DataService,
+    private var selectedMonthId : String =""
     ):ViewModel(){
-    fun getData(){
+    var monthList = dataService.monthList
+
+
+
+    fun onMonthSelect(m: String, open: (String) -> Unit){
+        this.selectedMonthId = m
+        open(MONTHDETAILS(m))
+
 
     }
-    fun showMonthDetail(){
 
-    }
-    fun tempimpldata(){
-        // setting some fake data
-        val operations : LinkedList<Operation> = LinkedList()
-        val exptype :ExpenseType = ExpenseType("electricite")
-        val exp : Expense = Expense(
-            value= 120f,
-            date = Calendar.getInstance().time,
-            type = exptype
-            )
-        operations.add(exp)
-        val contrib : Contribution = Contribution(
-            value = 170f,
-            date = Calendar.getInstance().time,
-            user = Repo.user
-        )
-        operations.add(contrib)
-        val month: Month = Month(
-            prevBalalnce = 120,
-            monthDate = Calendar.getInstance().time,
-            operations = operations
-        )
-        viewModelScope.launch {
-            dataService.addTempData(month)
+    fun getOperatioFlow(id:String?): Flow<List<Operation>>{
+        return if(id==null){
+            SnackbarManager.showMessage(UndefinedException())
+            flow{} //empty flow
+        }else{
+            dataService.getOperationsFlow(id)
         }
     }
 }

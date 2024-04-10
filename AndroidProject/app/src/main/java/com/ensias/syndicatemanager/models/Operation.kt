@@ -1,8 +1,13 @@
 package com.ensias.syndicatemanager.models
 
+import com.google.firebase.firestore.DocumentId
 import java.util.Date
 
-abstract class Operation {
-    abstract val value: Float
-    abstract val date: Date
-}
+data class Operation(
+    @DocumentId
+    val id:String ="",
+    val ref:String="",
+    val type :String = "",
+    val value : Long = 0,
+    val date : Date = Date(),
+)

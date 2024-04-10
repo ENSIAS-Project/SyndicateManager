@@ -17,6 +17,7 @@ daggerHilt = "2.51"
 daggerHiltx = "1.2.0"
 google ="4.4.1"
 navigationCommonKtx = "2.7.7"
+lifecycleRuntimeCompose = "2.7.0"
 
 
 [libraries]
@@ -47,6 +48,7 @@ kaptx = {group = "androidx.hilt",name = "hilt-compiler",version.ref = "daggerHil
 
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCommonKtx" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

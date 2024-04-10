@@ -17,16 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.ensias.syndicatemanager.models.Month
+import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
-fun DetailCardScreen(descrp: String, m: Month) { // TODO: add paremeters of the card into the screen
-    DetailCardContent()
-}
-
-@Composable
-fun DetailCardContent(){
+fun OperationCard(op:Operation){
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -49,7 +44,7 @@ fun DetailCardContent(){
             ) {
 
             Text(
-                text = "${"descrp"}",
+                text = op.id,
                 //  modifier = Modifier.padding(10.dp),
                 style = MaterialTheme.typography.titleMedium,
                 fontFamily = FontFamily.Monospace,
@@ -65,19 +60,13 @@ fun DetailCardContent(){
 
                 Row() {
                     Text(
-                        text = "${"m.income"} DH",
+                        text = "${op.value} DH",
                         //  modifier = Modifier.padding( 10.dp),
                         style = MaterialTheme.typography.titleSmall,
                         fontFamily = FontFamily.Monospace,
                         )
                 }
-                Row {
-                    Text(
-                        text = "${"m.outcome"} DH",
-                        style = MaterialTheme.typography.titleSmall,
-                        fontFamily = FontFamily.Monospace,
-                        )
-                }
+
             }
         }
     }
@@ -87,6 +76,8 @@ fun DetailCardContent(){
 @Composable
 fun PreviewListMonth() {
     SyndicateManagerTheme {
-        DetailCardContent()
+        OperationCard(
+            Operation()
+        )
     }
 }
