@@ -19,7 +19,7 @@ class SyndicateManagerAppState(
     val drawerState: DrawerState,
     val logged: MutableState<Boolean>,
     val isAdmin: MutableState<Boolean>,
-    coroutineScope: CoroutineScope
+    val coroutineScope: CoroutineScope
     ){
     init {
         coroutineScope.launch {

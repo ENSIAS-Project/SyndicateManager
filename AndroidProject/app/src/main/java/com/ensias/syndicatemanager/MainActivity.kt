@@ -67,6 +67,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import androidx.navigation.NavType
+import com.ensias.syndicatemanager.ui.view.AddContributionScreen
+import com.ensias.syndicatemanager.ui.view.AddExpenseScreen
 
     @AndroidEntryPoint
     class MainActivity : ComponentActivity() {
@@ -80,8 +82,11 @@ import androidx.navigation.NavType
                    NavDrawer(appState = appState,
                                 drawercontent = {DrawerContent(
                                     items = NavDrawerItems.items,
-                                    icons = NavDrawerItems.icons,
-                                )} ,
+                                    icons = NavDrawerItems.icons
+                                ){ id ->
+                                    mainViewModel.onNavDraweElementSelected(appState,id) { route -> appState.navigate(route) }
+                                    }
+                                }
                        ) {
                        Scaffold(
                            snackbarHost = {
@@ -124,14 +129,14 @@ import androidx.navigation.NavType
 
 
 
-    @Composable
+    /*@Composable
 inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController: NavController):T{
     val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
     val parentEntry = remember(this){
         navController.getBackStackEntry(navGraphRoute)
     }
     return viewModel(parentEntry)
-}
+}*/
 
     @Composable
     fun rememberAppState(
@@ -210,11 +215,26 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                 val yearval = backStackEntry.arguments?.getString(YEAR_VAL)!!.toInt()
                  DetailMonthScreen(monthval, yearval,monthID)
             }
+            composable(
+                route = USER_MANAGER
+            ){
+
+            }
+            composable(
+                route= ADD_SPENDING
+            ){
+                AddExpenseScreen()
+            }
+            composable(
+                route = ADD_CONTRIB
+            ){
+                AddContributionScreen()
+            }
         }
     }
 
     @Composable
-    fun DrawerContent(items:List<Int>,icons:List<Int>){
+    fun DrawerContent(items:List<Int>,icons:List<Int>,NavDraweOnClick:(elem:Int)->Unit){
         ModalDrawerSheet(
             modifier = Modifier
                 .fillMaxHeight()
@@ -231,8 +251,8 @@ inline fun<reified T: ViewModel> NavBackStackEntry.sharedViewModel(navController
                         )
                     },
                     label = { Text(text = stringResource(id = item)) },
-                    selected = true, //TODO: fix this
-                    onClick = { } //TODO: implement this
+                    selected = false, //TODO: fix this
+                    onClick = { NavDraweOnClick(item)} //TODO: implement this
                 )
                 Spacer(Modifier.height(25.dp))
             }

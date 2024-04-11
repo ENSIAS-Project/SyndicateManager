@@ -32,7 +32,7 @@ fun SpendCard(op: Operation){
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(20.dp)),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 1.dp
         ),
     ) {
         Row(

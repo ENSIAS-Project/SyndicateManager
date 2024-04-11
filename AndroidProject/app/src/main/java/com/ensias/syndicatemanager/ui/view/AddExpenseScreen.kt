@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ensias.syndicatemanager.R
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
@@ -24,16 +26,26 @@ import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.DateField
 import com.ensias.syndicatemanager.ui.view.components.DropDownMenuExpense
 import com.ensias.syndicatemanager.ui.view.components.SuffixTextField
+import com.ensias.syndicatemanager.viewmodels.MainViewModel
 import java.util.Date
 
 @Composable
-fun AddExpenseScreen(expenseUiState:ExpenseUiState,onAddExpenseClicked:(ExpenseUiState)->Unit) {
-AddExpenseContent(expenseUiState=expenseUiState,onAddExpenseClicked=onAddExpenseClicked)
+fun AddExpenseScreen(
+    mainViewModel: MainViewModel = hiltViewModel()
+
+) {
+    val uiState by mainViewModel.expenseUiState
+AddExpenseContent(
+    expenseUiState=uiState
+    ,onAddExpenseClicked={} //TODO:fixthis
+)
 }
 
 @Composable
 fun AddExpenseContent(
-    expenseUiState:ExpenseUiState,onAddExpenseClicked: (ExpenseUiState) -> Unit)
+    expenseUiState:ExpenseUiState,
+    onAddExpenseClicked: (ExpenseUiState) -> Unit
+)
 {
     Column(
         modifier = Modifier

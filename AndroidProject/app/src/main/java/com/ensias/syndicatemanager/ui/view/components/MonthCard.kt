@@ -1,6 +1,7 @@
 package com.ensias.syndicatemanager.ui.view.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -46,7 +49,7 @@ fun HorizontalLine(
 @Composable
 fun MonthCard(
     month: Month,
-    clickedMonth:(id:String,m:Int,y:Int) -> Unit
+    clickedMonth:(id:String,m:Int,y:Int) -> Unit,
     ){
     Card(
         onClick = {clickedMonth(month.id, getMonth(month.monthDate), getYear(month.monthDate)) },
@@ -59,7 +62,7 @@ fun MonthCard(
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(20.dp)),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp, focusedElevation = 8.dp
+            defaultElevation = 2.dp, focusedElevation = 1.dp
         )
     ) {
 
@@ -135,7 +138,9 @@ fun MonthCard(
 @Composable
 fun PreviewMonthCard() {
     SyndicateManagerTheme {
-       MonthCard(Month(), clickedMonth = { s: String, l: Int, l1: Int -> })
+       MonthCard(Month(),
+           clickedMonth = { s: String, l: Int, l1: Int -> }
+       )
     }
 }
 
