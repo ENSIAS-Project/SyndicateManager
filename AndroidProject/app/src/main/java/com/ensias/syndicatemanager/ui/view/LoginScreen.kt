@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
@@ -35,6 +34,7 @@ import com.ensias.syndicatemanager.viewmodels.AuthViewModel
 fun LoginScreen(
     openAndPopUp: (String, String) -> Unit,
     open:(String) -> Unit,
+    toggleAdminUservalues:(isadmin:Boolean,logged:Boolean)->Unit,
     authViewModel: AuthViewModel = hiltViewModel()
     
 ){
@@ -43,7 +43,7 @@ fun LoginScreen(
         state = uiState,
         setName = authViewModel::setLoginEmail,
         setPass = authViewModel::setLoginPassword,
-        logIn = {authViewModel.login(openAndPopUp)},
+        logIn = {authViewModel.login(openAndPopUp,toggleAdminUservalues)},
         onEmailValidation = {valid -> authViewModel.onLoginEmailValidation(valid)},
         signupscreen = {authViewModel.signupscreen(open)},
         resetScreen = {authViewModel.resetPasswordScreen(open)}

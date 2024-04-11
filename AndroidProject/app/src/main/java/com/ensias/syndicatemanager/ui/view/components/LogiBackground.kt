@@ -31,46 +31,48 @@ import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 
 @Composable
-fun LoginBackground(h:Int,y:Int){
-    Box(modifier= Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.background)
-        )
+fun LoginBackground(h: Int, y: Int) {
+    Box(modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    )
     {
         //trace1
-        Image(painter = painterResource(id = R.drawable.back),
+        Image(
+            painter = painterResource(id = R.drawable.back),
             contentDescription = null,
-            modifier= Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primaryContainer),
             contentScale = ContentScale.FillBounds
 
 
         )
         //trace2
-        Box(modifier = Modifier
-            .background(
-                Color.Black.copy(alpha = 0.2f),
-                RoundedCornerShape(50.dp, 50.dp, 0.dp, 0.dp)
-            )
-            .align(Alignment.BottomCenter)
-            //  .height(360.dp)
-            .height(h.dp)
-            .fillMaxWidth()
+        Box(
+            modifier = Modifier
+                .background(
+                    Color.Black.copy(alpha = 0.2f),
+                    RoundedCornerShape(50.dp, 50.dp, 0.dp, 0.dp)
+                )
+                .align(Alignment.BottomCenter)
+                //  .height(360.dp)
+                .height(h.dp)
+                .fillMaxWidth()
         )
         //image logo
         Box(
-            modifier= Modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .size(200.dp)
                 .clip(MaterialTheme.shapes.small)
-        ){
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                 contentDescription = null,
                 //contentScale = ContentScale.FillBounds,
 
-                modifier= Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.small)
                     .background(color = Color.Transparent)
@@ -88,8 +90,8 @@ fun LoginBackground(h:Int,y:Int){
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
                     color = MaterialTheme.colorScheme.onBackground,
-                ) , // modifier = Modifier.offset(y = (-40).dp)
-                modifier = Modifier.offset(y =y.dp)
+                ), // modifier = Modifier.offset(y = (-40).dp)
+                modifier = Modifier.offset(y = y.dp)
             )
         }
     }
@@ -99,7 +101,7 @@ fun LoginBackground(h:Int,y:Int){
 @Composable
 fun Preview(){
     SyndicateManagerTheme {
-        LoginBackground(360,(-40))
+        LoginBackground(360, (-40))
 
     }
 }

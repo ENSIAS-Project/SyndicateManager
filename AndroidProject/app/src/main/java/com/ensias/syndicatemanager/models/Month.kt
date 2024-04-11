@@ -1,10 +1,14 @@
 package com.ensias.syndicatemanager.models
 
+import com.google.firebase.firestore.DocumentId
+import java.util.Date
+
 data class Month (
-    val income : Int,
-    val outcome: Int,
-    val balance: Int,
-    val prevBalalnce : Int,
-    val month : Int,
-    val year : Int
+    @DocumentId
+    val id :String = "",
+    val prevBalance : Long = 0,
+    val currBalance: Long = 0,
+    val monthDate : Date = Date(),
+    val debit : Long = 0,
+    val credit : Long = 0,
 )

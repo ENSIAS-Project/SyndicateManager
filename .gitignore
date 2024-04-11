@@ -12,4 +12,5 @@
 **/*.fls
 **/*synctex.gz
 .idea/**
-Rapport/Diagrammes/playground/** 
+Rapport/Diagrammes/playground/**
+
