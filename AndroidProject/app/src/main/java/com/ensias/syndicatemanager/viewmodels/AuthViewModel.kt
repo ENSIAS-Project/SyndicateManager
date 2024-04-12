@@ -40,7 +40,6 @@ class AuthViewModel  @Inject constructor(
         openAndPopUp: (String, String) -> Unit,
         toggleAdminUservalues: (isadmin: Boolean, logged: Boolean) -> Unit
     ){
-        Log.d(TAG,"login with ${loginUistate.value.email} and ${loginUistate.value.password}")
         loginUistate.value = loginUistate.value.copy(logging = true)
         viewModelScope.launch {  // the recommended way to call suspend function inside viewmodels
             try {

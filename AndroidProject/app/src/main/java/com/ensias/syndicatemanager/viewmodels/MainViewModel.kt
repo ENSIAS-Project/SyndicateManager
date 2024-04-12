@@ -21,7 +21,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val accountService : AccountService,
 ): ViewModel(){
-    var expenseUiState = mutableStateOf(ExpenseUiState())
 
     fun logout(){
         viewModelScope.launch {

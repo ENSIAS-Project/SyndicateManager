@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
@@ -38,36 +39,34 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.models.SpendType
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
+import com.ensias.syndicatemanager.viewmodels.OperationViewModel
 import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
+fun DropDownMenuExpense(expenseUiState: ExpenseUiState,
+                        options : List<SpendType>,
+                        onNewExpense:(name:String)->Unit,
+                        onModifyExpense:(id:String,newname:String)->Unit
+                        ) {
     SyndicateManagerTheme {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-               // .background(MaterialTheme.colorScheme.background)
 
         ) {
 
-            var options by remember {
-                mutableStateOf(
-                    listOf(
-                        "Nottoyage",
-                        "Electricite",
-                    )
-                )
-            }
 
-            // val options = listOf("Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread")
             var expanded by remember { mutableStateOf(false) }
-            var selectedOption by remember(expenseUiState) { mutableStateOf(expenseUiState.type) }
+            var optionid by remember { mutableStateOf("") }
+            var selectedOption by remember { mutableStateOf(expenseUiState.type) }
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -83,11 +82,10 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
                     }
                     Column() {
                         TextField(
-                            // The `menuAnchor` modifier must be passed to the text field for correctness.
                             modifier = Modifier
                                 .menuAnchor()
                                 .width(textFieldWidth)
-                             .padding(start = 20.dp),
+                                .padding(start = 20.dp),
                             value = selectedOption,
                             onValueChange = {},
                             readOnly = true,
@@ -96,20 +94,15 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                             //   shape= RoundedCornerShape(15.dp)
                         )
-
                         ExposedDropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false },
                         ) {
                             options.forEach { option ->
                                 OptionItem(
-                                    option = option,
-                                    onDeleteClicked = {
-                                        options = options.filterNot { it == option }
-                                    },
-                                    onOptionSelected = { selectedOption =it
-                                        //text = selectedOption
-                                        //expanded = false
+                                    option = option.name,
+                                    onOptionSelected = { selectedOption =option.name
+                                        optionid = option.id
                                     }
                                 )
                             }
@@ -121,10 +114,18 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
                     horizontalAlignment = AbsoluteAlignment.Left
                 ) {
                     AddOptionButton { newOption ->
-                        options = options + newOption
+                        onNewExpense(newOption)
+                    }
+                    ModifyOptionButton(
+                        initial = selectedOption
+                    ){newOptionText->
+                        onModifyExpense(
+                            optionid,
+                            newOptionText
+                        )
+                        selectedOption = newOptionText
                     }
                 }
-
             }
         }
     }
@@ -135,14 +136,11 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
 fun AddOptionButton(onOptionAdded: (String) -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
     var newOptionText by remember { mutableStateOf("") }
-
-
     TextButton(
         onClick = { showDialog = true },
-
     ) {
         Icon(
-            imageVector = Icons.Filled.Build,
+            imageVector = Icons.Filled.Add,
             contentDescription = null,
             modifier = Modifier
                 .size(25.dp)         )
@@ -183,10 +181,62 @@ fun AddOptionButton(onOptionAdded: (String) -> Unit) {
     }
 }
 
+
+
+
+@Composable
+fun ModifyOptionButton(initial:String,onModifyOption: (String) -> Unit) {
+    var showDialog by remember { mutableStateOf(false) }
+    var newOptionText by remember { mutableStateOf(initial) }
+    TextButton(
+        onClick = { showDialog = true },
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Build,
+            contentDescription = null,
+            modifier = Modifier
+                .size(25.dp)         )
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = stringResource(id = R.string.AJOUTER_UN_NOUVEAU_TYPE)) },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        value = newOptionText,
+                        onValueChange = { newOptionText = it },
+                        label = { Text(text = stringResource(id = R.string.TYPE_DE_DEPENSE)) },
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onModifyOption(newOptionText)
+                        showDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(id = R.string.AJOUTER))
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog = false }
+                ) {
+                    Text(text = stringResource(id = R.string.ANNULER))
+                }
+            }
+        )
+    }
+}
+
+
+
 @Composable
 fun OptionItem(
     option: String,
-    onDeleteClicked: () -> Unit,
     onOptionSelected: (String) -> Unit
 ) {
     Row(
@@ -200,17 +250,6 @@ fun OptionItem(
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
-        IconButton(
-            onClick = onDeleteClicked,
-            modifier = Modifier.size(25.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = "Delete",
-
-              //  tint = MaterialTheme.colorScheme.error
-            )
-        }
     }
 }
 
@@ -231,5 +270,5 @@ fun isScreenMedium(): Boolean {
 @Composable
 fun PreviewDropDownMenuExpense() {
     val expenseUiState = ExpenseUiState(type = "Nettoyage", date = Date(), amount = 0)
-    DropDownMenuExpense(expenseUiState = expenseUiState)
+    DropDownMenuExpense(expenseUiState, listOf(SpendType()),{},{ s, d ->})
 }
