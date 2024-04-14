@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.models.SpendType
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.OperationCard
@@ -98,8 +101,8 @@ fun PreviewDetail() {
         ) {
             BgForAllScreens()
             val dummyList = ArrayList<Operation>()
-            dummyList.add(Operation(id = "ref",type = "c", value = 200))
-            dummyList.add(Operation(id = "test",type = "s", value = 200))
+            dummyList.add(Operation(id = "ref",type = "c", value = 200, user = User(name = "nisrine")))
+            dummyList.add(Operation(id = "test",type = "s", value = 200, spendtype = SpendType(name = "materiel menage")))
             DetailMonthContent(3,2024,
                 dummyList
             )
