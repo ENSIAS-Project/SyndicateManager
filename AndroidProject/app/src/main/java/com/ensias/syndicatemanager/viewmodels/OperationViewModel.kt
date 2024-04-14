@@ -1,15 +1,14 @@
 package com.ensias.syndicatemanager.viewmodels
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.ensias.syndicatemanager.models.SpendType
+import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,9 +17,15 @@ class OperationViewModel @Inject constructor(
     private val dataService: DataService
 
 ) : ViewModel(){
-    var expenseUiState: MutableState<ExpenseUiState> = mutableStateOf(ExpenseUiState())
+    var expenseUiState = mutableStateOf(ExpenseUiState())
     val expensesTypes = dataService.expensesTypes
     fun addExpense() {
+        viewModelScope.launch {
+            dataService.addExpense(expenseUiState.value)
+           {
+            SnackbarManager.showMessage("Expense added")
+            }
+        }
 
     }
     fun addExpenseType(id: String) {
@@ -36,7 +41,12 @@ class OperationViewModel @Inject constructor(
 
 
     fun setNewVal(newVal: String) {
-        expenseUiState.value.copy(amount = newVal.toInt())
+        val int =newVal.toIntOrNull()
+        if(int is Int){
+            expenseUiState.value = expenseUiState.value.copy(amount = int )
+        }else{
+            expenseUiState.value = expenseUiState.value.copy(amount = 0)
+        }
     }
 
 
