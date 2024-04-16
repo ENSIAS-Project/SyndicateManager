@@ -1,10 +1,7 @@
 package com.ensias.syndicatemanager.service.impl
 
 
-import com.ensias.syndicatemanager.exceptions.AuthException
 import com.ensias.syndicatemanager.exceptions.DataServiceExceptions
-import com.ensias.syndicatemanager.exceptions.impl.DeadLineExceeded
-import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
@@ -12,15 +9,12 @@ import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.DataService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date
@@ -241,17 +235,13 @@ class FireBaseDataService @Inject constructor(
         val p = store.collection(MONTH_DATA_COLLECTION)
             .orderBy(MONTHDATE)
             .get() .addOnFailureListener{
-
+                onFirestoreException(it)
             }
             .await()
         val lastMonthBalance = p.last { true }.getLong(CURR_BALANCE)?:0
         val cal = Calendar.getInstance()
-        cal.time = time
-        cal.set(Calendar.MILLISECOND,0)
-        cal.set(Calendar.MINUTE,0)
-        cal.set(Calendar.HOUR,0)
-        cal.set(Calendar.DAY_OF_MONTH,1)
-        val newMonth = Month(prevBalance = lastMonthBalance, monthDate = cal.time, currBalance = lastMonthBalance)
+        val date = getMonthDateBasedOnOpDate(time)
+        val newMonth = Month(prevBalance = lastMonthBalance, monthDate = date, currBalance = lastMonthBalance)
         return addMonth(newMonth)
     }
     @Throws(DataServiceExceptions::class)
