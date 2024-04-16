@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.models.SpendType
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
@@ -32,7 +33,7 @@ fun SpendCard(op: Operation){
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(20.dp)),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 1.dp
         ),
     ) {
         Row(
@@ -44,7 +45,7 @@ fun SpendCard(op: Operation){
 
             ) {
             Text(
-                text = "DEPENSE",//op.id,
+                text = op.spendtype.name,//op.id,
                 //  modifier = Modifier.padding(10.dp),
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = FontFamily.Monospace,
@@ -76,7 +77,7 @@ fun SpendCard(op: Operation){
 fun PreviewSpendMonth() {
     SyndicateManagerTheme {
         SpendCard(
-            Operation(type = "s")
+            Operation(type = "s", spendtype = SpendType(name = "electricite"))
         )
     }
 }

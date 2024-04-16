@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
@@ -32,7 +33,7 @@ fun ContribCard(op: Operation){
             .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(20.dp)),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
+            defaultElevation = 1.dp
         ),
     ) {
         Row(
@@ -44,7 +45,7 @@ fun ContribCard(op: Operation){
 
             ) {
             Text(
-                text = "COTISATION",//op.id,
+                text = op.user.name,//op.id,
                 //  modifier = Modifier.padding(10.dp),
                 style = MaterialTheme.typography.titleLarge,
                 fontFamily = FontFamily.Monospace,
@@ -77,7 +78,7 @@ fun ContribCard(op: Operation){
 fun PreviewContribMonth() {
     SyndicateManagerTheme {
         ContribCard(
-            Operation(type = "c")
+            Operation(type = "c",user = User(name = "nisrine",id="another easter egg"))
         )
     }
 }

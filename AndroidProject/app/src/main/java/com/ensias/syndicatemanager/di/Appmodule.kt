@@ -8,6 +8,7 @@ import com.ensias.syndicatemanager.service.impl.FireBaseDataService
 import com.ensias.syndicatemanager.viewmodels.AuthViewModel
 import com.ensias.syndicatemanager.viewmodels.MainViewModel
 import com.ensias.syndicatemanager.viewmodels.MonthViewModel
+import com.ensias.syndicatemanager.viewmodels.OperationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,6 +24,8 @@ abstract class Appmodule {
     abstract fun provideMainviewModel(vm:MainViewModel):ViewModel
     @Binds
     abstract fun provideMonthViewModel(vm:MonthViewModel):ViewModel
+    @Binds
+    abstract fun andThisIsAnEasterEggHahaaaaaaaaaa(vm:OperationViewModel):ViewModel
 
     @Binds
     abstract fun provideAccountService(firebase: FireBaseAccountService) : AccountService

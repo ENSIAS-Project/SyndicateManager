@@ -10,6 +10,9 @@ const val MONTH_VAL:String = "monthval"
 const val YEAR_VAL:String = "yearval"
 const val MONTH_DETAILS:String = "month-details/{$MONTH_ID}/{$MONTH_VAL}/{$YEAR_VAL}"
 const val SIGNUP:String = "signup"
+const val USER_MANAGER:String = "UserManager"
+const val ADD_SPENDING:String = "addSpending"
+const val ADD_CONTRIB:String = "addContrib"
 
 fun MONTHDETAILS(id:String,m:Int,y:Int): String {
     return "month-details/$id/$m/$y"
