@@ -103,6 +103,8 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState,
                                     option = option.name,
                                     onOptionSelected = { selectedOption =option.name
                                         optionid = option.id
+                                        expenseUiState.ref = option.id
+                                        expenseUiState.type= "s"
                                     }
                                 )
                             }
@@ -149,7 +151,7 @@ fun AddOptionButton(onOptionAdded: (String) -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = stringResource(id = R.string.AJOUTER_UN_NOUVEAU_TYPE)) },
+            title = { Text(text = stringResource(id = R.string.AJOUTER_UN_NOUVEAU_TYPE_DEPENSE)) },
             text = {
                 Column {
                     OutlinedTextField(
@@ -201,7 +203,7 @@ fun ModifyOptionButton(initial:String,onModifyOption: (String) -> Unit) {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = stringResource(id = R.string.AJOUTER_UN_NOUVEAU_TYPE)) },
+            title = { Text(text = stringResource(id = R.string.MODIFIER_UN_TYPE_DEPENSE)) },
             text = {
                 Column {
                     OutlinedTextField(
@@ -218,7 +220,7 @@ fun ModifyOptionButton(initial:String,onModifyOption: (String) -> Unit) {
                         showDialog = false
                     }
                 ) {
-                    Text(text = stringResource(id = R.string.AJOUTER))
+                    Text(text = stringResource(id = R.string.MODIFIER))
                 }
             },
             dismissButton = {

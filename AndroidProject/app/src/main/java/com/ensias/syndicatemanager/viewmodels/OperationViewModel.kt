@@ -3,6 +3,8 @@ package com.ensias.syndicatemanager.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
@@ -21,21 +23,31 @@ class OperationViewModel @Inject constructor(
     val expensesTypes = dataService.expensesTypes
     fun addExpense() {
         viewModelScope.launch {
-            dataService.addExpense(expenseUiState.value)
-           {
-            SnackbarManager.showMessage("Expense added")
-            }
+            expenseUiState.value = expenseUiState.value.copy(pendingOperation = true)
+            val op = Operation(
+                date = expenseUiState.value.date,
+                ref = expenseUiState.value.ref,
+                type = expenseUiState.value.type,
+                value = expenseUiState.value.amount.toLong(),
+            )
+            dataService.addOperation(op) { addexpenseResult() }
+        }
+            SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
         }
 
+    private fun addexpenseResult():Unit {
+        expenseUiState.value = expenseUiState.value.copy(pendingOperation = false )
     }
+
+
     fun addExpenseType(id: String) {
         dataService.addExpenseType(id){
-            SnackbarManager.showMessage("data created") //TODO: transfer to a String
+            SnackbarManager.showMessage(R.string.TYPE_DE_DEPENSE_AJOUTE) //TODO: transfer to a String
         }
     }
     fun modifyExpenseType(id: String, name: String) {
         dataService.updateExpenseType(id,name){
-            SnackbarManager.showMessage("data updated") //TODO: transfer to a String
+            SnackbarManager.showMessage(R.string.TYPE_DE_DEPENSE_MIS_A_JOUR) //TODO: transfer to a String
         }
     }
 

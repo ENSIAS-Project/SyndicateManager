@@ -21,12 +21,15 @@
     <string name="AJOUT_DE_COTISATION">Ajout de cotisations</string>
     <string name="NOT_LOGGED_EXCEPTION">l\'utilisateur est deconnecté</string>
     <string name="TYPE_DE_DEPENSE">Type de depense</string>
-    <string name="ELECTRICITE">Electricite</string>
-    <string name="NETTOYAGE">Nettoyage</string>
+    <string name="TYPE_DE_DEPENSE_AJOUTE">Type de depense ajouté</string>
+    <string name="TYPE_DE_DEPENSE_MIS_A_JOUR">Type de depense mis a jour</string>
+    <string name="OPERATION_SUCESSFUL">Opération réussit</string>
     <string name="AJOUTER">Ajouter</string>
+    <string name="MODIFIER">modifier</string>
     <string name="ANNULER">Annuler</string>
     <string name="NOUVEAU_TYPE">Nouveau Type</string>
-    <string name="AJOUTER_UN_NOUVEAU_TYPE">Ajouter Un Nouveau Type</string>
+    <string name="AJOUTER_UN_NOUVEAU_TYPE_DEPENSE">Ajouter Un Nouveau Type</string>
+    <string name="MODIFIER_UN_TYPE_DEPENSE">Modifier Un  Type</string>
     <string name="MONTANT">Montant</string>
     <string name="DATE">Date</string>
 

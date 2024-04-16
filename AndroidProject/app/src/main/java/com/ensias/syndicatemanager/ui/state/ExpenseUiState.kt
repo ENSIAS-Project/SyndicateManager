@@ -8,4 +8,5 @@ data class ExpenseUiState (
     var amount : Int=0,
     var visibleName: String = "",
     var ref : String = "",
+    var pendingOperation :Boolean = false,
 )
