@@ -13,8 +13,8 @@ import com.ensias.syndicatemanager.SIGNUP
 import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.exceptions.AuthException
 import com.ensias.syndicatemanager.exceptions.impl.RegisterPasswordMismatchException
-import com.ensias.syndicatemanager.models.LoginUiModel
-import com.ensias.syndicatemanager.models.RegisterUiModel
+import com.ensias.syndicatemanager.ui.model.LoginUiModel
+import com.ensias.syndicatemanager.ui.model.RegisterUiModel
 import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.ui.state.LoginUiState
@@ -100,12 +100,14 @@ class AuthViewModel  @Inject constructor(
         )
         viewModelScope.launch {  // the recommended way to call suspend function inside viewmodels
             try { //Re(registerUistate.value.email,registerUistate.value.password)
-                accountService.Register(RegisterUiModel(
+                accountService.Register(
+                    RegisterUiModel(
                     nom =       registerUistate.value.nom,
                     prenom =    registerUistate.value.prenom,
                     password =  registerUistate.value.password,
                     email =     registerUistate.value.email
-                )) {
+                )
+                ) {
                     setUser(it)
                     openAndPopUp(MAIN, LOGIN)
                 }

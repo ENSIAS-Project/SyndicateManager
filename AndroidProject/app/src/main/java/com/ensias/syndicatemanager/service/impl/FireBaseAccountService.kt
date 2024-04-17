@@ -7,8 +7,8 @@ import com.ensias.syndicatemanager.exceptions.impl.InvalidUserIdException
 import com.ensias.syndicatemanager.exceptions.impl.MalFormatedEmailException
 import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.exceptions.impl.UserDataMissingException
-import com.ensias.syndicatemanager.models.LoginUiModel
-import com.ensias.syndicatemanager.models.RegisterUiModel
+import com.ensias.syndicatemanager.ui.model.LoginUiModel
+import com.ensias.syndicatemanager.ui.model.RegisterUiModel
 import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.google.android.gms.tasks.Task
@@ -114,7 +114,7 @@ class FireBaseAccountService @Inject  constructor(
                 .document(uid)
                 .set(dat, SetOptions.merge())
                 .addOnSuccessListener { onResult(dat) }
-                .addOnFailureListener{e -> onFirestoreEception(e) }
+                .addOnFailureListener{e -> onFirestoreException(e) }
         }
     }
 
@@ -139,7 +139,7 @@ class FireBaseAccountService @Inject  constructor(
                 .document(uid)
                 .get()
                 .addOnSuccessListener { document-> ongetUserDataSucessListener(document,onResult) }
-                .addOnFailureListener{e -> onFirestoreEception(e) }
+                .addOnFailureListener{e -> onFirestoreException(e) }
         }
     }
 
@@ -157,7 +157,7 @@ class FireBaseAccountService @Inject  constructor(
     }
 
     @Throws(AuthException::class)
-    fun onFirestoreEception(e: java.lang.Exception){
+    fun onFirestoreException(e: java.lang.Exception){
         if(e is FirebaseFirestoreException){
             if(e.code == FirebaseFirestoreException.Code.DEADLINE_EXCEEDED){
                 throw DeadLineExceeded()
