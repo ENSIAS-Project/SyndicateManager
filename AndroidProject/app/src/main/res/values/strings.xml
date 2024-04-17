@@ -28,5 +28,7 @@
     <string name="AJOUTER_UN_NOUVEAU_TYPE">Ajouter Un Nouveau Type</string>
     <string name="MONTANT">Montant</string>
     <string name="DATE">Date</string>
+    <string name="AFFECTER_UN_UTILISATEUR">Affecter un utilisateur</string>
+
 
 </resources>

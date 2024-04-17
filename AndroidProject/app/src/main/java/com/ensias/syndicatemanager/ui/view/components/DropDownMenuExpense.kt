@@ -10,15 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -103,15 +101,12 @@ fun DropDownMenuExpense(expenseUiState: ExpenseUiState) {
                         ) {
                             options.forEach { option ->
                                 OptionItem(
-                                    option = option,
-                                    onDeleteClicked = {
-                                        options = options.filterNot { it == option }
-                                    },
-                                    onOptionSelected = { selectedOption =it
-                                        //text = selectedOption
-                                        //expanded = false
-                                    }
-                                )
+                                    option = option
+                                ) {
+                                    selectedOption = it
+                                    //text = selectedOption
+                                    //expanded = false
+                                }
                             }
                         }
                     }
@@ -142,10 +137,10 @@ fun AddOptionButton(onOptionAdded: (String) -> Unit) {
 
     ) {
         Icon(
-            imageVector = Icons.Filled.Build,
+            imageVector = Icons.Filled.Add,
             contentDescription = null,
             modifier = Modifier
-                .size(25.dp)         )
+                .size(35.dp)         )
     }
 
     if (showDialog) {
@@ -186,7 +181,6 @@ fun AddOptionButton(onOptionAdded: (String) -> Unit) {
 @Composable
 fun OptionItem(
     option: String,
-    onDeleteClicked: () -> Unit,
     onOptionSelected: (String) -> Unit
 ) {
     Row(
@@ -200,17 +194,7 @@ fun OptionItem(
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
-        IconButton(
-            onClick = onDeleteClicked,
-            modifier = Modifier.size(25.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = "Delete",
 
-              //  tint = MaterialTheme.colorScheme.error
-            )
-        }
     }
 }
 

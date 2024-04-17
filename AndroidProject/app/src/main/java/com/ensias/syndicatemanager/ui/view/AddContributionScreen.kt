@@ -20,24 +20,24 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ensias.syndicatemanager.R
-import com.ensias.syndicatemanager.ui.state.ExpenseUiState
+import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.DateField
-import com.ensias.syndicatemanager.ui.view.components.DropDownMenuExpense
+import com.ensias.syndicatemanager.ui.view.components.ListUsers
 import com.ensias.syndicatemanager.ui.view.components.SuffixTextField
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+
 @Composable
-fun AddExpenseScreen(expenseUiState:ExpenseUiState,onAddExpenseClicked:(ExpenseUiState)->Unit) {
-AddExpenseContent(expenseUiState=expenseUiState)
+fun AddContributionScreen(contribUiState: ContributionUiState) {
+    AddContributionContent(contribUiState=contribUiState)
 }
 
 @Composable
-fun AddExpenseContent(
-    expenseUiState:ExpenseUiState)
+fun AddContributionContent(contribUiState: ContributionUiState)
 {
     Column(
         modifier = Modifier
@@ -49,7 +49,7 @@ fun AddExpenseContent(
         Spacer(modifier = Modifier.padding(20.dp))
 
         Text(
-            text = stringResource(id = R.string.AJOUT_DE_DEPENSES),
+            text = stringResource(id = R.string.AJOUT_DE_COTISATION),
             style = TextStyle(
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 25.sp,
@@ -58,20 +58,19 @@ fun AddExpenseContent(
         )
         Spacer(modifier = Modifier.padding(25.dp))
 
-        DropDownMenuExpense(expenseUiState)
+        ListUsers(contribUiState)
         Spacer(modifier = Modifier.padding(20.dp))
 
-        DateFieldExpense(expenseUiState)
+      DateFieldContrib(contribUiState)
         Spacer(modifier = Modifier.padding(20.dp))
 
         SuffixTextField(
-            value = expenseUiState.amount.toString(),
-            onValueChange = {newText -> expenseUiState.amount = newText.toIntOrNull() ?: 0},
+            value = contribUiState.amount.toString(), onValueChange = {newText -> contribUiState.amount = newText.toIntOrNull() ?: 0},
             suffixText = "DH",
         )
         Spacer(modifier = Modifier.padding(50.dp))
 
-        ElevatedButtonExample() {
+        ElevatedButton() {
 
         }
 
@@ -80,7 +79,7 @@ fun AddExpenseContent(
 
 
 @Composable
-fun ElevatedButtonExample(onClick: () -> Unit) {
+fun ElevatedButton(onClick: () -> Unit) {
     Button(
         onClick = {
             onClick()
@@ -92,16 +91,15 @@ fun ElevatedButtonExample(onClick: () -> Unit) {
     }
 }
 @Composable
-fun DateFieldExpense(expenseUiState: ExpenseUiState){
-    val date=remember{ mutableStateOf(expenseUiState.date) }
-    val text= remember { mutableStateOf(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(expenseUiState.date)) }
+fun DateFieldContrib(contribUiState: ContributionUiState){
+    val date= remember{ mutableStateOf(contribUiState.date) }
+    val text= remember { mutableStateOf(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(contribUiState.date)) }
     DateField(date = date, text =text )
-    expenseUiState.date=date.value
+  contribUiState.date=date.value
 }
-
 @PreviewLightDark
 @Composable
-fun PreviewAddExpenseScreen() {
+fun PreviewAddContributionScreen() {
     SyndicateManagerTheme {
         Column(
             modifier = Modifier
@@ -109,12 +107,12 @@ fun PreviewAddExpenseScreen() {
                 .background(color = MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val expenseUiState = ExpenseUiState(
-                type = "Electricite",
+            val contrUiState = ContributionUiState(
+                user = "nisirne",
                 date = Date(),
                 amount = 0
             )
-          AddExpenseContent(expenseUiState)
+            AddContributionContent(contrUiState)
         }
 
     }
