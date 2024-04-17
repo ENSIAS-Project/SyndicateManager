@@ -1,12 +1,66 @@
 \section{Conception globale}
+Dans le cadre de notre projet de developpement  d'une application de gestion de syndic de copropriété, la phase de conception de l'app revêt une importance particulière et cruciale pour garantir sa fonctionnalité et son adaptation aux besoins des utilisateurs. 
+Cette section du rapport se concentre sur la manière dont nous avons planifié, conçu et structuré l'application pour répondre aux aux normes de l'industrie en termes de conception et de développement logiciel et aux attentes des utilisateurs
+\subsection{méthodologie SCRUM/Agile}
+\subsubsection{Agile manifesto}
+\input{Chapters/agilemanifesto.tex}
+\subsubsection{Scrum}
+\begin{wrapfigure}{r}{0.25\textwidth} 
+    \centering
+    \includegraphics[width=0.25\textwidth]{scrum logo.png}
+    \caption{logo de scrum Agile}
+\end{wrapfigure}
+Selon The Scrum GuideTM, Scrum est « un framework léger qui aide les personnes, les équipes et les organisations à générer de la valeur grâce à des solutions adaptatives à des problèmes complexes.1 » Scrum est le framework agile le plus largement utilisé et le plus populaire. Le terme agile décrit un ensemble spécifique de principes et de valeurs fondamentaux pour l'organisation et la gestion d'un travail complexe.
+Bien qu'il ait ses racines dans le développement de logiciels, Scrum fait aujourd'hui référence à un cadre léger utilisé dans tous les secteurs pour fournir des produits et services complexes et innovants qui ravissent réellement les clients. C'est simple à comprendre, mais difficile à maîtriser.
+\cite*{scrumalliance}
+\subsection{Languages et technologies Utilisées}
 TO BE IMPLEMENTED
-\section{conception detaillée}
+\subsubsection{Android}
+\begin{wrapfigure}{r}{0.25\textwidth} 
+    \centering
+    \includegraphics[width=0.25\textwidth]{android-logo.png}
+    \caption{logo de scrum Agile}
+\end{wrapfigure}
+Android est un système d'exploitation mobile open source fondé sur le noyau Linux et développé par un consortium d'entreprises, le Open Handset Alliance, sponsorisé par Google. 
+Android est défini comme étant une pile de logiciels, c'est-à-dire un ensemble de logiciels destinés à fournir une solution clé en main pour les appareils mobiles, smartphones et tablettes tactiles. Cette pile comporte un système d'exploitation (comprenant un noyau Linux), les applications clés telles que le navigateur web, le téléphone et le carnet d'adresses ainsi que des logiciels intermédiaires entre le système d'exploitation et les applications
+\cite*{wiki:Android}
+\subsubsection{les bonnes pratiques}
 TO BE IMPLEMENTED
-\subsection{Diagramme de cas d'utilisdation}
+\subsubsection{Kotlin}
+\begin{wrapfigure}{r}{0.25\textwidth} 
+    \centering
+    \includegraphics[width=0.25\textwidth]{kotlin.png}
+    \caption{logo de scrum Agile}
+\end{wrapfigure}
+Kotlin est un langage de programmation orienté objet et fonctionnel, avec un typage statique qui permet de compiler pour la machine virtuelle Java, JavaScript, et vers plusieurs plateformes en natif (grâce à LLVM). Son développement provient principalement d'une équipe de programmeurs chez JetBrains basée à Saint-Pétersbourg en Russie (son nom vient de l'île de Kotline, près de St. Pétersbourg).
+Google annonce pendant la conférence Google I/O 2017 que Kotlin devient le second langage de programmation officiellement pris en charge par Android après Java. Le 8 mai 2019, toujours lors de la conférence Google I/O, Kotlin devient officiellement le langage de programmation voulu et recommandé par le géant américain Google pour le développement des applications Android.
+Pivotal Software annonce le 4 janvier 2017 le support officiel de Kotlin sur la cinquième version du Framework Spring. 
+\cite*{wiki:Kotlin}
+\subsubsection{Android JetPack Compose}
+TO BE IMPLEMENTED
+\subsubsection{daggerHilt (injecteur de dependances)}
+TO BE IMPLEMENTED
+\subsubsection{Gradle}
+TO BE IMPLEMENTED
+\subsubsection{Firebase}
+TO BE IMPLEMENTED
+\subsubsection{Firebase FireAuth}
+TO BE IMPLEMENTED
+\subsubsection{Firebase FireStore}
+TO BE IMPLEMENTED
+
+
+\subsection{les diagrammes UML}
+La modélisation  joue un rôle crucial  dans le développement logiciel,permettant de représenter de manière claire et concise les différents aspects d'un système informatique. 
+Parmi les outils de modélisation les plus répandus, on trouve les diagrammes de cas d'utilisation et de classes
+
+\subsubsection{Diagramme de cas d'utilisdation}
+Le  Diagramme de cas d'utilisation est une représentation graphique des interactions entre les utilisateurs -acteurs- et le système logiciel
 \input{Diagrammes/generalUsecase.tex}
 \input{Diagrammes/contributionUsecase.tex}
 \input{Diagrammes/expencesUsecase.tex}
-\subsection{Diagramme de séquences}
+\subsubsection{Diagramme de séquences}
 TO BE IMPLEMENTED
-\subsection{Diagramme de classe}
-TO BE IMPLEMENTED
+\subsubsection{Diagramme de classe}
+Le diagramme de classe est le plan du système .utiliser pour modéliser les objets qui constituent le système, pour afficher les relations entre les objets et pour décrire ce que ces objets font et les services qu'ils fournissent.
+\cite{IBM:class}
