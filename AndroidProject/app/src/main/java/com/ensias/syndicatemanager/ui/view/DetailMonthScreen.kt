@@ -11,11 +11,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -27,6 +36,7 @@ import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.OperationCard
+import com.ensias.syndicatemanager.ui.view.components.SwipeBAckground
 import com.ensias.syndicatemanager.viewmodels.MonthViewModel
 
 
@@ -39,13 +49,15 @@ fun DetailMonthScreen(
 ) {
     val opList = monthViewModel.getOperatioFlow(id)
         .collectAsStateWithLifecycle(emptyList())
-    DetailMonthContent(month,year,opList.value)
+    DetailMonthContent(month,year, monthViewModel::deleteOperation,opList.value)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMonthContent(
     month:Int,
     year:Int,
+    onDelete:(op:Operation)->Unit,
     list : List<Operation>){
     Column(
         modifier = Modifier
@@ -81,13 +93,32 @@ fun DetailMonthContent(
             contentPadding = PaddingValues(horizontal = 20.dp)
         ) {
             items(
-                list, key ={it.id}
+                items = list,
+                key ={it.id}
             ){op ->
-                OperationCard(op)
+                val dismissState = rememberSwipeToDismissBoxState(
+                    confirmValueChange = {
+                        if(it == SwipeToDismissBoxValue.EndToStart){
+                            onDelete(op)
+                            true
+                        }else{
+                            false
+                        }
+                    },
+                    positionalThreshold = {150f}
+                )
+                SwipeToDismissBox(state = dismissState
+                    , backgroundContent = {SwipeBAckground(dismissState)},
+                ) {
+                    OperationCard(op)
+                }
+
             }
         }
     }
 }
+
+
 
 @PreviewLightDark
 @Composable
@@ -103,7 +134,7 @@ fun PreviewDetail() {
             val dummyList = ArrayList<Operation>()
             dummyList.add(Operation(id = "ref",type = "c", value = 200, user = User(name = "nisrine")))
             dummyList.add(Operation(id = "test",type = "s", value = 200, spendtype = SpendType(name = "materiel menage")))
-            DetailMonthContent(3,2024,
+            DetailMonthContent(3,2024,{},
                 dummyList
             )
         }

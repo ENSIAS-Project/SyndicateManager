@@ -23,11 +23,11 @@ import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 
 @Composable
 fun OperationCard(op:Operation){
-    if(op.type.equals("s")){
-        SpendCard(op)
-    }else{
-        ContribCard(op)
-    }
+        if(op.type.equals("s")){
+            SpendCard(op)
+        }else{
+            ContribCard(op)
+        }
 
 }
 @PreviewLightDark

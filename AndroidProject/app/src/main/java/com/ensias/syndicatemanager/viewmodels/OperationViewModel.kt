@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
@@ -30,7 +31,11 @@ class OperationViewModel @Inject constructor(
                 type = expenseUiState.value.type,
                 value = expenseUiState.value.amount.toLong(),
             )
-            dataService.addOperation(op) { addexpenseResult() }
+            try {
+                dataService.addOperation(op) { addexpenseResult() }
+            }catch (e:NotCurrentMonthException){
+                SnackbarManager.showMessage(e.getmessage())
+            }
         }
             SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
         }

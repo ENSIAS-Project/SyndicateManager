@@ -2,6 +2,7 @@ package com.ensias.syndicatemanager.service.impl
 
 
 import com.ensias.syndicatemanager.exceptions.DataServiceExceptions
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
@@ -193,31 +194,123 @@ class FireBaseDataService @Inject constructor(
     }
     @Throws(DataServiceExceptions::class)
     override suspend fun addOperation(op: Operation, onResult: () -> Unit) {
-        // TODO: verify if the op is in the current month
-        //get the month
+        if(checkCurrentMonth(op)){
+            //get the month
             val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
-        //build data to store
-        val opToStore  = hashMapOf(
-            OPVALUE to op.value,
-            OPTYPE to op.type,
-            OPDATE to op.date,
-            OPREF to op.ref)
-        // storew the hashmap as operation on firestore
-        store
-            .collection(MONTH_DATA_COLLECTION)
-            .document(month.id)
-            .collection(LIST)
-            .add(opToStore).addOnSuccessListener {
-                if(op.type==EXPENSE){
-                    month.currBalance -= op.value
-                    month.credit += op.value
-                }else{
-                    month.currBalance += op.value
-                    month.debit += op.value
-                }
-                updateMonth(month,onResult)
-            }.addOnFailureListener{ onFirestoreException(it)}
+            //build data to store
+            val opToStore  = hashMapOf(
+                OPVALUE to op.value,
+                OPTYPE to op.type,
+                OPDATE to op.date,
+                OPREF to op.ref)
+            // storew the hashmap as operation on firestore
+            store
+                .collection(MONTH_DATA_COLLECTION)
+                .document(month.id)
+                .collection(LIST)
+                .add(opToStore).addOnSuccessListener {
+                    if(op.type==EXPENSE){
+                        month.currBalance -= op.value
+                        month.credit += op.value
+                    }else{
+                        month.currBalance += op.value
+                        month.debit += op.value
+                    }
+                    updateMonth(month,onResult)
+                }.addOnFailureListener{ onFirestoreException(it)}
+        }else{
+            throw NotCurrentMonthException()
+        }
+
     }
+
+    @Throws(DataServiceExceptions::class)
+    override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
+        if(checkCurrentMonth(op)){
+            //get the month
+            val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
+            //build data to store
+            val opToStore  = hashMapOf(
+                OPVALUE to op.value,
+                OPTYPE to op.type,
+                OPDATE to op.date,
+                OPREF to op.ref)
+            // storew the hashmap as operation on firestore
+            store
+                .collection(MONTH_DATA_COLLECTION)
+                .document(month.id)
+                .collection(LIST)
+                .document(op.id)
+                .delete()
+                //.add(opToStore)
+                .addOnSuccessListener {
+                    if(op.type==EXPENSE){
+                        month.currBalance += op.value
+                        month.credit -= op.value
+                    }else{
+                        month.currBalance -= op.value
+                        month.debit -= op.value
+                    }
+                    updateMonth(month,onResult)
+                }.addOnFailureListener{ onFirestoreException(it)}
+        }else{
+            throw NotCurrentMonthException()
+        }
+    }
+    /*override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
+        // check if it is th ecurrent month
+        if(checkCurrentMonth(op)){
+          val opval = op.value
+           val monthval =store
+                .collection(MONTH_DATA_COLLECTION)
+                .whereEqualTo(MONTHDATE,getMonthDateBasedOnOpDate(op.date))
+                .get()
+                .await()
+            var newdebit = monthval.documents.get(0).getLong(DEBIT)?:0
+            var newcredit = monthval.documents.get(0).getLong(CREDIT)?:0
+            val newPrevBalance = monthval.documents.get(0).getLong(PREV_BALANCE)?:0
+            var newCurrBalance = monthval.documents.get(0).getLong(CURR_BALANCE)?:0
+            val mid = monthval.documents.get(0).id
+
+            store
+                .collection(MONTH_DATA_COLLECTION)
+                .document(mid)
+                .collection(LIST)
+                .document(op.id)
+                .delete()
+                .addOnSuccessListener {
+                    if(op.type==EXPENSE){
+                        newCurrBalance += opval
+                        newcredit -= opval
+                    }else{
+                        newCurrBalance -= opval
+                        newdebit -= opval
+                    }
+                    val toStore  = hashMapOf(
+                        CREDIT to newcredit,
+                        CURR_BALANCE to newCurrBalance,
+                        DEBIT to newdebit,
+                        PREV_BALANCE to newPrevBalance
+                    )
+                    store.collection(MONTH_DATA_COLLECTION)
+                        .document(mid)
+                        .set(toStore, SetOptions.merge())
+                        .addOnSuccessListener { onResult() }
+                        .addOnFailureListener { onFirestoreException(it) }
+                }
+                .addOnFailureListener{onFirestoreException(it)}
+                .await()
+        }else{
+            throw NotCurrentMonthException()
+        }
+    }*/
+
+    private fun checkCurrentMonth(op: Operation): Boolean {
+        val opdate = getMonthDateBasedOnOpDate(op.date)
+        val thisdate = getMonthDateBasedOnOpDate(Calendar.getInstance().time)
+        return opdate == thisdate
+    }
+
     @Throws(DataServiceExceptions::class)
     private suspend fun getMonthByDateOrCreateNewOne(time: Date): Month {
         val v =  store.collection(MONTH_DATA_COLLECTION)

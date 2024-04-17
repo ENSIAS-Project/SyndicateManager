@@ -3,6 +3,8 @@ package com.ensias.syndicatemanager.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.MONTHDETAILS
+import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.service.AccountService
@@ -35,4 +37,21 @@ class MonthViewModel @Inject constructor(
                 dataService.getOperationsFlow(id)
             }
         }
+
+    fun deleteOperation(op: Operation) {
+         viewModelScope.launch {
+             try{
+                 dataService.removeOperation(op) { onDeleteSucseeded() }
+             }catch(e:NotCurrentMonthException) {
+                SnackbarManager.showMessage(e.getmessage())
+             }catch (e:Exception){
+                 SnackbarManager.showMessage(UndefinedException())
+             }
+
+         }
+    }
+
+    private fun onDeleteSucseeded() {
+            SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
+    }
 }
