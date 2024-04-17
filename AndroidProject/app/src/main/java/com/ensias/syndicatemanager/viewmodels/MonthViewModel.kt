@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.MONTHDETAILS
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.di.Repo
 import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.models.Operation
@@ -21,6 +22,7 @@ class MonthViewModel @Inject constructor(
     private val userService: AccountService,
     private val dataService: DataService,
     ):ViewModel(){
+    val isADMIN = Repo.user.IS_ADMIN
     var monthList = dataService.monthList
 
 
@@ -41,13 +43,14 @@ class MonthViewModel @Inject constructor(
     fun deleteOperation(op: Operation) {
          viewModelScope.launch {
              try{
-                 dataService.removeOperation(op) { onDeleteSucseeded() }
+                 if(isADMIN){
+                     dataService.removeOperation(op) { onDeleteSucseeded() }
+                 }
              }catch(e:NotCurrentMonthException) {
                 SnackbarManager.showMessage(e.getmessage())
              }catch (e:Exception){
                  SnackbarManager.showMessage(UndefinedException())
              }
-
          }
     }
 

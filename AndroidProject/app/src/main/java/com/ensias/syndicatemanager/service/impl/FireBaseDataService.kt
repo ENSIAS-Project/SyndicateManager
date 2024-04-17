@@ -1,6 +1,7 @@
 package com.ensias.syndicatemanager.service.impl
 
 
+import android.util.Log
 import com.ensias.syndicatemanager.exceptions.DataServiceExceptions
 import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Month
@@ -226,6 +227,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
+        var calledonce = true
         if(checkCurrentMonth(op)){
             //get the month
             val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
@@ -251,7 +253,11 @@ class FireBaseDataService @Inject constructor(
                         month.currBalance -= op.value
                         month.debit -= op.value
                     }
-                    updateMonth(month,onResult)
+                    if(calledonce){
+                        updateMonth(month,onResult)
+                        Log.d("FireBaseDataServioce","update month called")
+                        calledonce = false
+                    }
                 }.addOnFailureListener{ onFirestoreException(it)}
         }else{
             throw NotCurrentMonthException()

@@ -2,11 +2,16 @@ package com.ensias.syndicatemanager.ui.view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismissBoxState
@@ -32,14 +37,16 @@ fun SwipeBAckground(dismissState: SwipeToDismissBoxState) {
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .background(color)
+           // .background(color)
             .padding(12.dp, 8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.End
     ) {
         if (direction == SwipeToDismissBoxValue.EndToStart) Icon(
             Icons.Default.Delete,
-            contentDescription = "delete"
+            contentDescription = "delete",
+            tint = color
         )
     }
 }
+

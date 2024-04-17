@@ -49,12 +49,13 @@ fun DetailMonthScreen(
 ) {
     val opList = monthViewModel.getOperatioFlow(id)
         .collectAsStateWithLifecycle(emptyList())
-    DetailMonthContent(month,year, monthViewModel::deleteOperation,opList.value)
+    DetailMonthContent(monthViewModel.isADMIN,month,year, monthViewModel::deleteOperation,opList.value)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMonthContent(
+    ISADMIN:Boolean,
     month:Int,
     year:Int,
     onDelete:(op:Operation)->Unit,
@@ -96,23 +97,26 @@ fun DetailMonthContent(
                 items = list,
                 key ={it.id}
             ){op ->
-                val dismissState = rememberSwipeToDismissBoxState(
-                    confirmValueChange = {
-                        if(it == SwipeToDismissBoxValue.EndToStart){
-                            onDelete(op)
-                            true
-                        }else{
-                            false
-                        }
-                    },
-                    positionalThreshold = {150f}
-                )
-                SwipeToDismissBox(state = dismissState
-                    , backgroundContent = {SwipeBAckground(dismissState)},
-                ) {
+                if(ISADMIN){
+                    val dismissState = rememberSwipeToDismissBoxState(
+                        confirmValueChange = {
+                            if(it == SwipeToDismissBoxValue.EndToStart){
+                                onDelete(op)
+                                true
+                            }else{
+                                false
+                            }
+                        },
+                        positionalThreshold = {150f}
+                    )
+                    SwipeToDismissBox(state = dismissState
+                        , backgroundContent = {SwipeBAckground(dismissState)},
+                    ) {
+                        OperationCard(op)
+                    }
+                }else{
                     OperationCard(op)
                 }
-
             }
         }
     }
@@ -134,7 +138,7 @@ fun PreviewDetail() {
             val dummyList = ArrayList<Operation>()
             dummyList.add(Operation(id = "ref",type = "c", value = 200, user = User(name = "nisrine")))
             dummyList.add(Operation(id = "test",type = "s", value = 200, spendtype = SpendType(name = "materiel menage")))
-            DetailMonthContent(3,2024,{},
+            DetailMonthContent(false,3,2024,{},
                 dummyList
             )
         }
