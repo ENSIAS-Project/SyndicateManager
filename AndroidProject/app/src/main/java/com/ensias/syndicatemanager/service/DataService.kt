@@ -3,11 +3,13 @@ package com.ensias.syndicatemanager.service
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 
 interface DataService {
+    abstract val users: Flow<List<User>>
     abstract val expensesTypes: Flow<List<SpendType>>
     val monthList: Flow<List<Month>>
     fun getOperationsFlow(id: String): Flow<List<Operation>>

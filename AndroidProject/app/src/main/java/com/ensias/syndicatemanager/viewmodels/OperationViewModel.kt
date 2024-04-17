@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.R
 import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
+import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +22,8 @@ class OperationViewModel @Inject constructor(
     private val dataService: DataService
 
 ) : ViewModel(){
+    val users = dataService.users
+    val contribiutionUiState = mutableStateOf(ContributionUiState())
     var expenseUiState = mutableStateOf(ExpenseUiState())
     val expensesTypes = dataService.expensesTypes
     fun addExpense() {
@@ -66,6 +70,13 @@ class OperationViewModel @Inject constructor(
         }
     }
 
+    fun onContribValueChange(newval: String) {
+
+    }
+
+    fun addContribution() {
+        TODO("Not yet implemented")
+    }
 
 
 }

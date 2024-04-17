@@ -55,7 +55,7 @@ class FireBaseDataService @Inject constructor(
                 .collection(SPEND_TYPES_COLLECTION)
                 .dataObjects()
         }
-    val users : Flow<List<User>>
+    override val users : Flow<List<User>>
         get()=auth.currentUser.run{
             store
                 .collection(USERS)

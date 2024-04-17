@@ -20,13 +20,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.state.ContributionUiState
+import java.util.Calendar
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListUsers(
     contributionUiState: ContributionUiState,
+    users:List<User>
     //  options : List<User>
 ) {
     Column(
@@ -35,19 +38,9 @@ fun ListUsers(
 
     ) {
         var expanded by remember { mutableStateOf(false) }
-        var optionid by remember { mutableStateOf("") }
-        var selectedOption by remember { mutableStateOf(contributionUiState.user) }
+        var selectedOption by remember { mutableStateOf("") }
         Row {
             ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
-
-
-                var options by remember {
-                    mutableStateOf(
-                        listOf(
-                            "lona",
-                        )
-                    )
-                }
                 TextField(
                     modifier = Modifier
                         .menuAnchor()
@@ -64,20 +57,15 @@ fun ListUsers(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
                 ) {
-                    options.forEach { option ->
-                        OptionItem(
-                            option = option
-                        ) {
-                            selectedOption = it
 
+                    users.forEach { option ->
+                        OptionItem(
+                            option = option.id
+                        ) {
+                            selectedOption = option.name
+                            contributionUiState.user = option
                         }
                     }
-                    /*  options.forEach { option ->
-                          OptionItem(
-                              option = option.name,
-                              onOptionSelected = {
-                              }
-                          )*/
                 }
             }
         }
@@ -87,6 +75,6 @@ fun ListUsers(
 @Preview
 @Composable
 fun PreviewListUsers() {
-    val contrUiState = ContributionUiState(user = "", date = Date(), amount = 0)
-    ListUsers(contributionUiState = contrUiState)
+    val contrUiState = ContributionUiState(User(), Calendar.getInstance().time,0)
+    ListUsers(ContributionUiState(), listOf())
 }

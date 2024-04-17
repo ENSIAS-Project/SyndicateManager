@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,25 +22,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.DateField
 import com.ensias.syndicatemanager.ui.view.components.ListUsers
 import com.ensias.syndicatemanager.ui.view.components.SuffixTextField
+import com.ensias.syndicatemanager.viewmodels.OperationViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
 @Composable
-fun AddContributionScreen(contribUiState: ContributionUiState) {
-    AddContributionContent(contribUiState=contribUiState)
+fun AddContributionScreen(opvViewModel: OperationViewModel = hiltViewModel()) {
+    val userlist = opvViewModel.users
+        .collectAsStateWithLifecycle(emptyList())
+    AddContributionContent(
+        contribUiState = opvViewModel.contribiutionUiState.value,
+        users =  userlist.value,
+        onAddContributionClicked = {opvViewModel.addContribution()}
+    ) { newval -> opvViewModel.onContribValueChange(newval) }
 }
 
 @Composable
-fun AddContributionContent(contribUiState: ContributionUiState)
+fun AddContributionContent(
+    contribUiState: ContributionUiState,
+    users: List<User>,
+    onAddContributionClicked:()->Unit,
+    onValueChanged:(newval:String) ->Unit
+    )
 {
     Column(
         modifier = Modifier
@@ -58,7 +76,7 @@ fun AddContributionContent(contribUiState: ContributionUiState)
         )
         Spacer(modifier = Modifier.padding(25.dp))
 
-        ListUsers(contribUiState)
+        ListUsers(contribUiState,users)
         Spacer(modifier = Modifier.padding(20.dp))
 
       DateFieldContrib(contribUiState)
@@ -69,9 +87,15 @@ fun AddContributionContent(contribUiState: ContributionUiState)
             suffixText = "DH",
         )
         Spacer(modifier = Modifier.padding(50.dp))
-
-        ElevatedButton() {
-
+        if(!contribUiState.pendingOperation){
+            ElevatedButtonExample(onAddContributionClicked)
+        }else{
+            CircularProgressIndicator(
+                modifier = Modifier,
+                strokeWidth = ProgressIndicatorDefaults.CircularStrokeWidth,
+                trackColor = MaterialTheme.colorScheme.onSurface,
+                strokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap
+            )
         }
 
     }
@@ -94,8 +118,7 @@ fun ElevatedButton(onClick: () -> Unit) {
 fun DateFieldContrib(contribUiState: ContributionUiState){
     val date= remember{ mutableStateOf(contribUiState.date) }
     val text= remember { mutableStateOf(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(contribUiState.date)) }
-   // DateField(date = date, text =text )
-  contribUiState.date=date.value
+    DateField(contribUiState )
 }
 @PreviewLightDark
 @Composable
@@ -108,11 +131,11 @@ fun PreviewAddContributionScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val contrUiState = ContributionUiState(
-                user = "nisirne",
+                user = User(name = "nisrine"),
                 date = Date(),
                 amount = 0
             )
-            AddContributionContent(contrUiState)
+            AddContributionContent(contrUiState, listOf(),{}) {}
         }
 
     }
