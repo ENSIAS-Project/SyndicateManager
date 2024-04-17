@@ -102,10 +102,8 @@ fun DetailMonthContent(
                         confirmValueChange = {
                             if(it == SwipeToDismissBoxValue.EndToStart){
                                 onDelete(op)
-                                true
-                            }else{
-                                false
                             }
+                            false
                         },
                         positionalThreshold = {150f}
                     )
@@ -138,7 +136,7 @@ fun PreviewDetail() {
             val dummyList = ArrayList<Operation>()
             dummyList.add(Operation(id = "ref",type = "c", value = 200, user = User(name = "nisrine")))
             dummyList.add(Operation(id = "test",type = "s", value = 200, spendtype = SpendType(name = "materiel menage")))
-            DetailMonthContent(false,3,2024,{},
+            DetailMonthContent(true,3,2024,{},
                 dummyList
             )
         }

@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
+import java.util.Date
 
 @Composable
 fun OperationCard(op:Operation){
@@ -29,6 +30,9 @@ fun OperationCard(op:Operation){
             ContribCard(op)
         }
 
+}
+fun date(date: Date):String{
+    return "${date.day}/${date.month+1}/${date.year.toString().replaceFirst("1","")}"
 }
 @PreviewLightDark
 

@@ -58,7 +58,6 @@ fun ContribCard(op: Operation){
 
                 ) {
 
-                Row() {
                     Text(
                         text = "${op.value} DH",
                         //  modifier = Modifier.padding( 10.dp),
@@ -66,8 +65,13 @@ fun ContribCard(op: Operation){
                         fontFamily = FontFamily.SansSerif,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                }
-
+                    Text(
+                        text = date(op.date),
+                        //  modifier = Modifier.padding( 10.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontFamily = FontFamily.SansSerif,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
             }
         }
     }

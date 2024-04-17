@@ -1,5 +1,6 @@
 package com.ensias.syndicatemanager.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.MONTHDETAILS
@@ -41,6 +42,7 @@ class MonthViewModel @Inject constructor(
         }
 
     fun deleteOperation(op: Operation) {
+        Log.d("test","called")
          viewModelScope.launch {
              try{
                  if(isADMIN){
