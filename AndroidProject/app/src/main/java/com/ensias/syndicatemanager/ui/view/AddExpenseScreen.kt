@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,7 @@ import com.ensias.syndicatemanager.ui.view.components.DateField
 import com.ensias.syndicatemanager.ui.view.components.DropDownMenuExpense
 import com.ensias.syndicatemanager.ui.view.components.SuffixTextField
 import com.ensias.syndicatemanager.viewmodels.OperationViewModel
+import java.text.SimpleDateFormat
 import java.util.Date
 
 @Composable
@@ -116,6 +118,8 @@ fun ElevatedButtonExample(onClick: () -> Unit) {
         Text(text = stringResource(id = R.string.AJOUTER))
     }
 }
+
+
 @PreviewLightDark
 @Composable
 fun PreviewAddExpenseScreen() {

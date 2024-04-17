@@ -40,18 +40,14 @@ fun SuffixTextField(
 
             value = value,
             onValueChange = {
-                //newValue ->
-                // Filtrer pour n'accepter que les valeurs numériques
-               // if (newValue.all { it.isDigit() }) {
-                    onValueChange(it)
-                //}
+                onValueChange(it)
             },
-         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             trailingIcon = {
                 Text(
                     text = suffixText,
-                    fontSize = 14.sp, // Taille de la police du suffixe
-                    color = Color.Gray // Couleur du suffixe
+                    fontSize = 14.sp,
+                    color = Color.Gray
                 )
             }
         )
@@ -67,9 +63,8 @@ fun MyScreen() {
         SuffixTextField(
             value = text,
             onValueChange = { newText -> text = newText },
-            suffixText = "DH" // Example suffix text, you can change it accordingly
+            suffixText = "DH"
         )
 
-        // Add more SuffixTextField with different suffix texts if needed
     }
 }
