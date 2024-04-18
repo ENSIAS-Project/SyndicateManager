@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MonthViewModel @Inject constructor(
-    private val userService: AccountService,
     private val dataService: DataService,
     ):ViewModel(){
     val isADMIN = Repo.user.IS_ADMIN

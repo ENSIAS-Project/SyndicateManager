@@ -18,10 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OperationViewModel @Inject constructor(
-    private val accountService : AccountService,
     private val dataService: DataService
 
 ) : ViewModel(){
+    private val CONTRIBUTION = "c"
+    private val EXPENSE = "s"
     val users = dataService.users
     val contribiutionUiState = mutableStateOf(ContributionUiState())
     var expenseUiState = mutableStateOf(ExpenseUiState())
@@ -32,7 +33,7 @@ class OperationViewModel @Inject constructor(
             val op = Operation(
                 date = expenseUiState.value.date,
                 ref = expenseUiState.value.ref,
-                type = expenseUiState.value.type,
+                type = EXPENSE,
                 value = expenseUiState.value.amount.toLong(),
             )
             try {
@@ -41,11 +42,16 @@ class OperationViewModel @Inject constructor(
                 SnackbarManager.showMessage(e.getmessage())
             }
         }
-            SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
-        }
+    }
 
-    private fun addexpenseResult():Unit {
+    private fun addexpenseResult() {
         expenseUiState.value = expenseUiState.value.copy(pendingOperation = false )
+        SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
+    }
+
+    private fun addcontributionResult():Unit {
+        contribiutionUiState.value = contribiutionUiState.value.copy(pendingOperation = false )
+        SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
     }
 
 
@@ -71,11 +77,29 @@ class OperationViewModel @Inject constructor(
     }
 
     fun onContribValueChange(newval: String) {
-
+        val int = newval.toIntOrNull()
+        if(int is Int){
+            contribiutionUiState.value = contribiutionUiState.value.copy(amount = int)
+        }else{
+            contribiutionUiState.value = contribiutionUiState.value.copy(amount = 0)
+        }
     }
 
     fun addContribution() {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            contribiutionUiState.value = contribiutionUiState.value.copy(pendingOperation = true)
+            val op = Operation(
+                date = contribiutionUiState.value.date,
+                ref = contribiutionUiState.value.user.id,
+                type = CONTRIBUTION,
+                value = contribiutionUiState.value.amount.toLong(),
+            )
+            try {
+                dataService.addOperation(op) { addcontributionResult() }
+            }catch (e:NotCurrentMonthException){
+                SnackbarManager.showMessage(e.getmessage())
+            }
+        }
     }
 
 

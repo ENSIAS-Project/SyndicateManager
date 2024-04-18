@@ -85,7 +85,7 @@ fun SpendCard(op: Operation){
 fun PreviewSpendMonth() {
     SyndicateManagerTheme {
         SpendCard(
-            Operation(type = "s", spendtype = SpendType(name = "electricite"))
+            Operation(type = "s", date = Calendar.getInstance().time, spendtype = SpendType(name = "electricite"))
         )
     }
 }

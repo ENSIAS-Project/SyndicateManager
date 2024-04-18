@@ -8,9 +8,8 @@ data class Operation(
     val id:String ="",
     val ref:String="",
     val type :String = "",
-    val visibleName:String = "",
     val value : Long = 0,
     val date : Date = Date(),
-    val spendtype :SpendType = SpendType(),
+    val spendtype :SpendType = SpendType(), //TODO : FIX IIIIT
     val user : User = User()
 )

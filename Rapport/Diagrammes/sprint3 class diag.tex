@@ -1,0 +1,138 @@
+\begin{figure}
+        \begin{tikzpicture}
+
+        \umlclass[x=0,y=-3,type=interface,scale = 0.8,fill=blue!10]{DataService}{
+            + users : Flow<List<User>$ $>\\
+            + expensesTypes: Flow<List<SpendType>$ $>\\
+            + monthList: Flow<List<Month>$ $>\\
+          }{ 
+            + getOperationsFlow(id: String): Flow<List<Operation>$ $> :Unit\\ 
+            + addExpenseType(name: String, onResult: () -> Unit) : Unit\\
+            + updateExpenseType(id: String, newname: String, onResult: () -> Unit) : Unit \\
+            + addOperation (op :Operation, onResult: () -> Unit) : Unit \\
+            + removeOperation(op: Operation, onResult: ()->Unit) : Unit 
+          }
+
+          \umlclass[x=0,y=3,scale=0.8,fill=blue!10]{FireBaseDataService}{
+            + auth: FirebaseAuth\\
+            + store : FirebaseFirestore\\
+           % - OPVALUE : String \\
+           % - OPTYPE : String \\
+           % - OPDATE : String \\
+           % - OPREF : String \\
+           % - PREV\_BALANCE : String \\
+           % - CURR\_BALANCE : String \\
+           % - DEBIT : String \\
+           % - CREDIT : String \\
+           % - MONTHDATE : String \\
+           % - LIST : String \\
+           % - USERS : String \\
+           % - USERS : String \\
+            - MONTH\_DATA\_COLLECTION : String\\
+            - SPEND\_TYPES\_COLLECTION : String\\
+            - LIST : String\\
+          }{
+            + Constructor(auth: FirebaseAuth,store : FirebaseFirestore)\\
+            - getexpenseType(id:String) : SpendType\\
+            - getUser(id:String) : User\\
+            - onFirestoreException(e: java.lang.Exception) : Unit\\
+            - addExpenseType(name: String, onResult: () -> Unit) : Unit\\
+            - updateExpenseType(id: String, newname: String, onResult: () -> Unit) : Unit\\
+            - updateMonth(m: Month, onResult: () -> Unit) : Unit\\
+            - addMonth(m: Month) : Month\\
+            - getMonthDateBasedOnOpDate(date:Date) : Date\\
+            - getMonthByDateOrCreateNewOne(time: Date): Month  
+          } 
+          \umlclass[x=8,y=3,scale = 0.6,fill=white!10]{Month}{
+            + id :String \\
+            + prevBalance : Long \\
+            + currBalance: Long \\
+            + monthDate : Date \\
+            + debit : Long \\
+            + credit : Long
+          }{
+          }
+
+          \umlclass[x=9,y=0,scale = 0.6,fill=white!10]{SpendType}{
+            + id : String\\
+            + name : String
+          }{
+          } 
+          \umlclass[x=8,y=-3,scale = 0.6,fill=white!10]{User}{
+            - IS\_ADMIN:Boolean \\
+            name : String \\
+            familyname : String \\
+            id : String \\
+            email : String
+          }{
+          } 
+
+          \umlclass[x=1,y=-7,scale = 0.6,fill=orange!10]{ContributionUiState}{
+            + user : User \\
+            + date : Date \\
+            + amount : Int \\
+            + pendingOperation : Boolean \\
+          }{}
+
+          \umlclass[x=5,y=-7,scale = 0.6,fill=orange!10]{ExpenseuiState}{
+            + type : String \\
+            + date : Date \\
+            + amount : Int \\
+            + visibleName : String \\
+            + ref : String \\
+            + pendingOperation : Boolean \\
+          }{}
+
+          \umlclass[x=9,y=-12,scale = 0.6,fill=white!10]{Operation}{
+            + id :String \\
+            - ref:String \\
+            + type :String \\
+            + value : Long \\
+            + date : Date  \\
+            + Spendtype : SpendType \\
+            + user : User \\
+          }{
+          } 
+          \umlclass[x=-3,y=-7,scale = 0.6,fill=yellow!10]{ViewModel}{
+            }{
+            } 
+          
+          \umlclass[x=-1,y=-12,scale = 0.6,fill=yellow!10]{OperationViewModel}{
+              - dataService: DataService\\
+              - CONTRIBUTION : String \\
+              - EXPENSE : String \\
+              - users : Flow<List<User>$ $> \\
+              - contribiutionUiState :  MutableState<ContributionUiState> \\
+              - expenseUiState : MutableState<ExpenseuiState> \\
+              - expensesTypes : Flow<List<SpendType>$ $> \\
+              + monthList :  Flow<List<Month>$ $> \\
+            }{
+              + constructor(dataService: DataService) \\ % TODO: find the correct way to represent the constructor
+              + addExpense() : Unit \\
+              + addexpenseResult() : Unit \\
+              + addcontributionResult() : Unit\\
+              + addExpenseType(id: String) : Unit \\
+              + modifyExpenseType(id: String, name: String) : Unit\\
+              + setNewVal(newVal: String) : Unit\\
+              + onContribValueChange(newval: String) : Unit \\
+              + addContribution() : Unit \\
+            } 
+        
+        \umlinherit[geometry=|-|,anchors=50 and -50]{OperationViewModel}{ViewModel}
+        \umlinherit[geometry=|-|]{FireBaseDataService}{DataService}
+        
+        \umlaggreg[geometry=|-,anchors=80 and 0]{Operation}{User}
+        \umlaggreg[geometry=|-,anchors=50 and 0]{Operation}{SpendType}
+        \umlaggreg[geometry=-|,anchors=30 and -60]{OperationViewModel}{SpendType}
+        \umlaggreg[draw=black!30]{OperationViewModel}{Month}
+        \umlaggreg[geometry=-|,anchors=180 and -170]{OperationViewModel}{DataService}
+        \umlassoc[geometry=-|,anchors=20 and 100]{FireBaseDataService}{Month}
+        \umlaggreg[geometry=-|,anchors=-20 and 120]{DataService}{Operation}
+        \umlaggreg{OperationViewModel}{ContributionUiState}
+        \umlaggreg{OperationViewModel}{ExpenseuiState}
+        \umlassoc[geometry=-|,anchors=-20 and 130]{FireBaseDataService}{User}
+        %\umlaggreg[geometry=|-,anchors=20 and 0]{MonthViewModel}{Month}
+        \end{tikzpicture}
+        \caption{le diagramme de Class pour Sprint 2}
+        \label{fig : Class diagram Sprint 1}
+    \end{figure}

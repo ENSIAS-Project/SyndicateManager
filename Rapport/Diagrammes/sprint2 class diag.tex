@@ -1,0 +1,85 @@
+\begin{figure}
+        \begin{tikzpicture}
+
+        \umlclass[x=-1,y=3,type=interface,scale = 0.8,fill=blue!10]{DataService}{
+            + users : Flow<List<User>$ $>\\
+            + expensesTypes: Flow<List<SpendType>$ $>\\
+            + monthList: Flow<List<Month>$ $>\\
+          }{ 
+            + getOperationsFlow(id: String): Flow<List<Operation>$ $> :Unit\\ 
+          }
+
+          \umlclass[x=0,y=-2,scale=0.8,fill=blue!10]{FireBaseDataService}{
+            + auth: FirebaseAuth\\
+            + store : FirebaseFirestore\\
+            - MONTH\_DATA\_COLLECTION : String\\
+            - SPEND\_TYPES\_COLLECTION : String\\
+            - LIST : String\\
+          }{
+            + Constructor(auth: FirebaseAuth,store : FirebaseFirestore)\\
+            - getexpenseType(id:String):SpendType\\
+            - getUser(id:String):User\\
+            - onFirestoreException(e: java.lang.Exception) : Unit
+          } 
+          \umlclass[x=7,y=3,scale = 0.8,fill=white!10]{Month}{
+            + id :String \\
+            - prevBalance : Long \\
+            + currBalance: Long \\
+            + monthDate : Date \\
+            + debit : Long \\
+            + credit : Long
+          }{
+          } 
+
+          \umlclass[x=9,y=-1,scale = 0.8,fill=white!10]{SpendType}{
+            + id :String \\
+            - prevBalance : Long \\
+            + currBalance: Long \\
+            + monthDate : Date \\
+            + debit : Long \\
+            + credit : Long
+          }{
+          } 
+          \umlclass[x=8,y=-5,scale = 0.8,fill=white!10]{User}{
+            - IS\_ADMIN:Boolean \\
+            name : String \\
+            familyname : String \\
+            id : String \\
+            email : String
+          }{
+          } 
+
+          \umlclass[x=9,y=-9,scale = 0.8,fill=white!10]{Operation}{
+            + id :String \\
+            - ref:String \\
+            + type :String \\
+            + value : Long \\
+            + date : Date  \\
+
+          }{
+          } 
+          \umlclass[x=0,y=-5,scale = 0.8,fill=yellow!10]{ViewModel}{
+            }{
+            } 
+          
+          \umlclass[x=1,y=-9,scale = 0.8,fill=yellow!10]{MonthViewModel}{
+              - dataService: DataService
+              + monthList :  Flow<List<Month>$ $> \\
+            }{
+              + constructor(dataService: DataService) \\ % TODO: find the correct way to represent the constructor
+              + onMonthSelect(mId: String,m:Int,y:Int, open: (String) -> Unit): Unit \\
+              + getOperationFlow(id:String?): Flow<List<Operation>$ $> \\
+            } 
+        
+        \umlinherit[geometry=|-|,anchors=50 and -50]{MonthViewModel}{ViewModel}
+        \umlinherit[geometry=|-|]{FireBaseDataService}{DataService}
+        
+        \umlaggreg[geometry=|-,anchors=80 and 0]{Operation}{User}
+        \umlaggreg[geometry=|-,anchors=50 and 0]{Operation}{SpendType}
+        \umlaggreg[geometry=-|,anchors=180 and -170]{MonthViewModel}{DataService}
+        \umlaggreg[]{MonthViewModel}{Operation}
+        \umlaggreg[geometry=|-,anchors=20 and 0]{MonthViewModel}{Month}
+        \end{tikzpicture}
+        \caption{le diagramme de Class pour Sprint 2}
+        \label{fig : Class diagram Sprint 1}
+    \end{figure}

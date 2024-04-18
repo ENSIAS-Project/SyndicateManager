@@ -60,7 +60,7 @@ fun ListUsers(
 
                     users.forEach { option ->
                         OptionItem(
-                            option = option.id
+                            option = option.name
                         ) {
                             selectedOption = option.name
                             contributionUiState.user = option

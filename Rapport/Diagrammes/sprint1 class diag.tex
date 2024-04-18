@@ -1,0 +1,152 @@
+\begin{figure}
+        \begin{tikzpicture}
+        
+        \umlclass[x=0,y=0,type=interface,scale = 0.55,fill=blue!10]{AccountService}{
+          }{ 
+            + authenticate (login : LoginUiModel, onResult: (User) -> Unit) :Unit\\
+            + logout() : Unit \\
+            + Register(Register: RegisterUiModel, onResult: (User) -> Unit) : Unit \\
+            + reset(email: String,onResult: () -> Unit) : Unit \\
+          }
+          \umlclass[x=9,y=0,scale = 0.55,fill=blue!10]{FireBaseAccountService}{
+          }{ 
+            - resetPasswordListener(task: Task<Void>, onResult: () -> Unit) :Unit\\
+            - loginListerner(task: Task<AuthResult>,onResult: (User) -> Unit) : Unit \\
+            - registerListerner(t:Task<AuthResult>,r:RegisterUiModel,onResult:(User)->Unit) :Unit \\
+            - setUserData(t:Task<AuthResult>,u:String?,r:RegisterUiModel,onResult:(User)->Unit) : Unit \\
+            - authException(e:Exception) :AuthException\\
+            - getUserData(task:Task<AuthResult>,uid:String?,onResult:(User) -> Unit) :Unit\\
+            - ongetUserDataSucessListener(document: DocumentSnapshot,onResult: (User) -> Unit) :Unit\\
+            - onFirestoreException(e: java.lang.Exception) :Unit\\
+          }
+          \umlclass[x=1,y=-3,scale = 0.55,,fill=green!10]{RegisterUiModel}{
+            + prenom : String \\
+            + nom : String \\
+            + email : String \\
+            + password : String
+          }{}
+            \umlclass[x=-2,y=-3,type=interface,scale = 0.55,fill=green!10]{LoginUiModel}{
+            + email : String \\
+            + password : String
+          }{}
+              \umlclass[x=1,y=-6,scale = 0.55,fill=orange!10]{LoginUiState}{
+            + email : String \\
+            + password : String \\
+            + logging : Boolean \\
+            + validMail : Boolean
+          }{}
+              \umlclass[x=4,y=-6,scale = 0.55,fill=orange!10]{ResetUiState}{
+            + email : String \\
+            + isMailValid : Boolean
+          }{}
+          
+              \umlclass[x=-2,y=-6,scale = 0.55,fill=orange!10]{RegisterUiState}{
+            + prenom : String \\
+            + nom : String \\
+            + email : String \\
+            + password : String \\
+            + validMail : Boolean
+          }{}
+        
+          \umlclass[x=8,y=-3,scale = 0.55,fill=red!10]{Exception}{
+          }{
+          } 
+          
+          \umlclass[x=8,y=-5,type=abstract,scale = 0.55,fill=red!10]{AuthException}{
+          }{
+            + getmessage() : Int
+          }
+            \umlclass[x=12,y=-3,scale = 0.55,fill=red!10]{DeadLineExceeded}{
+          }{
+          }
+             \umlclass[x=12,y=-4,scale = 0.55,fill=red!10]{InvalidCredentialsException}{
+          }{
+          }
+        
+           \umlclass[x=12,y=-5,scale = 0.55,fill=red!10]{InvalidUserIdException}{
+          }{
+          }
+        
+          \umlclass[x=12,y=-6,scale = 0.55,fill=red!10]{MalFormatedEmailException}{
+          }{
+          }
+        
+            \umlclass[x=12,y=-7,scale = 0.55,fill=red!10]{RegisterPasswordMismatchException}{
+          }{
+          }
+        
+              \umlclass[x=12,y=-8,scale = 0.55,fill=red!10]{UndefinedException}{
+          }{
+          } 
+        
+          \umlclass[x=12,y=-9,scale = 0.55,fill=red!10]{UserDataMissingException}{
+          }{
+          } 
+        
+            \umlclass[x=4,y=-3,scale = 0.55,fill=white!10]{User}{
+            - IS\_ADMIN:Boolean \\
+            name : String \\
+            familyname : String \\
+            id : String \\
+            email : String
+          }{
+          } 
+        \umlclass[x=8,y=-7,scale = 0.55,fill=yellow!10]{ViewModel}{
+          }{
+          } 
+        
+        \umlclass[x=4,y=-11,scale = 0.55,fill=yellow!10]{AuthViewModel}{
+            + loginUistate :  MutableState<LoginUiState> \\
+            + registerUistate : MutableState<RegisterUiState> \\
+            + resetUiState : MutableState<ResetUiState> \\
+          }{
+            +Constructor(accountService : AccountService) \\ % TODO: find the correct way to represent the constructor
+            + login(openAndPopUp:(String,String)->Unit,toggleAdminUservalues:(isadmin:Boolean,logged:Boolean)->Unit)  : Unit \\
+            + loginExceptionHandler(e: AuthException) : Unit \\
+            + setUser(user: User) : Unit \\
+            + signupscreen(open: ( String) -> Unit) : Unit \\
+            + setLoginEmail(newemail:String) : Unit \\
+            + setLoginPassword(newpass:String) : Unit \\
+            + onLoginEmailValidation(valid: Boolean) :  Unit \\
+            + register(openAndPopUp: (String, String) -> Unit) : Unit \\
+            + setRegisterName(s: String) : Unit \\
+            + setFamilyname(s: String) : Unit \\
+            + setEmail(s: String) : Unit \\
+            + setRegisterPass(s: String) : Unit \\
+            + setVerificationPass(s: String) : Unit \\
+            + onRegisterEmailValidation(valid: Boolean) : Unit \\
+            + resetSetEmail(s: String) : Unit \\
+            + resetPassword(openAndPopUp: (String, String) -> Unit) : Unit \\
+            + onResetEmailValidation(b: Boolean) : Unit \\
+            + resetPasswordScreen(open: (String) -> Unit) : Unit 
+          } 
+        
+        \umlinherit{AuthViewModel}{ViewModel}
+        \umlinherit{FireBaseAccountService}{AccountService}
+        \umlinherit{AuthException}{Exception}
+        \umlinherit{DeadLineExceeded}{AuthException}
+        \umlinherit{InvalidCredentialsException}{AuthException}
+        \umlinherit{InvalidUserIdException}{AuthException}
+        \umlinherit{MalFormatedEmailException}{AuthException}
+        \umlinherit{RegisterPasswordMismatchException}{AuthException}
+        \umlinherit{UndefinedException}{AuthException}
+        \umlinherit{UserDataMissingException}{AuthException}
+        
+        \umlaggreg[]{AuthViewModel}{LoginUiState}
+        \umlaggreg[]{AuthViewModel}{RegisterUiState}
+        \umlaggreg[]{AuthViewModel}{ResetUiState}
+        
+        \umlassoc[]{User}{AccountService}
+        \umlassoc[]{AuthException}{AuthViewModel}
+        \umlassoc[]{User}{AuthViewModel}
+        \umlassoc[]{LoginUiModel}{AuthViewModel}
+        \umlassoc[]{RegisterUiModel}{AuthViewModel}
+        \umlassoc [geometry=|-, anchors=-160 and 170,] {AccountService}{AuthViewModel}
+        
+        %\umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
+        %\umlimport[geometry=|-, anchors=90 and 50, name=import]{sp2}{sp1}
+        %\umlinherit[geometry=-|]{D}{B}
+        \end{tikzpicture}
+        \caption{le diagramme de Class pour Sprint 1}
+        \label{fig : Class diagram Sprint 1}
+    \end{figure}

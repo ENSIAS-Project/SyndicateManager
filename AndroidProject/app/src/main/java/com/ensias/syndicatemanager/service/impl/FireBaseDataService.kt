@@ -263,54 +263,6 @@ class FireBaseDataService @Inject constructor(
             throw NotCurrentMonthException()
         }
     }
-    /*override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
-        // check if it is th ecurrent month
-        if(checkCurrentMonth(op)){
-          val opval = op.value
-           val monthval =store
-                .collection(MONTH_DATA_COLLECTION)
-                .whereEqualTo(MONTHDATE,getMonthDateBasedOnOpDate(op.date))
-                .get()
-                .await()
-            var newdebit = monthval.documents.get(0).getLong(DEBIT)?:0
-            var newcredit = monthval.documents.get(0).getLong(CREDIT)?:0
-            val newPrevBalance = monthval.documents.get(0).getLong(PREV_BALANCE)?:0
-            var newCurrBalance = monthval.documents.get(0).getLong(CURR_BALANCE)?:0
-            val mid = monthval.documents.get(0).id
-
-            store
-                .collection(MONTH_DATA_COLLECTION)
-                .document(mid)
-                .collection(LIST)
-                .document(op.id)
-                .delete()
-                .addOnSuccessListener {
-                    if(op.type==EXPENSE){
-                        newCurrBalance += opval
-                        newcredit -= opval
-                    }else{
-                        newCurrBalance -= opval
-                        newdebit -= opval
-                    }
-                    val toStore  = hashMapOf(
-                        CREDIT to newcredit,
-                        CURR_BALANCE to newCurrBalance,
-                        DEBIT to newdebit,
-                        PREV_BALANCE to newPrevBalance
-                    )
-                    store.collection(MONTH_DATA_COLLECTION)
-                        .document(mid)
-                        .set(toStore, SetOptions.merge())
-                        .addOnSuccessListener { onResult() }
-                        .addOnFailureListener { onFirestoreException(it) }
-                }
-                .addOnFailureListener{onFirestoreException(it)}
-                .await()
-        }else{
-            throw NotCurrentMonthException()
-        }
-    }*/
-
     private fun checkCurrentMonth(op: Operation): Boolean {
         val opdate = getMonthDateBasedOnOpDate(op.date)
         val thisdate = getMonthDateBasedOnOpDate(Calendar.getInstance().time)

@@ -83,7 +83,7 @@ fun AddContributionContent(
         Spacer(modifier = Modifier.padding(20.dp))
 
         SuffixTextField(
-            value = contribUiState.amount.toString(), onValueChange = {newText -> contribUiState.amount = newText.toIntOrNull() ?: 0},
+            value = contribUiState.amount.toString(), onValueChange = onValueChanged,
             suffixText = "DH",
         )
         Spacer(modifier = Modifier.padding(50.dp))
