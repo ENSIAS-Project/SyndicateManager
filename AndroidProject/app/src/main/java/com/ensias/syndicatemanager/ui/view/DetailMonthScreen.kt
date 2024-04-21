@@ -49,7 +49,12 @@ fun DetailMonthScreen(
 ) {
     val opList = monthViewModel.getOperatioFlow(id)
         .collectAsStateWithLifecycle(emptyList())
-    DetailMonthContent(monthViewModel.isADMIN,month,year, monthViewModel::deleteOperation,opList.value)
+    DetailMonthContent(
+        ISADMIN = monthViewModel.isADMIN,
+        month = month,
+        year = year,
+        onDelete = monthViewModel::deleteOperation,
+        list = opList.value)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

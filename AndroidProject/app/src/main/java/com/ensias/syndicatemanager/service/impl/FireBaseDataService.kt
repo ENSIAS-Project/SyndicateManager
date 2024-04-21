@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date
+import java.util.NoSuchElementException
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -41,6 +42,7 @@ class FireBaseDataService @Inject constructor(
     private val LIST = "list"
     private val USERS = "Users"
     private val EXPENSE = "s"
+    private val LOG = "FirebaseDataService"
     override val monthList: Flow<List<Month>>
         get() = auth.currentUser.run {
             store
@@ -64,6 +66,7 @@ class FireBaseDataService @Inject constructor(
 
 
     override fun getOperationsFlow(id: String): Flow<List<Operation>> { //tested
+        Log.d(LOG,"D getOperationsFlow called with id : ${id}")
      return flow {
          val s = store.collection(MONTH_DATA_COLLECTION)
              .document(id)
@@ -76,15 +79,18 @@ class FireBaseDataService @Inject constructor(
              val operation :Operation
              val idop = doc.id
              val type = doc.getString("type")?:continue
+             var date = doc.getDate("date")
              val ref = doc.getString("ref") ?:continue
              val value = doc.getLong("value")?:continue
-
+             if(! (date is Date)){
+                 date = Calendar.getInstance().time
+             }
              if(type ==EXPENSE){
                  val spendType = getexpenseType(ref);
-                 operation = Operation(id = idop,ref,type = type, value = value, spendtype = spendType)
+                 operation = Operation(id = idop,ref = ref,date = date!!,type = type, value = value, spendtype = spendType)
              }else{
                  val user = getUser(ref);
-                 operation = Operation(id = idop,ref,type = type, value = value, user = user)
+                 operation = Operation(id = idop,ref = ref,date = date!!,type = type, value = value, user = user)
              }
             operations.add(operation)
          }
@@ -94,6 +100,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     private suspend fun getexpenseType(id:String):SpendType{ //tested
+        Log.d(LOG,"D getExpenseType called with id : ${id}")
         var ret = SpendType()
         expensesTypes.first{true}.forEach{
             if (it.id==id){
@@ -109,8 +116,10 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     private suspend fun getUser(id:String):User{
+        Log.d(LOG,"D getUser called with id : ${id}")
         var ret = User()
-        users.first { true }.forEach{
+        users.first { true }
+            .forEach{
             if(it.id==id){
                 ret = it
             }
@@ -124,6 +133,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     override fun addExpenseType(name: String, onResult: () -> Unit) {
+        Log.d(LOG,"D addExpense called with name : ${name}")
         val s = SpendType(name = name)
         store
             .collection(SPEND_TYPES_COLLECTION)
@@ -147,6 +157,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     fun updateMonth(m: Month, onResult: () -> Unit) {
+        Log.d(LOG,"D UpdateMonth called month : ${m}")
         val toStore  = hashMapOf(
             CREDIT to m.credit,
             CURR_BALANCE to m.currBalance,
@@ -163,6 +174,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     private suspend fun addMonth(m: Month):Month { // need testing
+        Log.d(LOG,"D add Month called with month: ${m}")
         val toStore  = hashMapOf(
             CREDIT to m.credit,
             CURR_BALANCE to m.currBalance,
@@ -195,6 +207,7 @@ class FireBaseDataService @Inject constructor(
     }
     @Throws(DataServiceExceptions::class)
     override suspend fun addOperation(op: Operation, onResult: () -> Unit) {
+        Log.d(LOG,"D addOperation called with an op value : ${op.value}")
         if(checkCurrentMonth(op)){
             //get the month
             val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
@@ -227,8 +240,10 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
+        Log.d(LOG,"D remove operation called with date : ${op.date}")
         var calledonce = true
         if(checkCurrentMonth(op)){
+            Log.d(LOG,"checkCurrentMonth returned true")
             //get the month
             val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
             //build data to store
@@ -260,17 +275,21 @@ class FireBaseDataService @Inject constructor(
                     }
                 }.addOnFailureListener{ onFirestoreException(it)}
         }else{
+            Log.d(LOG,"checkCurrentMonth returned false")
             throw NotCurrentMonthException()
         }
     }
     private fun checkCurrentMonth(op: Operation): Boolean {
+        Log.d(LOG,"D CheckCurrentMonth called")
         val opdate = getMonthDateBasedOnOpDate(op.date)
         val thisdate = getMonthDateBasedOnOpDate(Calendar.getInstance().time)
+        Log.d(LOG,"D CheckCurrentMonth will return ${opdate == thisdate}")
         return opdate == thisdate
     }
 
     @Throws(DataServiceExceptions::class)
     private suspend fun getMonthByDateOrCreateNewOne(time: Date): Month {
+        Log.d(LOG,"D getMonthByDateOrCreateNewOne called with date : ${time}")
         val v =  store.collection(MONTH_DATA_COLLECTION)
             .whereEqualTo(MONTHDATE,time)
             .get()
@@ -280,21 +299,27 @@ class FireBaseDataService @Inject constructor(
             .await()
             .toObjects<Month>()
         if(v.size!=0){
+            Log.d(LOG,"D getMonthByDateOrCreateNewOne month found with id: ${v[0].id}")
             return v[0]
         }
         // month not found create one
-        val p = store.collection(MONTH_DATA_COLLECTION)
-            .orderBy(MONTHDATE)
-            .get() .addOnFailureListener{
-                onFirestoreException(it)
-            }
-            .await()
-        val lastMonthBalance = p.last { true }.getLong(CURR_BALANCE)?:0
-        val cal = Calendar.getInstance()
+        Log.d(LOG,"D getMonthByDateOrCreateNewOne will create new one")
+
+        var newMonth : Month
         val date = getMonthDateBasedOnOpDate(time)
-        val newMonth = Month(prevBalance = lastMonthBalance, monthDate = date, currBalance = lastMonthBalance)
+        try {
+            val p = store.collection(MONTH_DATA_COLLECTION)
+                .orderBy(MONTHDATE)
+                .get()
+                .await()
+                val lastMonthBalance = p.last { true }.getLong(CURR_BALANCE)?:0
+                newMonth = Month(prevBalance = lastMonthBalance, monthDate = date, currBalance = lastMonthBalance)
+        }catch (e:NoSuchElementException){
+            newMonth = Month(prevBalance = 0, monthDate = date, currBalance = 0)
+        }
         return addMonth(newMonth)
     }
+
     @Throws(DataServiceExceptions::class)
     fun onFirestoreException(e: java.lang.Exception){
         throw e // todo: read documentation and decide which types of exceptions to implement
