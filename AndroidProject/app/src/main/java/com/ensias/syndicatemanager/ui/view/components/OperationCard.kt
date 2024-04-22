@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
+import java.util.Calendar
 import java.util.Date
 
 @Composable
@@ -32,15 +33,22 @@ fun OperationCard(op:Operation){
 
 }
 fun date(date: Date):String{
-    return "${date.day}/${date.month+1}/${date.year.toString().replaceFirst("1","")}"
+    val c = Calendar.getInstance()
+    c.time = date
+    return "${c.get(Calendar.DAY_OF_MONTH)}/${c.get(Calendar.MONTH)+1}/${c.get(Calendar.YEAR)}"
 }
 @PreviewLightDark
 
 @Composable
 fun PreviewListMonth() {
     SyndicateManagerTheme {
+        val c = Calendar.getInstance()
+        c.set(Calendar.DAY_OF_MONTH,3)
+        c.set(Calendar.MONTH,1)
+        c.set(Calendar.YEAR,2024)
         OperationCard(
-            Operation()
+
+            Operation(date= c.time)
         )
     }
 }

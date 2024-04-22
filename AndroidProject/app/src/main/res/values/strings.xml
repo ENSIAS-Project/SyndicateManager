@@ -32,7 +32,7 @@
     <string name="MODIFIER_UN_TYPE_DEPENSE">Modifier Un  Type</string>
     <string name="MONTANT">Montant</string>
     <string name="DATE">Date</string>
-    <string name="DATE_MISMATCH_EXCEPTRION">impossible de supprimer une ancien opération</string>
+    <string name="DATE_MISMATCH_EXCEPTRION">impossible d\'ajouter ou supprimer une ancien opération</string>
     <string name="AFFECTER_UN_UTILISATEUR">Affecter un utilisateur</string>
 
 

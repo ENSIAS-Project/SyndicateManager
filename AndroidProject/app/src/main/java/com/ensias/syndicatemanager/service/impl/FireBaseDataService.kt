@@ -11,12 +11,15 @@ import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.DataService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.dataObjects
+import com.google.firebase.firestore.snapshots
 import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date
@@ -67,35 +70,24 @@ class FireBaseDataService @Inject constructor(
 
     override fun getOperationsFlow(id: String): Flow<List<Operation>> { //tested
         Log.d(LOG,"D getOperationsFlow called with id : ${id}")
-     return flow {
-         val s = store.collection(MONTH_DATA_COLLECTION)
+    // return flow {
+        return store.collection(MONTH_DATA_COLLECTION)
              .document(id)
              .collection(LIST)
              .orderBy("date")
-             .get()
-             .await()
-            val operations = mutableListOf<Operation>()
-         for (doc in s){
-             val operation :Operation
-             val idop = doc.id
-             val type = doc.getString("type")?:continue
-             var date = doc.getDate("date")
-             val ref = doc.getString("ref") ?:continue
-             val value = doc.getLong("value")?:continue
-             if(! (date is Date)){
-                 date = Calendar.getInstance().time
-             }
-             if(type ==EXPENSE){
-                 val spendType = getexpenseType(ref);
-                 operation = Operation(id = idop,ref = ref,date = date!!,type = type, value = value, spendtype = spendType)
-             }else{
-                 val user = getUser(ref);
-                 operation = Operation(id = idop,ref = ref,date = date!!,type = type, value = value, user = user)
-             }
-            operations.add(operation)
-         }
-         emit(operations)
-     }
+             .snapshots()
+            .map { querySnapshot ->
+                val operations = querySnapshot.toObjects<Operation>()
+                operations.forEach { op ->
+                    Log.d(LOG,"got operation with date : ${op.date}")
+                    if(op.type ==EXPENSE){
+                        op.spendtype = getexpenseType(op.ref)
+                    }else{
+                        op.user = getUser(op.ref)
+                    }
+                }
+                operations
+            }
     }
 
     @Throws(DataServiceExceptions::class)
@@ -279,7 +271,7 @@ class FireBaseDataService @Inject constructor(
             throw NotCurrentMonthException()
         }
     }
-    private fun checkCurrentMonth(op: Operation): Boolean {
+    override fun checkCurrentMonth(op: Operation): Boolean {
         Log.d(LOG,"D CheckCurrentMonth called")
         val opdate = getMonthDateBasedOnOpDate(op.date)
         val thisdate = getMonthDateBasedOnOpDate(Calendar.getInstance().time)

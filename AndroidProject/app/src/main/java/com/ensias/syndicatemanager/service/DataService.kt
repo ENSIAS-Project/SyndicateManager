@@ -22,6 +22,7 @@ interface DataService {
     suspend fun addOperation (op :Operation, onResult: () -> Unit)
 
     suspend fun removeOperation(op: Operation, onResult: ()->Unit)
+    abstract fun checkCurrentMonth(op: Operation): Boolean
 
 
 }

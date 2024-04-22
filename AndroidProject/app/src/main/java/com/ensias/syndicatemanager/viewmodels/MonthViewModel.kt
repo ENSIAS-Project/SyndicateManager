@@ -24,6 +24,7 @@ class MonthViewModel @Inject constructor(
     ):ViewModel(){
     val isADMIN = Repo.user.IS_ADMIN
     var monthList = dataService.monthList
+    private var lastDeletedOperationId = ""
 
 
 
@@ -40,19 +41,26 @@ class MonthViewModel @Inject constructor(
             }
         }
 
-    fun deleteOperation(op: Operation) {
-        Log.d("test","called")
-         viewModelScope.launch {
-             try{
-                 if(isADMIN){
-                     dataService.removeOperation(op) { onDeleteSucseeded() }
-                 }
-             }catch(e:NotCurrentMonthException) {
-                SnackbarManager.showMessage(e.getmessage())
-             }catch (e:Exception){
-                 SnackbarManager.showMessage(UndefinedException())
-             }
-         }
+    fun deleteOperation(op: Operation): Boolean {
+        Log.d("MonthViewModel","delete operation called with op id: ${op.id}")
+        var toReturn = false
+        if(lastDeletedOperationId!=op.id){
+            lastDeletedOperationId = op.id
+            toReturn = dataService.checkCurrentMonth(op)
+            viewModelScope.launch {
+                try{
+                    if(isADMIN){
+                        dataService.removeOperation(op) { onDeleteSucseeded() }
+                    }
+                }catch(e:NotCurrentMonthException) {
+                    SnackbarManager.showMessage(e.getmessage())
+
+                }catch (e:Exception){
+                    SnackbarManager.showMessage(UndefinedException())
+                }
+            }
+        }
+        return toReturn
     }
 
     private fun onDeleteSucseeded() {

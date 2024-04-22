@@ -10,6 +10,6 @@ data class Operation(
     val type :String = "",
     val value : Long = 0,
     val date : Date = Date(),
-    val spendtype :SpendType = SpendType(), //TODO : FIX IIIIT
-    val user : User = User()
+    var spendtype :SpendType = SpendType(), //TODO : FIX IIIIT
+    var user : User = User()
 )
