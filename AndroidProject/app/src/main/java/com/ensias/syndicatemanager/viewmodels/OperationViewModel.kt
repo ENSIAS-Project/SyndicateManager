@@ -4,9 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Operation
+import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.AccountService
 import com.ensias.syndicatemanager.service.DataService
+import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import com.ensias.syndicatemanager.ui.view.SnackbarManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,10 +18,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OperationViewModel @Inject constructor(
-    private val accountService : AccountService,
     private val dataService: DataService
 
 ) : ViewModel(){
+    private val CONTRIBUTION = "c"
+    private val EXPENSE = "s"
+    val users = dataService.users
+    val contribiutionUiState = mutableStateOf(ContributionUiState())
     var expenseUiState = mutableStateOf(ExpenseUiState())
     val expensesTypes = dataService.expensesTypes
     fun addExpense() {
@@ -27,16 +33,25 @@ class OperationViewModel @Inject constructor(
             val op = Operation(
                 date = expenseUiState.value.date,
                 ref = expenseUiState.value.ref,
-                type = expenseUiState.value.type,
+                type = EXPENSE,
                 value = expenseUiState.value.amount.toLong(),
             )
-            dataService.addOperation(op) { addexpenseResult() }
+            try {
+                dataService.addOperation(op) { addexpenseResult() }
+            }catch (e:NotCurrentMonthException){
+                SnackbarManager.showMessage(e.getmessage())
+            }
         }
-            SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
-        }
+    }
 
-    private fun addexpenseResult():Unit {
+    private fun addexpenseResult() {
         expenseUiState.value = expenseUiState.value.copy(pendingOperation = false )
+        SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
+    }
+
+    private fun addcontributionResult():Unit {
+        contribiutionUiState.value = contribiutionUiState.value.copy(pendingOperation = false )
+        SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
     }
 
 
@@ -61,6 +76,31 @@ class OperationViewModel @Inject constructor(
         }
     }
 
+    fun onContribValueChange(newval: String) {
+        val int = newval.toIntOrNull()
+        if(int is Int){
+            contribiutionUiState.value = contribiutionUiState.value.copy(amount = int)
+        }else{
+            contribiutionUiState.value = contribiutionUiState.value.copy(amount = 0)
+        }
+    }
+
+    fun addContribution() {
+        viewModelScope.launch {
+            contribiutionUiState.value = contribiutionUiState.value.copy(pendingOperation = true)
+            val op = Operation(
+                date = contribiutionUiState.value.date,
+                ref = contribiutionUiState.value.user.id,
+                type = CONTRIBUTION,
+                value = contribiutionUiState.value.amount.toLong(),
+            )
+            try {
+                dataService.addOperation(op) { addcontributionResult() }
+            }catch (e:NotCurrentMonthException){
+                SnackbarManager.showMessage(e.getmessage())
+            }
+        }
+    }
 
 
 }

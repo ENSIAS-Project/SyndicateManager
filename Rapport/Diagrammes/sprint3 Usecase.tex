@@ -1,0 +1,36 @@
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=3,fill=!10]{Sprint 3}
+            \umlusecase[name=depensetype,x=0,y=2,fill=orange!30]{Gérer les types de dépenses }
+            \umlusecase[name=depense,x=0,y=-0,fill=red!30]{Gérer les dépenses }
+            \umlusecase[name=cotisation,y=-3,fill=green!30]{Gérer les cotisations}
+            \umlusecase[name=addexpense,x=7,y=-1,fill=red!10]{Ajouter dépense}
+            \umlusecase[name=updatexpense,x=7,y=-2,fill=red!10]{Supprimer dépense}
+
+            \umlusecase[name=addexpensetype,x=7,y=1,fill=orange!10]{Ajouter type de dépense}  
+            \umlusecase[name=modifyexpensetype,x=7,y=3,fill=orange!10]{Modifier type de dépense}  
+
+            \umlusecase[name=addcontrib,x=7,y=-4,fill=green!10]{Ajouter cotisation}
+            \umlusecase[name=deletecontrib,x=7,y=-5,fill=green!10]{Supprimer cotisation}
+            \end{umlsystem}
+            \umlactor[x=-2,y=-1]{administrateur}
+
+        \umlassoc[anchor1=0 , anchor2=180]{administrateur}{depensetype}
+        \umlassoc[anchor1=0 , anchor2=180]{administrateur}{depense}
+        \umlassoc[anchor1=0 , anchor2=180]{administrateur}{cotisation}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=-90]{addexpensetype}{depensetype}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=90]{modifyexpensetype}{depensetype}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=-10]{addexpense}{depense}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=-90]{updatexpense}{depense}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=-10]{addcontrib}{cotisation}
+        \umlHVextend[name=ext,anchor1=180 , anchor2=-30]{deletecontrib}{cotisation}
+
+       % \umlHVinclude[name=incl]{addSpending}{auth}
+        %\umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+
+    \end{tikzpicture}
+
+\end{figure}
+
+%and this is a reference to the usecase fig : \ref{fig : usecase 1}

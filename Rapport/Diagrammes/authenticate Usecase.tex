@@ -1,0 +1,30 @@
+\begin{figure}[h!]
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=3, fill=red!10]{Sprint1}
+            \umlusecase[name = CONNECT]{se connecter}
+            \umlusecase[name = SIGNUP, y = -2]{s'inscrire}
+            \umlusecase[name = renewPassword, y = -4]{renouvler le mot de passe} 
+            \umlusecase[name = AUTH,x = 5,y = -1]{s'authentifier}  
+            \end{umlsystem}
+        
+            \umlactor[x=-2]{utilisateur}
+            \umlactor[x =-2,y=-3]{administrateur}
+        
+        \umlassoc{utilisateur}{CONNECT}
+        \umlassoc{utilisateur}{SIGNUP}
+        \umlassoc{utilisateur}{renewPassword}
+        \umlassoc{administrateur}{CONNECT}
+        \umlassoc{administrateur}{renewPassword}
+
+        \umlHVinclude[name=incl]{CONNECT}{AUTH}
+       % \umlHVinclude[name=incl]{addSpending}{auth}
+        %\umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+
+    \end{tikzpicture}
+    \caption{le diagramme de cas d'utilisation pour Sprint 1}
+\end{center}
+    \label{fig : Sprint 1 usecase }
+\end{figure}
+
+%and this is a reference to the usecase fig : \ref{fig : usecase 1}

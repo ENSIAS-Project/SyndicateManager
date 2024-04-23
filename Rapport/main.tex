@@ -4,7 +4,7 @@
 \usepackage{graphicx} % package to load images
 \usepackage[french]{babel} % set language to french
 \usepackage{titlesec} % customise the look of the start of the chapters
-\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry} % set papersize and margins
+\usepackage[a4paper,width=160mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry} % set papersize and margins
 \setlength{\headheight}{14.49998pt} % needed for fancyhdr
 \usepackage{fancyhdr} % add headers and footers 
 \pagestyle{fancy} % header type
@@ -17,11 +17,13 @@
 \usepackage{caption} % for captioning
 \usepackage{subcaption} % for multiple figs 
 \usepackage{biblatex} % for references
-\addbibresource{ref.bib} % set file with refs
+\addbibresource{reference.bib} % set file with refs
 \usepackage{csquotes} % biblatex recommend it
 \usepackage{lipsum} % generate dummy text
+\usepackage{array} % for tables
+\usepackage{wrapfig}
 % for UML diagrammes
-%\usepackage{tikz-uml}
+\usepackage{tikz-uml}
 % set default path to images
 \graphicspath{ {Images/}}  
 
@@ -49,23 +51,25 @@
 %\renewcommand*\contentsname{Table des matieres}
 %\renewcommand{\listfigurename}{List des Figures}
 %\renewcommand{\listtablename}{Liste des tables}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 \begin{document}
 % title page    
 \begin{titlepage}
     \begin{minipage}[t]{0.2\textwidth}    %% b or t, default is c
-        \includegraphics[width=\linewidth]{ensias.png}
+      \centering\includegraphics[width=\linewidth]{ensias.png}
     \end{minipage}%
-  \begin{minipage}[t][2cm]{0.6\textwidth}
+  \begin{minipage}[t][2cm]{0.5\textwidth}
     \centering\bfseries\large
     \hfill
   \end{minipage}%
     \begin{minipage}[t]{0.2\textwidth}
-    \includegraphics[width=\linewidth]{um5.png}
+      \centering\includegraphics[width=\linewidth]{um5.png}
   \end{minipage}
   \begin{center}
   \vspace{0.2cm}
-  {\huge Ecole Nationale Supérieure d’Informatique et d’Analyse des Systèmes}\\
+  {\huge Ecole Nationale Supérieure d'Informatique et d'Analyse des Systèmes}\\
   \vspace{0.5cm}
   \textbf{FILIERE : GENIE LOGICIEL}
   \vspace{0.5cm}
@@ -77,13 +81,13 @@
   \vspace{1.5cm}
   \vfill
   \begin{minipage}[t]{0.45\textwidth}    %% b or t, default is c
-        \textit{Realise par :}\\
+    \raggedright\textit{Realise par :}\\
 
         BAKHOUCH Nisrine\\
         EL BOUZIYANI Anas
     \end{minipage}%
     \begin{minipage}[t]{0.45\textwidth}    %% b or t, default is c
-        \textit{Sous la direction de :}\\
+      \raggedright\textit{Sous la direction de :}\\
         
         Pr EL HAMLAOUI Mahmoud
     \end{minipage}%
@@ -123,17 +127,16 @@
 \chapter{Contexte générale  de projet} % add or remove * to enable/disable numbering
 \input{Chapters/chapitre1}
 
-\chapter{Conception de Projet}
+\chapter{Spécification techniques}
 \input{Chapters/chapitre2}
 
-\chapter{Realisation}
+\chapter{Deroulement des Sprints}
 \input{Chapters/chapitre3}
 
 \appendix
 
 \addcontentsline{toc}{chapter}{ Bibliographie}
 \printbibliography
-
 \chapter{annexes} % add or remove * to enable/disable numbering
 \input{Chapters/annexes}
 

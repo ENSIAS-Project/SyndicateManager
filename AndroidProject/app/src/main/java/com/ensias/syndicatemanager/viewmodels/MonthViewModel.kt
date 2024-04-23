@@ -1,8 +1,12 @@
 package com.ensias.syndicatemanager.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensias.syndicatemanager.MONTHDETAILS
+import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.di.Repo
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.exceptions.impl.UndefinedException
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.service.AccountService
@@ -16,10 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MonthViewModel @Inject constructor(
-    private val userService: AccountService,
     private val dataService: DataService,
     ):ViewModel(){
+    val isADMIN = Repo.user.IS_ADMIN
     var monthList = dataService.monthList
+    private var lastDeletedOperationId = ""
 
 
 
@@ -35,4 +40,30 @@ class MonthViewModel @Inject constructor(
                 dataService.getOperationsFlow(id)
             }
         }
+
+    fun deleteOperation(op: Operation): Boolean {
+        Log.d("MonthViewModel","delete operation called with op id: ${op.id}")
+        var toReturn = false
+        if(lastDeletedOperationId!=op.id){
+            lastDeletedOperationId = op.id
+            toReturn = dataService.checkCurrentMonth(op)
+            viewModelScope.launch {
+                try{
+                    if(isADMIN){
+                        dataService.removeOperation(op) { onDeleteSucseeded() }
+                    }
+                }catch(e:NotCurrentMonthException) {
+                    SnackbarManager.showMessage(e.getmessage())
+
+                }catch (e:Exception){
+                    SnackbarManager.showMessage(UndefinedException())
+                }
+            }
+        }
+        return toReturn
+    }
+
+    private fun onDeleteSucseeded() {
+            SnackbarManager.showMessage(R.string.OPERATION_SUCESSFUL)
+    }
 }

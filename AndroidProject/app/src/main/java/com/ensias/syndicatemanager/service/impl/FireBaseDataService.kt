@@ -1,7 +1,9 @@
 package com.ensias.syndicatemanager.service.impl
 
 
+import android.util.Log
 import com.ensias.syndicatemanager.exceptions.DataServiceExceptions
+import com.ensias.syndicatemanager.exceptions.impl.NotCurrentMonthException
 import com.ensias.syndicatemanager.models.Month
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
@@ -9,15 +11,19 @@ import com.ensias.syndicatemanager.models.User
 import com.ensias.syndicatemanager.service.DataService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.dataObjects
+import com.google.firebase.firestore.snapshots
 import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 import java.util.Date
+import java.util.NoSuchElementException
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -39,6 +45,7 @@ class FireBaseDataService @Inject constructor(
     private val LIST = "list"
     private val USERS = "Users"
     private val EXPENSE = "s"
+    private val LOG = "FirebaseDataService"
     override val monthList: Flow<List<Month>>
         get() = auth.currentUser.run {
             store
@@ -53,7 +60,7 @@ class FireBaseDataService @Inject constructor(
                 .collection(SPEND_TYPES_COLLECTION)
                 .dataObjects()
         }
-    val users : Flow<List<User>>
+    override val users : Flow<List<User>>
         get()=auth.currentUser.run{
             store
                 .collection(USERS)
@@ -62,36 +69,30 @@ class FireBaseDataService @Inject constructor(
 
 
     override fun getOperationsFlow(id: String): Flow<List<Operation>> { //tested
-     return flow {
-         val s = store.collection(MONTH_DATA_COLLECTION)
+        Log.d(LOG,"D getOperationsFlow called with id : ${id}")
+    // return flow {
+        return store.collection(MONTH_DATA_COLLECTION)
              .document(id)
              .collection(LIST)
              .orderBy("date")
-             .get()
-             .await()
-            val operations = mutableListOf<Operation>()
-         for (doc in s){
-             val operation :Operation
-             val idop = doc.id
-             val type = doc.getString("type")?:continue
-             val ref = doc.getString("ref") ?:continue
-             val value = doc.getLong("value")?:continue
-
-             if(type ==EXPENSE){
-                 val spendType = getexpenseType(ref);
-                 operation = Operation(id = idop,ref,type = type, value = value, spendtype = spendType)
-             }else{
-                 val user = getUser(ref);
-                 operation = Operation(id = idop,ref,type = type, value = value, user = user)
-             }
-            operations.add(operation)
-         }
-         emit(operations)
-     }
+             .snapshots()
+            .map { querySnapshot ->
+                val operations = querySnapshot.toObjects<Operation>()
+                operations.forEach { op ->
+                    Log.d(LOG,"got operation with date : ${op.date}")
+                    if(op.type ==EXPENSE){
+                        op.spendtype = getexpenseType(op.ref)
+                    }else{
+                        op.user = getUser(op.ref)
+                    }
+                }
+                operations
+            }
     }
 
     @Throws(DataServiceExceptions::class)
     private suspend fun getexpenseType(id:String):SpendType{ //tested
+        Log.d(LOG,"D getExpenseType called with id : ${id}")
         var ret = SpendType()
         expensesTypes.first{true}.forEach{
             if (it.id==id){
@@ -107,8 +108,10 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     private suspend fun getUser(id:String):User{
+        Log.d(LOG,"D getUser called with id : ${id}")
         var ret = User()
-        users.first { true }.forEach{
+        users.first { true }
+            .forEach{
             if(it.id==id){
                 ret = it
             }
@@ -122,6 +125,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     override fun addExpenseType(name: String, onResult: () -> Unit) {
+        Log.d(LOG,"D addExpense called with name : ${name}")
         val s = SpendType(name = name)
         store
             .collection(SPEND_TYPES_COLLECTION)
@@ -145,6 +149,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     fun updateMonth(m: Month, onResult: () -> Unit) {
+        Log.d(LOG,"D UpdateMonth called month : ${m}")
         val toStore  = hashMapOf(
             CREDIT to m.credit,
             CURR_BALANCE to m.currBalance,
@@ -161,6 +166,7 @@ class FireBaseDataService @Inject constructor(
 
     @Throws(DataServiceExceptions::class)
     private suspend fun addMonth(m: Month):Month { // need testing
+        Log.d(LOG,"D add Month called with month: ${m}")
         val toStore  = hashMapOf(
             CREDIT to m.credit,
             CURR_BALANCE to m.currBalance,
@@ -193,33 +199,89 @@ class FireBaseDataService @Inject constructor(
     }
     @Throws(DataServiceExceptions::class)
     override suspend fun addOperation(op: Operation, onResult: () -> Unit) {
-        // TODO: verify if the op is in the current month
-        //get the month
+        Log.d(LOG,"D addOperation called with an op value : ${op.value}")
+        if(checkCurrentMonth(op)){
+            //get the month
             val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
-        //build data to store
-        val opToStore  = hashMapOf(
-            OPVALUE to op.value,
-            OPTYPE to op.type,
-            OPDATE to op.date,
-            OPREF to op.ref)
-        // storew the hashmap as operation on firestore
-        store
-            .collection(MONTH_DATA_COLLECTION)
-            .document(month.id)
-            .collection(LIST)
-            .add(opToStore).addOnSuccessListener {
-                if(op.type==EXPENSE){
-                    month.currBalance -= op.value
-                    month.credit += op.value
-                }else{
-                    month.currBalance += op.value
-                    month.debit += op.value
-                }
-                updateMonth(month,onResult)
-            }.addOnFailureListener{ onFirestoreException(it)}
+            //build data to store
+            val opToStore  = hashMapOf(
+                OPVALUE to op.value,
+                OPTYPE to op.type,
+                OPDATE to op.date,
+                OPREF to op.ref)
+            // storew the hashmap as operation on firestore
+            store
+                .collection(MONTH_DATA_COLLECTION)
+                .document(month.id)
+                .collection(LIST)
+                .add(opToStore).addOnSuccessListener {
+                    if(op.type==EXPENSE){
+                        month.currBalance -= op.value
+                        month.credit += op.value
+                    }else{
+                        month.currBalance += op.value
+                        month.debit += op.value
+                    }
+                    updateMonth(month,onResult)
+                }.addOnFailureListener{ onFirestoreException(it)}
+        }else{
+            throw NotCurrentMonthException()
+        }
+
     }
+
+    @Throws(DataServiceExceptions::class)
+    override suspend fun removeOperation(op: Operation, onResult: () -> Unit) {
+        Log.d(LOG,"D remove operation called with date : ${op.date}")
+        var calledonce = true
+        if(checkCurrentMonth(op)){
+            Log.d(LOG,"checkCurrentMonth returned true")
+            //get the month
+            val month = getMonthByDateOrCreateNewOne(getMonthDateBasedOnOpDate(op.date))
+            //build data to store
+            val opToStore  = hashMapOf(
+                OPVALUE to op.value,
+                OPTYPE to op.type,
+                OPDATE to op.date,
+                OPREF to op.ref)
+            // storew the hashmap as operation on firestore
+            store
+                .collection(MONTH_DATA_COLLECTION)
+                .document(month.id)
+                .collection(LIST)
+                .document(op.id)
+                .delete()
+                //.add(opToStore)
+                .addOnSuccessListener {
+                    if(op.type==EXPENSE){
+                        month.currBalance += op.value
+                        month.credit -= op.value
+                    }else{
+                        month.currBalance -= op.value
+                        month.debit -= op.value
+                    }
+                    if(calledonce){
+                        updateMonth(month,onResult)
+                        Log.d("FireBaseDataServioce","update month called")
+                        calledonce = false
+                    }
+                }.addOnFailureListener{ onFirestoreException(it)}
+        }else{
+            Log.d(LOG,"checkCurrentMonth returned false")
+            throw NotCurrentMonthException()
+        }
+    }
+    override fun checkCurrentMonth(op: Operation): Boolean {
+        Log.d(LOG,"D CheckCurrentMonth called")
+        val opdate = getMonthDateBasedOnOpDate(op.date)
+        val thisdate = getMonthDateBasedOnOpDate(Calendar.getInstance().time)
+        Log.d(LOG,"D CheckCurrentMonth will return ${opdate == thisdate}")
+        return opdate == thisdate
+    }
+
     @Throws(DataServiceExceptions::class)
     private suspend fun getMonthByDateOrCreateNewOne(time: Date): Month {
+        Log.d(LOG,"D getMonthByDateOrCreateNewOne called with date : ${time}")
         val v =  store.collection(MONTH_DATA_COLLECTION)
             .whereEqualTo(MONTHDATE,time)
             .get()
@@ -229,21 +291,27 @@ class FireBaseDataService @Inject constructor(
             .await()
             .toObjects<Month>()
         if(v.size!=0){
+            Log.d(LOG,"D getMonthByDateOrCreateNewOne month found with id: ${v[0].id}")
             return v[0]
         }
         // month not found create one
-        val p = store.collection(MONTH_DATA_COLLECTION)
-            .orderBy(MONTHDATE)
-            .get() .addOnFailureListener{
-                onFirestoreException(it)
-            }
-            .await()
-        val lastMonthBalance = p.last { true }.getLong(CURR_BALANCE)?:0
-        val cal = Calendar.getInstance()
+        Log.d(LOG,"D getMonthByDateOrCreateNewOne will create new one")
+
+        var newMonth : Month
         val date = getMonthDateBasedOnOpDate(time)
-        val newMonth = Month(prevBalance = lastMonthBalance, monthDate = date, currBalance = lastMonthBalance)
+        try {
+            val p = store.collection(MONTH_DATA_COLLECTION)
+                .orderBy(MONTHDATE)
+                .get()
+                .await()
+                val lastMonthBalance = p.last { true }.getLong(CURR_BALANCE)?:0
+                newMonth = Month(prevBalance = lastMonthBalance, monthDate = date, currBalance = lastMonthBalance)
+        }catch (e:NoSuchElementException){
+            newMonth = Month(prevBalance = 0, monthDate = date, currBalance = 0)
+        }
         return addMonth(newMonth)
     }
+
     @Throws(DataServiceExceptions::class)
     fun onFirestoreException(e: java.lang.Exception){
         throw e // todo: read documentation and decide which types of exceptions to implement

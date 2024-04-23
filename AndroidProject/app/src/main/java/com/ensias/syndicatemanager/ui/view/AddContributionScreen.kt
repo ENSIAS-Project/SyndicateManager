@@ -11,10 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,42 +25,37 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ensias.syndicatemanager.R
-import com.ensias.syndicatemanager.models.SpendType
-import com.ensias.syndicatemanager.ui.state.ExpenseUiState
+import com.ensias.syndicatemanager.models.User
+import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
 import com.ensias.syndicatemanager.ui.view.components.BgForAllScreens
 import com.ensias.syndicatemanager.ui.view.components.DateField
-import com.ensias.syndicatemanager.ui.view.components.DropDownMenuExpense
+import com.ensias.syndicatemanager.ui.view.components.ListUsers
 import com.ensias.syndicatemanager.ui.view.components.SuffixTextField
 import com.ensias.syndicatemanager.viewmodels.OperationViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
+
 
 @Composable
-fun AddExpenseScreen(
-    opvViewModel: OperationViewModel = hiltViewModel()
-) {
-    val uiState by opvViewModel.expenseUiState
-    val optionlist = opvViewModel.expensesTypes
+fun AddContributionScreen(opvViewModel: OperationViewModel = hiltViewModel()) {
+    val userlist = opvViewModel.users
         .collectAsStateWithLifecycle(emptyList())
-AddExpenseContent(
-    expenseUiState=uiState,
-    optionlist = optionlist.value,
-    onAddExpenseTypeClicked={id->opvViewModel.addExpenseType(id)}, //TODO:fixthis
-    onModifyExpenseTypeClicked ={s,e-> opvViewModel.modifyExpenseType(s,e)},
-    onAddExpenseClicked={opvViewModel.addExpense()},
-    onValueChanged = {newVal -> opvViewModel.setNewVal(newVal)}
-)
+    AddContributionContent(
+        contribUiState = opvViewModel.contribiutionUiState.value,
+        users =  userlist.value,
+        onAddContributionClicked = {opvViewModel.addContribution()}
+    ) { newval -> opvViewModel.onContribValueChange(newval) }
 }
+
 @Composable
-fun AddExpenseContent(
-    expenseUiState:ExpenseUiState,
-    optionlist: List<SpendType>,
-    onAddExpenseTypeClicked: (id:String) -> Unit,
-    onModifyExpenseTypeClicked:(id:String,name:String)->Unit,
-    onAddExpenseClicked:()->Unit,
+fun AddContributionContent(
+    contribUiState: ContributionUiState,
+    users: List<User>,
+    onAddContributionClicked:()->Unit,
     onValueChanged:(newval:String) ->Unit
-)
+    )
 {
     Column(
         modifier = Modifier
@@ -73,29 +67,28 @@ fun AddExpenseContent(
         Spacer(modifier = Modifier.padding(20.dp))
 
         Text(
-            text = stringResource(id = R.string.AJOUT_DE_DEPENSES),
+            text = stringResource(id = R.string.AJOUT_DE_COTISATION),
             style = TextStyle(
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold
             )
         )
         Spacer(modifier = Modifier.padding(25.dp))
 
-        DropDownMenuExpense(expenseUiState,optionlist,onAddExpenseTypeClicked,onModifyExpenseTypeClicked)
+        ListUsers(contribUiState,users)
         Spacer(modifier = Modifier.padding(20.dp))
 
-        DateField(expenseUiState)
+      DateFieldContrib(contribUiState)
         Spacer(modifier = Modifier.padding(20.dp))
 
         SuffixTextField(
-            value = expenseUiState.amount.toString(),
-            onValueChange = onValueChanged,
+            value = contribUiState.amount.toString(), onValueChange = onValueChanged,
             suffixText = "DH",
         )
         Spacer(modifier = Modifier.padding(50.dp))
-        if(!expenseUiState.pendingOperation){
-            ElevatedButtonExample(onAddExpenseClicked)
+        if(!contribUiState.pendingOperation){
+            ElevatedButtonExample(onAddContributionClicked)
         }else{
             CircularProgressIndicator(
                 modifier = Modifier,
@@ -104,10 +97,13 @@ fun AddExpenseContent(
                 strokeCap = ProgressIndicatorDefaults.CircularIndeterminateStrokeCap
             )
         }
+
     }
 }
+
+
 @Composable
-fun ElevatedButtonExample(onClick: () -> Unit) {
+fun ElevatedButton(onClick: () -> Unit) {
     Button(
         onClick = {
             onClick()
@@ -118,11 +114,15 @@ fun ElevatedButtonExample(onClick: () -> Unit) {
         Text(text = stringResource(id = R.string.AJOUTER))
     }
 }
-
-
+@Composable
+fun DateFieldContrib(contribUiState: ContributionUiState){
+    val date= remember{ mutableStateOf(contribUiState.date) }
+    val text= remember { mutableStateOf(SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(contribUiState.date)) }
+    DateField(contribUiState )
+}
 @PreviewLightDark
 @Composable
-fun PreviewAddExpenseScreen() {
+fun PreviewAddContributionScreen() {
     SyndicateManagerTheme {
         Column(
             modifier = Modifier
@@ -130,12 +130,13 @@ fun PreviewAddExpenseScreen() {
                 .background(color = MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val expenseUiState = ExpenseUiState(
-                type = "Electricite",  // Valeur de type de dépense
-                date = Date(),         // Date actuelle
-                amount = 200          // Montant de la dépense
+            val contrUiState = ContributionUiState(
+                user = User(name = "nisrine"),
+                date = Date(),
+                amount = 0
             )
-          AddExpenseContent(expenseUiState, listOf(SpendType(name="test")),{},{ _, _->},{},{})
+            AddContributionContent(contrUiState, listOf(),{}) {}
         }
+
     }
 }

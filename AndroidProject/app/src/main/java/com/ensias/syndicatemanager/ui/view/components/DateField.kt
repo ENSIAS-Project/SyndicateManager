@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.ensias.syndicatemanager.R
+import com.ensias.syndicatemanager.ui.state.ContributionUiState
 import com.ensias.syndicatemanager.ui.state.ExpenseUiState
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -102,8 +103,6 @@ fun DateField(expenseUiState: ExpenseUiState) {
                     )
                 }
             )
-
-
             if (isDatePickerOpen) {
                 DatePickerDialog(
                     onDismissRequest = { isDatePickerOpen = false },
@@ -120,54 +119,71 @@ fun DateField(expenseUiState: ExpenseUiState) {
     }
 }
 @Composable
-fun DatePickerDialog(
-    onDismissRequest: () -> Unit,
-    onDateSelected: (Date) -> Unit,
-    initialDate: Date
-) {val selectedDate = remember { mutableStateOf(Calendar.getInstance()) }
-    Dialog(onDismissRequest = onDismissRequest) {
-        Surface {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Display the DatePicker
-                AndroidView(factory = { context ->
-                    val datePicker = DatePicker(context)
-                    datePicker.init(
-                        selectedDate.value.get(Calendar.YEAR),
-                        selectedDate.value.get(Calendar.MONTH),
-                        selectedDate.value.get(Calendar.DAY_OF_MONTH)
-                    ) { _, year, monthOfYear, dayOfMonth ->
-                        selectedDate.value = Calendar.getInstance().apply {
-                            set(year, monthOfYear, dayOfMonth)
-                        }
-                    }
-                    datePicker
-                })
+fun DateField(expenseUiState: ContributionUiState) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-                // OK and Cancel buttons
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Button(onClick = {
-                        onDateSelected(selectedDate.value.time)
-                        onDismissRequest()
-                    }) {
-                        Text(text = "OK")
+
+        var date by remember { mutableStateOf(expenseUiState.date) }
+        val dateFormatter = remember { SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) }
+        var text by remember { mutableStateOf(dateFormatter.format(date)) }
+        var isDatePickerOpen by remember { mutableStateOf(false) }
+        val context = LocalContext.current
+        val focusRequester = remember { FocusRequester() }
+        val keyboardController = LocalSoftwareKeyboardController.current
+
+        Row {
+            TextField(
+                label = { Text(text = stringResource(id = R.string.DATE)) },
+
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            keyboardController?.show()
+                        }
+                    },
+                value = text,
+                onValueChange = { newText ->
+                    text = newText
+                    date = dateFormatter.parse(newText) ?: date
+                    expenseUiState.date=date //update
+                },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusRequester.requestFocus()
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { onDismissRequest() }) {
-                        Text(text = "Cancel")
-                    }
+                ), trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Calendar Icon",
+                        tint = Color.Gray,
+                        modifier = Modifier.clickable {
+                            isDatePickerOpen = true
+                        }
+                    )
                 }
+            )
+            if (isDatePickerOpen) {
+                DatePickerDialog(
+                    onDismissRequest = { isDatePickerOpen = false },
+                    onDateSelected = { newDate ->
+                        date = newDate
+                        text = dateFormatter.format(date)
+                        isDatePickerOpen = false
+                        expenseUiState.date=date
+                    },
+                    initialDate = date
+                )
             }
         }
     }
-
 }
 @Preview
 @Composable

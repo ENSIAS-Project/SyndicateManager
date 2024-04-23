@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.ensias.syndicatemanager.models.Operation
 import com.ensias.syndicatemanager.models.SpendType
 import com.ensias.syndicatemanager.ui.theme.SyndicateManagerTheme
+import java.util.Calendar
+import java.util.Date
 
 @Composable
 fun SpendCard(op: Operation){
@@ -58,7 +60,7 @@ fun SpendCard(op: Operation){
 
                 ) {
 
-                Row() {
+
                     Text(
                         text = "${op.value} DH",
                         //  modifier = Modifier.padding( 10.dp),
@@ -66,18 +68,24 @@ fun SpendCard(op: Operation){
                         fontFamily = FontFamily.SansSerif,
                         color = MaterialTheme.colorScheme.error
                     )
-                }
-
+                Text(
+                    text = date(op.date),
+                    //  modifier = Modifier.padding( 10.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontFamily = FontFamily.SansSerif,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
 }
+
 @PreviewLightDark
 @Composable
 fun PreviewSpendMonth() {
     SyndicateManagerTheme {
         SpendCard(
-            Operation(type = "s", spendtype = SpendType(name = "electricite"))
+            Operation(type = "s", date = Calendar.getInstance().time, spendtype = SpendType(name = "electricite"))
         )
     }
 }

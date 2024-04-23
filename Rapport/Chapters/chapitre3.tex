@@ -1,29 +1,167 @@
-\section{Methode Scrum/Agile}
-\lipsum[2-2]
-\subsection{Agile Manifesto}
-\lipsum[2-2]
-\subsection{Generalité sur le démarche Scrum}
-\lipsum[2-2]
-\section{Languages et technologies Utilisées}
-\lipsum[2-2]
-\subsection{Android}
-\lipsum[2-2]
-\subsubsection{les bonnes pratiques}
-\lipsum[2-2]
-\subsubsection{Kotlin}
-\lipsum[2-2]
-\subsubsection{Android JetPack Compose}
-\lipsum[2-2]
-\subsubsection{daggerHilt (injecteur de dependances)}
-\lipsum[2-2]
-\subsection{Gradle}
-\lipsum[2-2]
-\subsection{Firebase}
-\lipsum[2-2]
-\subsubsection{Firebase FireAuth}
-\lipsum[2-2]
-\subsubsection{Firebase FireStore}
-\lipsum[2-2]
-\section{Resultat}
+\section{Sprint 0: Mise en Oeuvre}
+Avant de débuter la conception avec Scrum/agile, il est essentiel d'identifier d'abord les acteurs, de comprendre leurs besoins et attentes, ainsi que de mettre en place la réalisation du backlog.
+\subsection{identification des acteurs}
+le sprincipaux acteurs sont: 
+\begin{itemize}
+    \item \textbf{Administrateur (gérant du syndique)} : 
+    \begin{enumerate}
+        \item gérer la recette;
+        \item marquer les dépenses;
+        \item marque les cotisations des membres.
+    \end{enumerate} 
+    \item \textbf{Utilisateur (membre du syndique)} : 
+    \begin{enumerate}
+        \item consulter la situation.
+    \end{enumerate}
+\end{itemize}
+\subsection{userStories ( Backlog du produit)}
+    basant sur les besoins des acteurs on a definis les UserStories suivantes : 
+    \begin{itemize}
+        \item En tant qu'administrateur, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application.
+        \item En tant qu'utilisateur de l'application, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application.    
+        \item En tant qu'utilisateur, je veux avoir la possibilité de créer un nouveau compte utilisateur afin de l'utiliser.
+        \item En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès a mon compte.
+        \item En tant qu'administrateur, je veux avoir la possibilité de désactiver le compte d'un utilisateur de l'application afin d'annuler les droits d'accès a un utilisateur.
+        \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses.
+        \item En tant qu'administrateur, je veux avoir la possibilité de modifier un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses.
+        \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter une contribution à la liste des contributions en spécifiant l'utilisateur, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les contributions.
+        \item En tant qu'administrateur, je veux avoir la possibilité de supprimer une contribution de la liste des contributions afin de rectifier les enregistrements incorrects.
+        \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter une dépense à la liste des dépenses en spécifiant le type, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les dépenses.
+        \item En tant qu'administrateur, je veux avoir la possibilité de supprimer une dépense de la liste des dépenses afin de rectifier les enregistrements incorrects.
+        \item En tant qu'utilisateur, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation.
+        \item En tant qu'utilisateur, je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois.
+    \end{itemize} 
+\subsection{prototypage des interfaces}
+\subsubsection{l'authentification}
+\begin{figure}[!htbp]
+\begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
+        \includegraphics[width=\linewidth]{prototype/signup screen.jpeg}
+        \caption{ prototype de l'ecran d'inscription}
+  \end{minipage}%
+  \begin{minipage}{0.10\textwidth}
+    \hfill
+  \end{minipage}
+\begin{minipage}[t]{0.25\textwidth}
+        \includegraphics[width=\linewidth]{prototype/sign in.jpeg}
+        \caption{ prototype de l'ecran de connexion}
+\end{minipage}%
+\begin{minipage}{0.10\textwidth}
+    \hfill
+\end{minipage}
+  \begin{minipage}[t]{0.25\textwidth}
+        \includegraphics[width=\linewidth]{prototype/reset password.jpeg}
+        \caption{ prototype de l'ecran de réinitialisation de mot de passe}
+\end{minipage}
+\end{figure}
+\newpage
+\subsubsection{ajout de cotisation et de depenses}
+\begin{figure}[h]
+    \begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
+            \includegraphics[width=\linewidth]{prototype/side nav.jpeg}
+            \caption{ prototype de menu latérale}
+      \end{minipage}%
+      \begin{minipage}{0.10\textwidth}
+        \hfill
+      \end{minipage}
+    \begin{minipage}[t]{0.25\textwidth}
+            \includegraphics[width=\linewidth]{prototype/add contribution.jpeg}
+            \caption{ prototype de l'ecran d'ajout des contributions}
+    \end{minipage}%
+    \begin{minipage}{0.10\textwidth}
+        \hfill
+    \end{minipage}
+      \begin{minipage}[t]{0.25\textwidth}
+            \includegraphics[width=\linewidth]{prototype/add expenses.jpeg}
+            \caption{ prototype de l'ecran d'ajout des dépenses}
+    \end{minipage}
+    \end{figure}
+    \newpage
+\subsubsection{l'affichage des situations}
+\begin{figure}[h!]
+    \begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
+            \includegraphics[width=\linewidth]{prototype/admin month view.jpeg}
+            \caption{ prototype d'affichage pour l'administrateur}
+      \end{minipage}%
+      \begin{minipage}{0.10\textwidth}
+        \hfill
+      \end{minipage}
+    \begin{minipage}[t]{0.25\textwidth}
+            \includegraphics[width=\linewidth]{prototype/user month view.jpeg}
+            \caption{ prototype d'affichage pour l'utilisateur}
+    \end{minipage}%
+    \begin{minipage}{0.10\textwidth}
+        \hfill
+    \end{minipage}
+      \begin{minipage}[t]{0.25\textwidth}
+            \includegraphics[width=\linewidth]{prototype/month details.jpeg}
+            \caption{ prototype d'affichage des opérations}
+    \end{minipage}
+    \end{figure}
+\section{Sprint 1}
+\subsection{specification fonctionnel}
+\subsubsection{S'inscrire}
+Cette opération permet à un utilisateur de créer un nouveau compte dans l'application.
+l'utilisateur fournit ses informations personnelles telles que son nom,son prènom, son adresse e-mail et un mot de passe pour créer son compte. après une vérification des informations fournies le nouvel utilisateur sera enregister dans la  base de données.
+\subsubsection{Se connecter}
+L'opération de connexion permet à un utilisateur enregistré d'accéder à son compte. L'utilisateur saisit son adresse e-mail et son mot de passe dans les champs prévus à cet effet. L'application vérifie les informations saisies et authentifie l'utilisateur si les informations sont correctes
+\subsubsection{Réinitialisation le mot de passe}
+Cette opération permet à un utilisateur de réinitialiser son mot de passe en cas d'oubli. L'utilisateur fournit son adresse e-mail associée à son compte. L'application envoie un lien de réinitialisation par e-mail à l'utilisateur. L'utilisateur peut ensuite cliquer sur le lien pour choisir un nouveau mot de passe et le mettre à jour dans la base de données.
+\subsection{Sprint Backlog}
+\begin{center}
+    \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
+     \hline
+     GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
+     \hline\hline
+     \#2 & en tant qu'administrateur, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application & Administrateur & ELVEE \\ 
+     \hline
+     \#3  & En tant qu'utilisateur de l'application, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application & Utilisateur & ELEVEE \\
+     \hline
+     \#4 & En tant qu'utilisateur, je veux avoir la possibilité de créer un nouveau compte utilisateur afin de l'utiliser & Utilisateur & MOYEN \\
+     \hline
+     \#5 & En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès a mon compte & Utilisateur & MOYEN \\ [1ex] 
+     \hline
+    \end{tabular}
+    \end{center}
+\subsection{conception}
+\subsubsection{diagramme de cas d'utilisation}
+\input{Diagrammes/authenticate Usecase.tex}
+\subsubsection{diagramme de classe}
+\input{Diagrammes/sprint1 class diag.tex}
+\subsection{Realisation}
+\subsubsection{interface de connexion}
+\subsubsection{interface d'inscription}
+\subsubsection{interface de renitialisation de mot de passe}
 
-%\input{Diagrammes/usecase1.tex}
+
+
+\section{Sprint 2}
+\subsection{specification fonctionnel}
+\subsection{Sprint Backlog}
+\subsection{conception}
+\subsubsection{diagramme de cas d'utilisation}
+\input{Diagrammes/sprint2 Usecase.tex}
+\subsubsection{diagramme de classe}
+\input{Diagrammes/sprint2 class diag.tex}
+\subsection{Realisation}
+\subsubsection{interface de situation des mois}
+\subsubsection{interface des opérations}
+
+
+
+\section{Sprint 3}
+\subsection{specification fonctionnel}
+\subsection{Sprint Backlog}
+\subsection{conception}
+\subsubsection{diagramme de cas d'utilisation}
+\input{Diagrammes/sprint3 Usecase.tex}
+\subsubsection{diagramme de classe}
+\input{Diagrammes/sprint3 class diag.tex}
+\subsection{Realisation}
+\subsubsection{interface pour gérer les opération}
+\paragraph{ajouter type de dépense}
+\paragraph{modifier type de dépense}
+\paragraph{ajouter de dépense}
+\paragraph{ajouter cotisation}
+\paragraph{supprimer operation}
+
+

@@ -1,0 +1,23 @@
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=3, fill=orange!10]{Sprint 2}
+            \umlusecase[name = MONTH]{voir la situation des mois}
+            \umlusecase[name = OPERATION, y = -2]{voir les opérations}
+            \end{umlsystem}
+            \umlactor[x=-3,y=1]{utilisateur}
+            \umlactor[x =-3,y=-2]{administrateur}
+
+            \umlinherit[]{administrateur}{utilisateur}
+        \umlassoc{utilisateur}{MONTH}
+        \umlassoc{utilisateur}{OPERATION}
+
+       % \umlHVinclude[name=incl]{addSpending}{auth}
+        %\umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+
+    \end{tikzpicture}
+    \caption{le diagramme de cas d'utilisation pour Sprint 2}
+    \label{fig : Sprint 2 usecase }
+\end{figure}
+
+%and this is a reference to the usecase fig : \ref{fig : usecase 1}

@@ -1,4 +1,4 @@
-package com.ensias.syndicatemanager.models
+package com.ensias.syndicatemanager.ui.model
 
 data class LoginUiModel (
     val email : String = "",

@@ -1,0 +1,29 @@
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=3, fill=green!10]{gestion des dépenses }
+            \umlusecase[name = addSpending]{ajouter dépense}
+            \umlusecase[name = addSpendingtype, y = -2]{ajouter type de dépense}
+            \umlusecase[name = modifySpending, y = -4]{rectifier dépense} 
+            \umlusecase[name = deleteSpending, y = -6]{supprimer dépense}
+            \umlusecase[name = auth,x = 5,y = -1]{s'authentifier}  
+            \end{umlsystem}
+        
+            \umlactor[x =-2,y=-3]{administrateur}
+        
+        \umlassoc{administrateur}{addSpending}
+        \umlassoc{administrateur}{addSpendingtype}
+        \umlassoc{administrateur}{modifySpending}
+        \umlassoc{administrateur}{deleteSpending}
+        \umlHVinclude[name=incl,anchor1=0 , anchor2=40]{addSpending}{auth}
+        \umlHVinclude[name=incl]{addSpendingtype}{auth}
+        \umlHVinclude[name=incl,anchor1=0 , anchor2=350]{modifySpending}{auth}
+        \umlHVinclude[name=incl,anchor1=0 , anchor2=320]{deleteSpending}{auth}
+        %\umlHVinclude[name=incl,anchor1=30 , anchor2=300]{addBudget}{auth}
+ 
+    \end{tikzpicture}
+    \caption{le diagramme de cas d'utilisation detaillé pour les dépenses}
+    \label{fig : usecase 2}
+\end{figure}
+
+%and this is a reference to the usecase fig : \ref{fig : usecase 2}

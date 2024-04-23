@@ -1,9 +1,8 @@
 package com.ensias.syndicatemanager.service
 
 import com.ensias.syndicatemanager.exceptions.AuthException
-import com.ensias.syndicatemanager.models.LoginUiModel
-import com.ensias.syndicatemanager.models.Month
-import com.ensias.syndicatemanager.models.RegisterUiModel
+import com.ensias.syndicatemanager.ui.model.LoginUiModel
+import com.ensias.syndicatemanager.ui.model.RegisterUiModel
 import com.ensias.syndicatemanager.models.User
 import kotlinx.coroutines.flow.Flow
 import kotlin.jvm.Throws
