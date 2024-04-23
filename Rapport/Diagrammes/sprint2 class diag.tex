@@ -1,4 +1,4 @@
-\begin{figure}
+\begin{figure}[h]
         \begin{tikzpicture}
 
         \umlclass[x=-1,y=3,type=interface,scale = 0.8,fill=blue!10]{DataService}{
@@ -63,7 +63,7 @@
             } 
           
           \umlclass[x=1,y=-9,scale = 0.8,fill=yellow!10]{MonthViewModel}{
-              - dataService: DataService
+              - dataService: DataService\\
               + monthList :  Flow<List<Month>$ $> \\
             }{
               + constructor(dataService: DataService) \\ % TODO: find the correct way to represent the constructor

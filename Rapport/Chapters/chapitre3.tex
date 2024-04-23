@@ -121,36 +121,185 @@ Cette opération permet à un utilisateur de réinitialiser son mot de passe en 
      \#5 & En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès a mon compte & Utilisateur & MOYEN \\ [1ex] 
      \hline
     \end{tabular}
-    \end{center}
+\end{center}
 \subsection{conception}
+Au cours de la phase initiale de conception du premier Sprint, nous avons choisi de focaliser notre attention sur les user stories liées à l'authentification. Les exigences se concentrent sur la possibilité de se connecter à l'application en utilisant un identifiant et un mot de passe, ainsi que sur la capacité de créer un compte et de réinitialiser le mot de passe en cas de besoin.
 \subsubsection{diagramme de cas d'utilisation}
+D'après les Sprint Backlogs sélectionnés, nous observons la présence de deux acteurs principaux : l'utilisateur et l'administrateur. Ces deux acteurs ont besoin de se connecter via un identifiant et un mot de passe. De plus, ils doivent tous deux avoir la capacité de réinitialiser le mot de passe. Seul l'utilisateur aura le droit de s'inscrire.
 \input{Diagrammes/authenticate Usecase.tex}
+\newpage
 \subsubsection{diagramme de classe}
+basé sur les meilleures pratiques citées ci-dessous, nous avons opté pour le modèle MVVM. Nous avons dû créer 3 vues pour : 
+\begin{itemize}
+  \item la connexion;
+  \item l'inscription;
+  \item la réinitialisation du mot de passe. 
+\end{itemize}
+Ces vues ont été créées en utilisant Jetpack Compose, un framework d'interface utilisateur déclaratif basé sur des fonctions plutôt que sur des classes Activity ou les anciens fichiers XML, ce qui explique pourquoi les vues ne sont pas mentionnées dans le diagramme de classes.
+
+Pour le modèle, nous avons dû créer un modèle pour l'utilisateur; une classe contenant une variable booléenne décrivant s'il s'agit d'un administrateur ou non, et plusieurs variables de type chaîne de caractère contenant le nom, le nom de famille, l'identifiant et l'e-mail.
+
+Pour le viewModel : nous avons opté pour un ViewModel unifié car cela n'est pas au contraire des meilleures pratiques et pour simplifier la base de code.
+
+La classe authViewModel est une classe qui hérite de la classe ViewModel et contient 3 valeurs mutableState utilisées pour mettre à jour les interfaces graphiques de chaque vue : LoginUiState, registerUiState, resetUiState pour les vues de connexion, d'inscription et de réinitialisation respectivement.
+
+Le viewModel contient également une valeur accountService injectée lors de la création du viewModel (en utilisant le constructeur) grâce à Dagger-Hilt Dependency Injector.
+
+Le accountService est une interface où nous avons déclaré toutes les fonctions nécessaires.
+Nous avons créé une autre classe qui étend cette interface appelée FireBaseAccountService afin de faciliter le support d'autres backends.
+
+Dans le AuthViewModel, nous avons implémenté toutes les fonctions nécessaires appelées par les vues. Par exemple : login est une fonction appelé lorsque l'utilisateur clique sur le bouton  <<connexion>>. Il récupère l'e-mail et le mot de passe à partir de LoginUIState, puis les passe ces parametres et appelle la méthode authenticate de l'instance FireBaseAccountService.
+
+Pour personnaliser les messages d'erreur de SnackBar, nous avons dû créer nos propres exceptions,la classe AuthException. Toutes sortes d'exceptions survenues lors de l'authentification sont des exceptions spécifiques à Firebase qui sont converties en exceptions héritées de AuthException. Ensuite, ces exceptions sont gérées par la fonction loginExceptionHandler du AuthViewModel, qui récupère simplement le message de l'exception et l'affiche à l'aide d'un SnackBar.
 \input{Diagrammes/sprint1 class diag.tex}
 \subsection{Realisation}
 \subsubsection{interface de connexion}
-\subsubsection{interface d'inscription}
-\subsubsection{interface de renitialisation de mot de passe}
-
-
-
+\begin{figure}[!htbp]
+  \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+          \includegraphics[width=\linewidth]{Screenshots/8.png}
+          \caption{ ecran de connexion (light mode)}
+  \end{minipage}%
+    \begin{minipage}{0.20\textwidth}
+      \hfill
+    \end{minipage}
+  \begin{minipage}[t]{0.4\textwidth}
+          \includegraphics[width=\linewidth]{Screenshots/7.png}
+          \caption{ ecran de connexion (dark mode)}
+  \end{minipage}%
+  \end{figure}
+  \hfill
+  $ $
+  \subsubsection{interface d'inscription et de renitialisation de mot de passe}
+  $ $
+  \begin{figure}[!htbp]
+    \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+            \includegraphics[width=\linewidth]{Screenshots/10.png}
+            \caption{ ecran d'inscription}
+    \end{minipage}%
+    \begin{minipage}{0.20\textwidth}
+      \hfill
+    \end{minipage}
+  \begin{minipage}[t]{0.4\textwidth}
+          \includegraphics[width=\linewidth]{Screenshots/9.png}
+          \caption{ ecran de reinitialisation de mot de passe}
+  \end{minipage}%
+    \end{figure}
+\begin{figure}[!htbp]
+      \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+              \includegraphics[width=\linewidth]{Screenshots/b4.png}
+              \caption{ animation lors de connexion}
+      \end{minipage}%
+      \begin{minipage}{0.20\textwidth}
+        \hfill
+      \end{minipage}
+    \begin{minipage}[t]{0.4\textwidth}
+            \includegraphics[width=\linewidth]{Screenshots/b2.png}
+            \caption{ exemple d'erreur 1}
+    \end{minipage}%
+      \end{figure}
+      \begin{figure}[!htbp]
+        \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+                \includegraphics[width=\linewidth]{Screenshots/b1.png}
+                \caption{ exemple d'erreur 2}
+        \end{minipage}%
+        \begin{minipage}{0.20\textwidth} 
+          \hfill
+        \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}
+              \includegraphics[width=\linewidth]{Screenshots/b3.png}
+              \caption{ exemple d'erreur 3}
+      \end{minipage}%
+        \end{figure}
+\newpage
 \section{Sprint 2}
 \subsection{specification fonctionnel}
+\subsubsection{consulter la situation des mois}
+Cette fonctionnalité permet à l'utilisateur de visualiser la liste des mois disponibles, avec les données associées à chaque mois telles que les revenus, les dépenses et le solde. Ces informations peuvent aider l'utilisateur à suivre les finances mois par mois et à avoir une vue d'ensemble des finances sur une période donnée.
+\subsubsection{consulter les operations de chaque mois}
+Cette fonctionnalité offre à l'utilisateur la possibilité de consulter en détail les revenus et les dépenses par mois.une liste des operations serait affiché en precisant la date de l'operation et montant d'operation, le cotisateur s'il s'agit d'une cotisation ou le type de depense s'il s'agit d'une depense.
+
 \subsection{Sprint Backlog}
+\begin{center}
+  \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
+   \hline
+   GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
+   \hline\hline
+   \#23 & en tant qu'utilisatuer, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation & Utilisateur & ELVEE \\ 
+   \hline
+   \#24  & En tant qu'utilisateur je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois, & Utilisateur & ELEVEE \\
+   \hline
+  \end{tabular}
+\end{center}
 \subsection{conception}
+Dans le deuxième Sprint, nous avons décidé de nous attaquer aux backlogs liés à la visualisation des données. Les besoins sont les suivants : montrer la situation globale et présenter une situation spécifique pour chaque mois.
 \subsubsection{diagramme de cas d'utilisation}
+Nous allons conserver nos principaux acteurs comme lors du dernier sprint, mais cette fois, les deux acteurs auront la possibilité de :
+\begin{enumerate}
+  \item Voir la situation globale;
+  \item Voir les opérations pour un mois spécifique.
+\end{enumerate}
+\vfill
+$ $
 \input{Diagrammes/sprint2 Usecase.tex}
+$ $
 \subsubsection{diagramme de classe}
+Suivant le même principe du modèle MVVM, nous avons créé deux vues : une pour afficher la liste des mois à l'aide d'un LazyColumn et une autre vue pour l'affichage des opérations d'un mois sélectionné, qui utilisent également un LazyColumn.
+
+En ce qui concerne les modèles, nous avons créé 3 classes :
+\begin{enumerate}
+  \item Month : représente les données d'un mois;
+  \item SpendType : représente un type de dépense;
+  \item Operation : qui représente une opération (soit une contribution soit une dépense).
+\end{enumerate}
+
+Normalement, nous devrions avoir deux classes qui héritent de l'operation et chacune représente un type spécifique d'opération, mais étant donné que Firestore utilise une base de données NoSQL et afin d'optimiser les requêtes de la base de données, nous avons décidé d'éviter l'héritage (nous avons trové dans nos experiences que Firestore ne gère pas bien l'héritage).
+
+L'interface DataService est destinée à être étendue par tous les types de fournisseurs de services, dans notre cas la classe FireBaseDataService l'étend.
+
+Pour le ViewModel, nous avons créé une classe appelée MonthViewModel. Au début, la vue demande à MonthViewModel un Flow<List<Month>>, que le ViewModel récupère à partir du FireBaseDataService. Ensuite, ce Flow est utilisé pour afficher les données de manière réactive (les changements dans la base de données Firestore sont reflétés directement et instantanément dans l'interface utilisateur).
+\vfill
 \input{Diagrammes/sprint2 class diag.tex}
+$ $
+\newpage
+$ $
+\newpage
 \subsection{Realisation}
-\subsubsection{interface de situation des mois}
-\subsubsection{interface des opérations}
-
-
-
+\subsubsection{les interfaces}
+\begin{figure}[!htbp]
+  \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+          \includegraphics[width=\linewidth]{Screenshots/1.png}
+          \caption{ ecran de la liste des mois}
+  \end{minipage}%
+  \begin{minipage}{0.20\textwidth}
+    \hfill
+  \end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{Screenshots/2.png}
+        \caption{ ecran de la liste des operations de janvier 2024}
+\end{minipage}%
+  \end{figure}
+$ $
+\newpage
 \section{Sprint 3}
 \subsection{specification fonctionnel}
 \subsection{Sprint Backlog}
+\begin{center}
+  \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
+   \hline
+   GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
+   \hline\hline
+   \#18 & en tant qu'Administrateur,je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses& Administrateur & ELVEE \\ 
+   \hline
+   \#20  & En tant qu'utilisateur je veux avoir la possibilité d'ajouter une dépense à la liste des dépenses en spécifiant le type, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les dépenses mois. & Administrateur & ELEVEE \\
+   \hline
+   \#19  & En tant qu'utilisateur je veux avoir la possibilité de modifier un type de dépenses dans la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses. & Administrateur & ELEVEE \\
+   \hline
+   \#21  & En tant qu'utilisateur je veux avoir la possibilité d'ajouter une contribution parmi celles déjà enregistrées dans l'application afin de gérer la situation. & Administrateur & ELEVEE \\
+   \hline
+   \#20  & En tant qu'utilisateur je veux avoir la possibilité de supprimer une dépense de la liste des dépenses afin d'éliminer les enregistrements incorrects. & Administrateur & MOYEN \\
+   \hline
+  \end{tabular}
+\end{center}
 \subsection{conception}
 \subsubsection{diagramme de cas d'utilisation}
 \input{Diagrammes/sprint3 Usecase.tex}

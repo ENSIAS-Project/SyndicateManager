@@ -1,7 +1,7 @@
 \section{méthodologie}
-La méthodologie est un ensemble de principes utilisées pour guider un processus spécifique. dans notre projet nous  optons pour la methodologie Agile
+La méthodologie est un ensemble de principes utilisés pour guider un processus spécifique. Dans notre projet, nous optons pour la méthodologie Agile.
 \subsection{Agile manifesto}
-La conduite d'un projet logiciel selon la méthodologie Agile suppose une approche distincte qui privilégie la communication transparente, valorise l'individu et soutient les changements radicaux, tout en favorisant l'auto-organisation des équipes, les incitant à prendre des décisions autonomes et à s'adapter rapidement aux changements.
+La conduite d'un projet logiciel selon la méthodologie Agile suppose une approche distincte qui privilégie la communication transparente, valorise l'individu et soutient les changements radicaux, tout en favorisant l'auto-organisation des équipes, les incitant à prendre des décisions autonomes et à s'adapter rapidement aux changements.\
 \input{Chapters/agilemanifesto.tex}
 \subsection{Scrum/Agile}
 \begin{wrapfigure}{r}{0.25\textwidth} 
@@ -11,17 +11,16 @@ La conduite d'un projet logiciel selon la méthodologie Agile suppose une approc
 \end{wrapfigure}
 Selon The Scrum Guide\textsuperscript{\texttrademark}, Scrum est << un framework léger qui aide les personnes, les équipes et les organisations à générer de la valeur grâce à des solutions adaptatives à des problèmes complexes >> Scrum est le framework agile le plus largement utilisé et le plus populaire. Le terme agile décrit un ensemble spécifique de principes et de valeurs fondamentaux pour l'organisation et la gestion d'un travail complexe.
 Bien qu'il ait ses racines dans le développement de logiciels, Scrum fait aujourd'hui référence à un cadre léger utilisé dans tous les secteurs pour fournir des produits et services complexes et innovants qui ravissent réellement les clients. C'est simple à comprendre, mais difficile à maîtriser.
-
 \subsubsection{les intervennats}
 Scrum compte trois responsabilités (précédemment appelées "rôles") garantissant que chaque aspect du travail partagé est géré de manière efficace.
 \begin{enumerate}
     \item \textbf{Développeurs} : Professionnels de l'équipe Scrum qui travaillent ensemble pour créer n'importe quel aspect du produit. Ils créent l'incrément(s) de produit pendant le sprint. Les personnes possédant les compétences nécessaires à la construction du produit assument la responsabilité de développeur. Selon la nature du produit, les compétences seront différentes. 
-    \item \textbf{Propriétaire du produit} : Le propriétaire du produit développe et communique l'objectif du produit, possède le backlog du produit et veille à ce que l'équipe s'attaque toujours au travail de la plus haute valeur. Il équilibre également les besoins des parties prenantes, des clients et de l'équipe. Il connaît et comprend le domaine, le marché de ses produits, et il est passionné par la fourniture de résultats que les clients et les utilisateurs veulent et dont ils ont besoin.
+    \item \textbf{Propriétaire du produit} : Le propriétaire du produit développe et communique l'objectif du produit, possède le backlog du produit et veille à ce que l'équipe s'attaque toujours au travail de la plus haute valeur. Il équilibre également les besoins des parties prenantes, des clients et de l'équipe. Il connaît et comprend le domaine ainsi que le marché de ces produits, et il est passionné par la fourniture de résultats que les clients et les utilisateurs veulent et dont ils ont besoin.
     \item \textbf{Maître Scrum} : Le maître Scrum guide et dirige l'organisation dans son adoption et sa pratique du Scrum. Le maître Scrum aide l'équipe à construire le produit et à devenir la meilleure équipe possible en les guidant dans l'utilisation du Scrum et l'incarnation des principes agiles. Il coach l'équipe vers une utilisation efficace des événements et des artefacts. Sa journée peut inclure l'aide à la gestion des obstacles rencontrés par l'équipe, et il est souvent essentiel à la croissance de l'équipe dans son ensemble ainsi que des individus qui la composent.
 \end{enumerate}
 \subsubsection{la conduite du Scrum Agile}
 Il y a cinq événements dans le cadre Scrum. Ces événements sont des occasions précieuses pour inspecter et adapter le produit ou la manière dont l'équipe travaille ensemble (et parfois les deux).
-\begin{enumerate}
+\begin{enumerate} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \item \textbf{Le sprint} : Au cœur de Scrum, une période limitée dans le temps (moins d'un mois et fréquemment de 1 à 2 semaines) pendant laquelle un ou plusieurs incréments sont créés. Le sprint contient tous les autres événements.
     \item \textbf{Planification de sprint} : L'ensemble de l'équipe Scrum établit l'objectif du sprint. Les développeurs prévoient le travail qu'ils estiment pouvoir accomplir pendant le sprint pour soutenir l'objectif, et comment le travail choisi sera effectué. La planification doit être limitée dans le temps à un maximum de 8 heures pour un sprint d'un mois, avec une durée plus courte pour les sprints plus courts. Sur la base de l'objectif du sprint et des prévisions, un plan initial est également créé. L'équipe Scrum peut inviter d'autres personnes à la planification du sprint pour obtenir des conseils ou des contributions sur le travail pertinent.
     \item \textbf{Scrum quotidien} : Pendant le scrum quotidien, les développeurs inspectent la progression vers l'objectif du sprint et adaptent les plans si nécessaire. C'est un événement quotidien bref dirigé par les développeurs pour inspecter et adapter. Il est limité dans le temps à 15 minutes. Le scrum quotidien n'est pas la seule opportunité pour l'équipe d'adapter ses plans ; elle communique souvent sur les pivots nécessaires en dehors de cet événement. Lors du scrum quotidien, l'équipe peut synchroniser son travail quotidien, identifier les blocages et discuter de la collaboration qui doit avoir lieu. Le scrum quotidien aide l'équipe à comprendre si ses derniers plans les rapprocheront de l'objectif du sprint et à pivoter si nécessaire.
@@ -79,6 +78,14 @@ selon le site \url{developer.android.com} il est fortement recommendé de suivre
 \cite{androidGuideLarchitecture}
 
 \subsubsection{modèle MVVM}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{make-it-so-diagram-1.png}
+    \caption{architecture MVVM dans android avec FireBase}
+    \label{MVVM ARCH }
+    \caption*{\small{source : \url{firebase.blog}}}
+\end{figure}
 le modele MVVM (Modele-View-ViewModele) est un Design pattern (Modèle de conception) visant à séparer la logique de présentation d'une application en 3 couches 
 \begin{enumerate}
     \item \textbf{Model} : Le modèle contient les données liés à la logique métier. Il peut s'agir par exemple d'entités issues de bases de données ou encore d'API externes.

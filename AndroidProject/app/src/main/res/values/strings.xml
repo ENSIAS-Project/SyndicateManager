@@ -13,7 +13,7 @@
     <string name="FAMILY_NAME">prenom</string>
     <string name="PASSWORD">mot de passe</string>
     <string name="RETYPE_PASSWORD">retapez le mot de passe</string>
-    <string name="WELCOME_NEIGHBOR">WELCOME NEIGHBOR</string>
+    <string name="WELCOME_NEIGHBOR">BIENVENUE VOISIN</string>
     <string name="RESET_PASSWORD">rénitialiser le mot de passe</string>
     <string name="EMAIL_RESET_SNACK_BAR_MESSAGE">Email a été envoyé veuillez vérifier</string>
     <string name="GESTION_DES_UTILISATEURS">Gestion des utilisateurs</string>
