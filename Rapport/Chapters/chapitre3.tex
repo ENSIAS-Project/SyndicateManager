@@ -224,7 +224,7 @@ Cette fonctionnalité offre à l'utilisateur la possibilité de consulter en dé
    \hline
    GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
    \hline\hline
-   \#23 & en tant qu'utilisatuer, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation & Utilisateur & ELVEE \\ 
+   \#23 & en tant qu'utilisatuer, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation & Utilisateur & ELEVEE \\ 
    \hline
    \#24  & En tant qu'utilisateur je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois, & Utilisateur & ELEVEE \\
    \hline
@@ -252,7 +252,7 @@ En ce qui concerne les modèles, nous avons créé 3 classes :
   \item Operation : qui représente une opération (soit une contribution soit une dépense).
 \end{enumerate}
 
-Normalement, nous devrions avoir deux classes qui héritent de l'operation et chacune représente un type spécifique d'opération, mais étant donné que Firestore utilise une base de données NoSQL et afin d'optimiser les requêtes de la base de données, nous avons décidé d'éviter l'héritage (nous avons trové dans nos experiences que Firestore ne gère pas bien l'héritage).
+Normalement, nous devrions avoir deux classes qui héritent de l'operation et chacune représente un type spécifique d'opération, mais étant donné que Firestore utilise une base de données NoSQL et afin d'optimiser les requêtes de la base de données, nous avons décidé d'éviter l'héritage (nous avons trouvé dans nos experiences que Firestore ne gère pas bien l'héritage).
 
 L'interface DataService est destinée à être étendue par tous les types de fournisseurs de services, dans notre cas la classe FireBaseDataService l'étend.
 
@@ -282,13 +282,20 @@ $ $
 \newpage
 \section{Sprint 3}
 \subsection{specification fonctionnel}
+\subsubsection{gerer les cotisations}
+Dans cette fonctionnalité, nous devons fournir à l'administrateur du syndicat les outils nécessaires pour ajouter ou supprimer des contributions. Chaque contribution créée doit inclure le nom de contributeur et la date à laquelle elle a eu lieu.
+\subsubsection{gerer les dépenses}
+Pour les dépenses, la même histoire s'applique avec une seule exception : la dépense doit inclure un type de dépense au lieu d'un nom d'utilisateur.
+
+De plus, l'application doit permettre à l'administrateur d'ajouter de nouveaux types de dépenses ou de changer le nom des autres.
+
 \subsection{Sprint Backlog}
 \begin{center}
   \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
    \hline
    GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
    \hline\hline
-   \#18 & en tant qu'Administrateur,je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses& Administrateur & ELVEE \\ 
+   \#18 & en tant qu'Administrateur,je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses& Administrateur & ELEVEE \\ 
    \hline
    \#20  & En tant qu'utilisateur je veux avoir la possibilité d'ajouter une dépense à la liste des dépenses en spécifiant le type, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les dépenses mois. & Administrateur & ELEVEE \\
    \hline
@@ -301,16 +308,127 @@ $ $
   \end{tabular}
 \end{center}
 \subsection{conception}
+Dans le troisième sprint, nous avons abordé le reste des backlogs produits principalement parce qu'ils se concentrent tous sur la gestion des opérations. 
+
+Nous avons dû donner à l'administrateur la possibilité de créer ou de supprimer de nouvelles contributions, d'ajouter et de modifier des types de dépenses, ainsi que de créer ou de supprimer des dépenses.
+
 \subsubsection{diagramme de cas d'utilisation}
+En analysant les backlogs des sprints sélectionnés, nous constatons qu'un seul acteur est impliqué, à savoir l'administrateur. Ce dernier est responsable des actions suivantes : l'ajout ou la suppression d'une dépense, l'ajout ou la modification d'un type de dépense, ainsi que l'ajout ou la suppression d'une cotisation.
 \input{Diagrammes/sprint3 Usecase.tex}
+$ $
 \subsubsection{diagramme de classe}
+En suivant le même principe, nous avons créé deux vues où l'administrateur peut ajouter des contributions et des dépenses. Ces deux vues utilisent des UiStates (ContributionUiState et ExpenseUiState) pour obtenir les données à afficher sur l'interface utilisateur.
+
+Pour les modèles, nous avons utilisé les mêmes modèles créés lors du deuxième sprint.
+
+Nous avons également chargé l'interface DataService et la classe FireBaseDataService avec les fonctions nécessaires pour atteindre les objectifs de ce sprint. Nous avons ajouté :
+\begin{enumerate}
+  \item addExpenseType : nous permet d'ajouter un nouveau type de dépense
+  \item updateExpenseType : met à jour le nom d'un type de dépense existant
+  \item addOperation : pour les contributions ou les dépenses, cette fonction nous permet d'ajouter une nouvelle opération à la base de données et de mettre à jour le mois concerné en conséquence (mise à jour du solde créditeur ou débiteur)
+  \item removeOperation : également pour les contributions et les dépenses, cette fonction supprime l'enregistrement de l'opération concernée et met à jour le mois concerné en conséquence.
+\end{enumerate}
+    
+Pour ces deux vues, nous avons utilisé OperationViewModel pour gérer la logique derrière les vues implémentées. Il contient toutes les fonctions différentes appelées par l'interface utilisateur et dispose des fonctions nécessaires pour mettre à jour les vues en fonction des réponses du service ou des interactions de l'utilisateur.
+
+Il convient de noter que les opérations liées à la suppression des opérations (qu'il s'agisse de cotisations ou de dépenses) sont gérées via le MonthViewModel, car nous avons opté pour la gestuelle de glissement pour supprimer les opérations.
+
 \input{Diagrammes/sprint3 class diag.tex}
+$ $
 \subsection{Realisation}
-\subsubsection{interface pour gérer les opération}
-\paragraph{ajouter type de dépense}
-\paragraph{modifier type de dépense}
-\paragraph{ajouter de dépense}
-\paragraph{ajouter cotisation}
-\paragraph{supprimer operation}
+\subsubsection{l'acces au menu latéral}
+\begin{figure}[!htbp]
+  \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+          \includegraphics[width=\linewidth]{Screenshots/6.png}
+          \caption{ menu latéral accesible par l'administrateur}
+  \end{minipage}%
+  \begin{minipage}{0.20\textwidth}
+    \hfill
+  \end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
+        \includegraphics[width=\linewidth]{Screenshots/4.png}
+        \caption{ message d'erreur si l'administrateur essaye d'ajouter ou supprimer une operation avec un date ancien}
+\end{minipage}%
+  \end{figure}
+  \subsubsection{ajout de depense}
+  \begin{figure}[!htbp]
+    \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+            \includegraphics[width=\linewidth]{Screenshots/c2.png}
+            \caption{ exemple d'interface pour ajouter des depenses}
+    \end{minipage}%
+    \begin{minipage}{0.20\textwidth}
+      \hfill
+    \end{minipage}
+  \begin{minipage}[t]{0.4\textwidth}
+          \includegraphics[width=\linewidth]{Screenshots/c5.png}
+          \caption{ exemple d'opération en cours ( ajout de depense) }
+  \end{minipage}%
+    \end{figure}
+    \begin{figure}[!htbp]
+      \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+        \includegraphics[width=\linewidth]{Screenshots/c7.png}
+        \caption{ calendrier pour selectionner la date de depense}
+          \end{minipage}%
+          \begin{minipage}{0.20\textwidth}
+            \hfill
+          \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+              \includegraphics[width=\linewidth]{Screenshots/c6.png}
+              \caption{ exemple de message de reussit d'ajout de depenses}
+      \end{minipage}%
+      \end{figure}
+
+      \subsubsection{ajout et modidication de type de depense}
+
+      \begin{figure}[!htbp]
+        \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+                \includegraphics[width=\linewidth]{Screenshots/c3.png}
+                \caption{ interface d'ajout d'un noveau type de depense a la liste des types des depenses}
+        \end{minipage}%
+        \begin{minipage}{0.20\textwidth}
+          \hfill
+        \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}
+              \includegraphics[width=\linewidth]{Screenshots/c4.png}
+              \caption{ interface de modification d'un  type de depense}
+      \end{minipage}%
+        \end{figure}
+
+      \subsubsection{ ajout de cotisation}
+      \begin{figure}[!htbp]
+        \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+                \includegraphics[width=\linewidth]{Screenshots/c8.png}
+                \caption{ exemple d'interface pour ajouter des cotisation}
+        \end{minipage}%
+        \begin{minipage}{0.20\textwidth}
+          \hfill
+        \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}
+              \includegraphics[width=\linewidth]{Screenshots/c9.png}
+              \caption{ exemple d'opération en cours ( ajout de cotisation)}
+      \end{minipage}%
+        \end{figure}
+        \begin{figure}[!htbp]
+          \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+                  \includegraphics[width=\linewidth]{Screenshots/c10.png}
+                  \caption{ exemple de message de reussit d'ajout de cotisation}
+          \end{minipage}%
+          \end{figure}
+
+
+  \subsubsection{suppression des operations}
+  \begin{figure}[!htbp]
+    \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
+            \includegraphics[width=\linewidth]{Screenshots/3.png}
+            \caption{ exemple de suppression d'une operation par l'administrateur}
+    \end{minipage}%
+    \begin{minipage}{0.20\textwidth}
+      \hfill
+    \end{minipage}
+  \begin{minipage}[t]{0.4\textwidth}
+          \includegraphics[width=\linewidth]{Screenshots/5.png}
+          \caption{ message de reussit}
+  \end{minipage}%
+    \end{figure}
 
 
