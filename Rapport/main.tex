@@ -3,6 +3,13 @@
 \usepackage[T1]{fontenc} % more info visit : https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
 \usepackage{graphicx} % package to load images
 \usepackage[french]{babel} % set language to french
+\usepackage{hyperref} % to add links to table of content
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=black,  %choose some color if you want links to stand out
+}
+
 \usepackage{titlesec} % customise the look of the start of the chapters
 \usepackage[a4paper,width=160mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry} % set papersize and margins
 \setlength{\headheight}{14.49998pt} % needed for fancyhdr
