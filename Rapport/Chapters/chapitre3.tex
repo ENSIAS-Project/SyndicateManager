@@ -1,114 +1,134 @@
 \section{Sprint 0: Mise en Oeuvre}
 Avant de débuter la conception avec Scrum/agile, il est essentiel d'identifier d'abord les acteurs, de comprendre leurs besoins et attentes, ainsi que de mettre en place la réalisation du backlog.
-\subsection{identification des acteurs}
-le sprincipaux acteurs sont: 
+\subsection{Identification des acteurs}
+les principaux acteurs sont: 
 \begin{itemize}
     \item \textbf{Administrateur (gérant du syndique)} : 
     \begin{enumerate}
         \item gérer la recette;
         \item marquer les dépenses;
-        \item marque les cotisations des membres.
+        \item marquer les cotisations des membres.
     \end{enumerate} 
     \item \textbf{Utilisateur (membre du syndique)} : 
     \begin{enumerate}
         \item consulter la situation.
     \end{enumerate}
 \end{itemize}
-\subsection{userStories ( Backlog du produit)}
-    basant sur les besoins des acteurs on a definis les UserStories suivantes : 
+\subsection{UserStories ( Backlog du produit)}
+    basant sur les besoins des acteurs on a définis les UserStories suivantes : 
     \begin{itemize}
         \item En tant qu'administrateur, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application.
         \item En tant qu'utilisateur de l'application, je veux avoir la possibilité de m'authentifier en utilisant mon login et mon mot de passe de manière sécurisée afin d'exploiter l'application.    
         \item En tant qu'utilisateur, je veux avoir la possibilité de créer un nouveau compte utilisateur afin de l'utiliser.
-        \item En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès a mon compte.
+        \item En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès à mon compte.
         \item En tant qu'administrateur, je veux avoir la possibilité de désactiver le compte d'un utilisateur de l'application afin d'annuler les droits d'accès a un utilisateur.
         \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses.
-        \item En tant qu'administrateur, je veux avoir la possibilité de modifier un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses.
+        \item En tant qu'administrateur, je veux avoir la possibilité de modifier un type de dépense à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses.
         \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter une contribution à la liste des contributions en spécifiant l'utilisateur, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les contributions.
-        \item En tant qu'administrateur, je veux avoir la possibilité de supprimer une contribution de la liste des contributions afin de rectifier les enregistrements incorrects.
+        \item En tant qu'administrateur, je veux avoir la possibilité de supprimer une contribution de la liste des contributions afin de réctifier les enregistrements incorrects.
         \item En tant qu'administrateur, je veux avoir la possibilité d'ajouter une dépense à la liste des dépenses en spécifiant le type, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les dépenses.
         \item En tant qu'administrateur, je veux avoir la possibilité de supprimer une dépense de la liste des dépenses afin de rectifier les enregistrements incorrects.
         \item En tant qu'utilisateur, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation.
         \item En tant qu'utilisateur, je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois.
     \end{itemize} 
-\subsection{prototypage des interfaces}
-\subsubsection{l'authentification}
+\subsection{Prototypage des interfaces}
+\subsubsection{L'authentification}
+Les interfaces dédiées a l'authentification des utilisateurs 
 \begin{figure}[!htbp]
 \begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
         \includegraphics[width=\linewidth]{prototype/signup screen.jpeg}
-        \caption{ prototype de l'ecran d'inscription}
+        \caption{ Prototype de l'écran d'inscription}
   \end{minipage}%
   \begin{minipage}{0.10\textwidth}
     \hfill
   \end{minipage}
 \begin{minipage}[t]{0.25\textwidth}
         \includegraphics[width=\linewidth]{prototype/sign in.jpeg}
-        \caption{ prototype de l'ecran de connexion}
+        \caption{ Prototype de l'écran de connexion}
 \end{minipage}%
 \begin{minipage}{0.10\textwidth}
     \hfill
 \end{minipage}
   \begin{minipage}[t]{0.25\textwidth}
         \includegraphics[width=\linewidth]{prototype/reset password.jpeg}
-        \caption{ prototype de l'ecran de réinitialisation de mot de passe}
+        \caption{ Prototype de l'écran de réinitialisation du mot de passe}
 \end{minipage}
 \end{figure}
 \newpage
-\subsubsection{ajout de cotisation et de depenses}
+\subsubsection{Ajout de cotisation et de dépense}
+Les interfaces dédiées a l'ajout des cotisation et des dépenses
 \begin{figure}[h]
     \begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
             \includegraphics[width=\linewidth]{prototype/side nav.jpeg}
-            \caption{ prototype de menu latérale}
+            \caption{ Prototype du menu latérale}
       \end{minipage}%
       \begin{minipage}{0.10\textwidth}
         \hfill
       \end{minipage}
     \begin{minipage}[t]{0.25\textwidth}
             \includegraphics[width=\linewidth]{prototype/add contribution.jpeg}
-            \caption{ prototype de l'ecran d'ajout des contributions}
+            \caption{ Prototype de l'écran d'ajout des contributions}
     \end{minipage}%
     \begin{minipage}{0.10\textwidth}
         \hfill
     \end{minipage}
       \begin{minipage}[t]{0.25\textwidth}
             \includegraphics[width=\linewidth]{prototype/add expenses.jpeg}
-            \caption{ prototype de l'ecran d'ajout des dépenses}
+            \caption{ Prototype de l'écran d'ajout des dépenses}
     \end{minipage}
     \end{figure}
     \newpage
-\subsubsection{l'affichage des situations}
+\subsubsection{L'affichage des situations}
+Les interfaces dédiées a l'affichage des situations
 \begin{figure}[h!]
     \begin{minipage}[t]{0.25\textwidth}    %% b or t, default is c
             \includegraphics[width=\linewidth]{prototype/admin month view.jpeg}
-            \caption{ prototype d'affichage pour l'administrateur}
+            \caption{ Prototype d'affichage pour l'administrateur}
       \end{minipage}%
       \begin{minipage}{0.10\textwidth}
         \hfill
       \end{minipage}
     \begin{minipage}[t]{0.25\textwidth}
             \includegraphics[width=\linewidth]{prototype/user month view.jpeg}
-            \caption{ prototype d'affichage pour l'utilisateur}
+            \caption{ Prototype d'affichage pour l'utilisateur}
     \end{minipage}%
     \begin{minipage}{0.10\textwidth}
         \hfill
     \end{minipage}
       \begin{minipage}[t]{0.25\textwidth}
             \includegraphics[width=\linewidth]{prototype/month details.jpeg}
-            \caption{ prototype d'affichage des opérations}
+            \caption{ Prototype d'affichage des opérations}
     \end{minipage}
     \end{figure}
+    \newpage
+    \subsection{Déroulement}
+    Le projet s'est déroulé sur 3 sprints, chaque sprint a duré 2 semaines donc le projet a pris 6 semaines pour le réaliser.
+    \input{Diagrammes/gantt.tex}
+    
+    
+    Le nombre totale des taches est 62 les détails de ces taches sont dans l'annexe \ref{Sprint1},\ref{Sprint2} et \ref{Sprint3},la vélocité de l'équipe était suffisante pour finir le projet avant la fin du 3ème sprint, le diagramme Burndown illustre ça.
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.8\textwidth]{burndown chart.png}
+      \caption{BurnDownChart}
+  \end{figure}
+
+
 \section{Sprint 1}
-\subsection{specification fonctionnel}
-\subsubsection{S'inscrire}
+\subsection{Spécifications fonctionnelles}
+\subsubsection{Inscription}
 Cette opération permet à un utilisateur de créer un nouveau compte dans l'application.
-l'utilisateur fournit ses informations personnelles telles que son nom,son prènom, son adresse e-mail et un mot de passe pour créer son compte. après une vérification des informations fournies le nouvel utilisateur sera enregister dans la  base de données.
-\subsubsection{Se connecter}
-L'opération de connexion permet à un utilisateur enregistré d'accéder à son compte. L'utilisateur saisit son adresse e-mail et son mot de passe dans les champs prévus à cet effet. L'application vérifie les informations saisies et authentifie l'utilisateur si les informations sont correctes
-\subsubsection{Réinitialisation le mot de passe}
-Cette opération permet à un utilisateur de réinitialiser son mot de passe en cas d'oubli. L'utilisateur fournit son adresse e-mail associée à son compte. L'application envoie un lien de réinitialisation par e-mail à l'utilisateur. L'utilisateur peut ensuite cliquer sur le lien pour choisir un nouveau mot de passe et le mettre à jour dans la base de données.
+l'utilisateur fournit ses informations personnelles telles que son nom, son prènom, son adresse e-mail et un mot de passe pour créer son compte. Après une vérification des informations fournies le nouvel utilisateur sera enregister dans la  base de données.
+\subsubsection{Connexion}
+L'opération de connexion permet à un utilisateur enregistré d'accéder à son compte. L'utilisateur saisit son adresse e-mail et son mot de passe dans les champs prévus à cet effet. L'application vérifie les informations saisies et authentifie l'utilisateur si les informations sont correctes.
+\subsubsection{Réinitialisation du mot de passe}
+Cette opération permet à un utilisateur de réinitialiser son mot de passe en cas d'oubli. L'utilisateur fournit son adresse e-mail associée à son compte. L'application envoie un lien de réinitialisation par mail à l'utilisateur. Ce dernier peut ensuite cliquer sur le lien pour choisir un nouveau mot de passe et le mettre à jour dans la base de données.
 \subsection{Sprint Backlog}
+Le sprint Backlog contient les UserStories relatant la connexion, l'authentification, renouvèlement du mot de passe, et l'inscription.
+$  $
 \begin{center}
-    \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
+  \begin{table}[h!]
+    \begin{tabular}{ | m{2cm} | m{7cm}| m{3cm} | m{2cm} |} 
      \hline
      GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
      \hline\hline
@@ -121,25 +141,33 @@ Cette opération permet à un utilisateur de réinitialiser son mot de passe en 
      \#5 & En tant qu'utilisateur, je veux avoir la possibilité de réinitialiser mon mot de passe afin de retrouver l'accès a mon compte & Utilisateur & MOYEN \\ [1ex] 
      \hline
     \end{tabular}
+    \caption{Backlog du 1er sprint}
+  \end{table}
 \end{center}
-\subsection{conception}
-Au cours de la phase initiale de conception du premier Sprint, nous avons choisi de focaliser notre attention sur les user stories liées à l'authentification. Les exigences se concentrent sur la possibilité de se connecter à l'application en utilisant un identifiant et un mot de passe, ainsi que sur la capacité de créer un compte et de réinitialiser le mot de passe en cas de besoin.
-\subsubsection{diagramme de cas d'utilisation}
-D'après les Sprint Backlogs sélectionnés, nous observons la présence de deux acteurs principaux : l'utilisateur et l'administrateur. Ces deux acteurs ont besoin de se connecter via un identifiant et un mot de passe. De plus, ils doivent tous deux avoir la capacité de réinitialiser le mot de passe. Seul l'utilisateur aura le droit de s'inscrire.
+\newpage
+\subsection{Conception}
+Au cours de la phase initiale de conception du premier Sprint, nous avons choisi de focaliser notre attention sur les <<user stories>> liées à l'authentification. Les exigences se concentrent sur la possibilité de se connecter à l'application en utilisant un identifiant et un mot de passe, ainsi que sur la capacité de créer un compte et de réinitialiser le mot de passe en cas de besoin.
+\subsubsection{Diagramme de cas d'utilisation}
+D'après le Sprint Backlog, nous observons la présence de deux acteurs principaux : l'utilisateur et l'administrateur. Ces deux acteurs ont besoin de se connecter via un identifiant et un mot de passe. De plus, ils doivent tous deux avoir la capacité de réinitialiser le mot de passe. Seul l'utilisateur aura le droit de s'inscrire.
 \input{Diagrammes/authenticate Usecase.tex}
 \newpage
-\subsubsection{diagramme de classe}
-basé sur les meilleures pratiques citées ci-dessous, nous avons opté pour le modèle MVVM. Nous avons dû créer 3 vues pour : 
+\subsubsection{Diagramme de classe}
+basé sur les meilleures pratiques citées auparavant, nous avons opté pour le modèle MVVM. Nous avons dû créer 3 vues pour : 
 \begin{itemize}
   \item la connexion;
   \item l'inscription;
   \item la réinitialisation du mot de passe. 
 \end{itemize}
-Ces vues ont été créées en utilisant Jetpack Compose, un framework d'interface utilisateur déclaratif basé sur des fonctions plutôt que sur des classes Activity ou les anciens fichiers XML, ce qui explique pourquoi les vues ne sont pas mentionnées dans le diagramme de classes.
+Ces vues ont été crées en utilisant Jetpack Compose, un framework d'interface utilisateur déclaratif basé sur des fonctions plutôt que sur des classes <<Activity>> ou les anciens fichiers XML, ce qui explique pourquoi les vues ne sont pas mentionnées dans le diagramme de classes.
 
-Pour le modèle, nous avons dû créer un modèle pour l'utilisateur; une classe contenant une variable booléenne décrivant s'il s'agit d'un administrateur ou non, et plusieurs variables de type chaîne de caractère contenant le nom, le nom de famille, l'identifiant et l'e-mail.
+Pour les modèles de données, nous avons dû créer un modèle pour l'utilisateur; une classe contenant une variable booléenne décrivant s'il s'agit d'un administrateur ou non, et plusieurs variables de type chaîne de caractère contenant le nom, le nom de famille, l'identifiant et l'e-mail.
+ \begin{figure}[htb!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{dcm 1.png}
+        \caption{Diagramme de classe métier pour Sprint 1}
+    \end{figure}
 
-Pour le viewModel : nous avons opté pour un ViewModel unifié car cela n'est pas au contraire des meilleures pratiques et pour simplifier la base de code.
+Pour le viewModel : nous avons opté pour un ViewModel unifié car cela n'est pas au contraire des meilleures pratiques et pour simplifier la base du code.
 
 La classe authViewModel est une classe qui hérite de la classe ViewModel et contient 3 valeurs mutableState utilisées pour mettre à jour les interfaces graphiques de chaque vue : LoginUiState, registerUiState, resetUiState pour les vues de connexion, d'inscription et de réinitialisation respectivement.
 
@@ -148,154 +176,178 @@ Le viewModel contient également une valeur accountService injectée lors de la 
 Le accountService est une interface où nous avons déclaré toutes les fonctions nécessaires.
 Nous avons créé une autre classe qui étend cette interface appelée FireBaseAccountService afin de faciliter le support d'autres backends.
 
-Dans le AuthViewModel, nous avons implémenté toutes les fonctions nécessaires appelées par les vues. Par exemple : login est une fonction appelé lorsque l'utilisateur clique sur le bouton  <<connexion>>. Il récupère l'e-mail et le mot de passe à partir de LoginUIState, puis les passe ces parametres et appelle la méthode authenticate de l'instance FireBaseAccountService.
+Dans le AuthViewModel, nous avons implémenté toutes les fonctions nécessaires appelées par les vues. Par exemple : login est une fonction appelé lorsque l'utilisateur clique sur le bouton  <<connexion>>. Il récupère l'e-mail et le mot de passe à partir de LoginUIState, puis il passe ces parametres et appelle la méthode authenticate de l'instance FireBaseAccountService.
 
-Pour personnaliser les messages d'erreur de SnackBar, nous avons dû créer nos propres exceptions,la classe AuthException. Toutes sortes d'exceptions survenues lors de l'authentification sont des exceptions spécifiques à Firebase qui sont converties en exceptions héritées de AuthException. Ensuite, ces exceptions sont gérées par la fonction loginExceptionHandler du AuthViewModel, qui récupère simplement le message de l'exception et l'affiche à l'aide d'un SnackBar.
+Pour personnaliser les messages d'erreurs de SnackBar, nous avons dû créer nos propres exceptions,la classe AuthException. Toutes sortes d'exceptions survenues lors de l'authentification sont des exceptions spécifiques à Firebase qui sont converties en exceptions héritées de AuthException. Ensuite, ces exceptions sont gérées par la fonction loginExceptionHandler du AuthViewModel, qui récupère simplement le message de l'exception et l'affiche à l'aide d'un SnackBar.
 \input{Diagrammes/sprint1 class diag.tex}
-\subsection{Realisation}
-\subsubsection{interface de connexion}
+$ $
+\vfill
+\newpage
+\subsection{Réalisation}
+\subsubsection{Interface de connexion}
+L'interface de connexion en mode Clair et Sombre.
 \begin{figure}[!htbp]
   \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
           \includegraphics[width=\linewidth]{Screenshots/8.png}
-          \caption{ ecran de connexion (light mode)}
+          \caption{ Écran de connexion (light mode)}
   \end{minipage}%
     \begin{minipage}{0.20\textwidth}
       \hfill
     \end{minipage}
   \begin{minipage}[t]{0.4\textwidth}
           \includegraphics[width=\linewidth]{Screenshots/7.png}
-          \caption{ ecran de connexion (dark mode)}
+          \caption{ Écran de connexion (dark mode)}
   \end{minipage}%
   \end{figure}
   \hfill
   $ $
-  \subsubsection{interface d'inscription et de renitialisation de mot de passe}
+  \subsubsection{Interface d'inscription et de réinitialisation de mot de passe}
+  L'interface d'inscription à gauche avec les différents champs nécessaires. À droit, l'interface de  réinitialisation de mot de passe.
   $ $
   \begin{figure}[!htbp]
     \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
             \includegraphics[width=\linewidth]{Screenshots/10.png}
-            \caption{ ecran d'inscription}
+            \caption{ Écran d'inscription}
     \end{minipage}%
     \begin{minipage}{0.20\textwidth}
       \hfill
     \end{minipage}
   \begin{minipage}[t]{0.4\textwidth}
           \includegraphics[width=\linewidth]{Screenshots/9.png}
-          \caption{ ecran de reinitialisation de mot de passe}
+          \caption{ Écran de réinitialisation de mot de passe}
   \end{minipage}%
     \end{figure}
+\newpage
+L'interface de connexion à gauche avec animation (attent de réponse du serveur firebase). À droit, la même interface reportant que l'e-mail ou le mot de passe est incorrect.
 \begin{figure}[!htbp]
       \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
               \includegraphics[width=\linewidth]{Screenshots/b4.png}
-              \caption{ animation lors de connexion}
+              \caption{ Animation lors de connexion}
       \end{minipage}%
       \begin{minipage}{0.20\textwidth}
         \hfill
       \end{minipage}
     \begin{minipage}[t]{0.4\textwidth}
             \includegraphics[width=\linewidth]{Screenshots/b2.png}
-            \caption{ exemple d'erreur 1}
+            \caption{ Exemple d'erreur 1}
     \end{minipage}%
       \end{figure}
+      \newpage
+      Exemple d'erreur de l'interface de connexion à gauche (mail malformé). À droit, la même interface reportant une erreur inconnu.
       \begin{figure}[!htbp]
         \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
                 \includegraphics[width=\linewidth]{Screenshots/b1.png}
-                \caption{ exemple d'erreur 2}
+                \caption{ Exemple d'erreur 2}
         \end{minipage}%
         \begin{minipage}{0.20\textwidth} 
           \hfill
         \end{minipage}
       \begin{minipage}[t]{0.4\textwidth}
               \includegraphics[width=\linewidth]{Screenshots/b3.png}
-              \caption{ exemple d'erreur 3}
+              \caption{ Exemple d'erreur 3}
       \end{minipage}%
         \end{figure}
 \newpage
 \section{Sprint 2}
-\subsection{specification fonctionnel}
-\subsubsection{consulter la situation des mois}
-Cette fonctionnalité permet à l'utilisateur de visualiser la liste des mois disponibles, avec les données associées à chaque mois telles que les revenus, les dépenses et le solde. Ces informations peuvent aider l'utilisateur à suivre les finances mois par mois et à avoir une vue d'ensemble des finances sur une période donnée.
-\subsubsection{consulter les operations de chaque mois}
-Cette fonctionnalité offre à l'utilisateur la possibilité de consulter en détail les revenus et les dépenses par mois.une liste des operations serait affiché en precisant la date de l'operation et montant d'operation, le cotisateur s'il s'agit d'une cotisation ou le type de depense s'il s'agit d'une depense.
+\subsection{Spécifications fonctionnelles}
+\subsubsection{Consulter la situation des mois}
+Cette fonctionnalité permet à l'utilisateur de visualiser la liste des mois disponibles, avec les données associées à chaque mois telles que les revenus, les dépenses et le solde. Ces informations peuvent aider l'utilisateur à suivre les finances mois par mois et avoir une vue d'ensemble des finances sur une période donnée.
+\subsubsection{Consulter les opérations de chaque mois}
+Cette fonctionnalité offre à l'utilisateur la possibilité de consulter en détail les revenus et les dépenses par mois. Une liste des opérations serait affiché en précisant la date de l'opération et le montant de l'opération, le cotisateur s'il s'agit d'une cotisation ou le type de dépense s'il s'agit d'une dépense.
 
 \subsection{Sprint Backlog}
+
+$  $
+
 \begin{center}
-  \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
-   \hline
-   GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
-   \hline\hline
-   \#23 & en tant qu'utilisatuer, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation & Utilisateur & ELEVEE \\ 
-   \hline
-   \#24  & En tant qu'utilisateur je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois, & Utilisateur & ELEVEE \\
-   \hline
-  \end{tabular}
+  \begin{table}[h!]
+    \begin{tabular}{ | m{2cm} | m{7cm}| m{3cm} | m{2cm} |} 
+      \hline
+      GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
+      \hline\hline
+      \#23 & En tant qu'utilisatuer, je veux voir les revenus, les dépenses, et le solde de chaque mois afin de mieux saisir la situation & Utilisateur & ELEVEE \\
+      \hline
+      \#24  & En tant qu'utilisateur je veux voir en détail les dépenses et les revenus par mois afin de mieux saisir la situation de chaque mois, & Utilisateur & ELEVEE \\
+      \hline
+     \end{tabular}
+     \caption{Backlog du 2eme sprint}
+  \end{table}
 \end{center}
-\subsection{conception}
+\newpage
+\subsection{Conception}
 Dans le deuxième Sprint, nous avons décidé de nous attaquer aux backlogs liés à la visualisation des données. Les besoins sont les suivants : montrer la situation globale et présenter une situation spécifique pour chaque mois.
-\subsubsection{diagramme de cas d'utilisation}
+\subsubsection{Diagramme de cas d'utilisation}
 Nous allons conserver nos principaux acteurs comme lors du dernier sprint, mais cette fois, les deux acteurs auront la possibilité de :
 \begin{enumerate}
   \item Voir la situation globale;
   \item Voir les opérations pour un mois spécifique.
 \end{enumerate}
-\vfill
 $ $
 \input{Diagrammes/sprint2 Usecase.tex}
 $ $
-\subsubsection{diagramme de classe}
+\newpage
+\subsubsection{Diagramme de classe}
 Suivant le même principe du modèle MVVM, nous avons créé deux vues : une pour afficher la liste des mois à l'aide d'un LazyColumn et une autre vue pour l'affichage des opérations d'un mois sélectionné, qui utilisent également un LazyColumn.
 
 En ce qui concerne les modèles, nous avons créé 3 classes :
 \begin{enumerate}
   \item Month : représente les données d'un mois;
   \item SpendType : représente un type de dépense;
-  \item Operation : qui représente une opération (soit une contribution soit une dépense).
+  \item Opération : qui représente une opération (soit une contribution soit une dépense).
 \end{enumerate}
 
-Normalement, nous devrions avoir deux classes qui héritent de l'operation et chacune représente un type spécifique d'opération, mais étant donné que Firestore utilise une base de données NoSQL et afin d'optimiser les requêtes de la base de données, nous avons décidé d'éviter l'héritage (nous avons trouvé dans nos experiences que Firestore ne gère pas bien l'héritage).
+Normalement, nous devons avoir deux classes qui héritent de l'opération et chacune représente un type spécifique d'opération, mais étant donné que Firestore utilise une base de données NoSQL et afin d'optimiser les requêtes de la base de données, nous avons décidé d'éviter l'héritage (nous avons trouvé dans nos expériences que Firestore ne gère pas bien l'héritage).
+ \begin{figure}[htb!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{dcm 2.png}
+        \caption{Diagramme de classe métier pour Sprint 2}
+    \end{figure}
 
-L'interface DataService est destinée à être étendue par tous les types de fournisseurs de services, dans notre cas la classe FireBaseDataService l'étend.
-
-Pour le ViewModel, nous avons créé une classe appelée MonthViewModel. Au début, la vue demande à MonthViewModel un Flow<List<Month>>, que le ViewModel récupère à partir du FireBaseDataService. Ensuite, ce Flow est utilisé pour afficher les données de manière réactive (les changements dans la base de données Firestore sont reflétés directement et instantanément dans l'interface utilisateur).
-\vfill
+L'interface DataService est destinée à être implémenté par tous les types de fournisseurs de services, dans notre cas la classe FireBaseDataService l'implémente.
 \input{Diagrammes/sprint2 class diag.tex}
+
+Pour le ViewModel, nous avons créé une classe appelée MonthViewModel. Au début, la vue demande à MonthViewModel un Flow<List<Month$>$>, que le ViewModel récupère à partir du FireBaseDataService. Ensuite, ce Flow est utilisé pour afficher les données de manière réactive (les changements dans la base de données Firestore sont reflétés directement et instantanément dans l'interface utilisateur).
+\vfill
+
 $ $
 \newpage
 $ $
-\newpage
-\subsection{Realisation}
-\subsubsection{les interfaces}
+\subsection{Réalisation}
+\subsubsection{Les interfaces}
+L'interface démontrant la liste des mois  à gauche, la liste des opération effectuées en mois de janvier a droit.
 \begin{figure}[!htbp]
   \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
           \includegraphics[width=\linewidth]{Screenshots/1.png}
-          \caption{ ecran de la liste des mois}
+          \caption{ Écran de la liste des mois}
   \end{minipage}%
   \begin{minipage}{0.20\textwidth}
     \hfill
   \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
         \includegraphics[width=\linewidth]{Screenshots/2.png}
-        \caption{ ecran de la liste des operations de janvier 2024}
+        \caption{ Écran de la liste des opérations de janvier 2024}
 \end{minipage}%
   \end{figure}
 $ $
 \newpage
 \section{Sprint 3}
-\subsection{specification fonctionnel}
-\subsubsection{gerer les cotisations}
-Dans cette fonctionnalité, nous devons fournir à l'administrateur du syndicat les outils nécessaires pour ajouter ou supprimer des contributions. Chaque contribution créée doit inclure le nom de contributeur et la date à laquelle elle a eu lieu.
-\subsubsection{gerer les dépenses}
+\subsection{Spécifications fonctionnelles}
+\subsubsection{Gérer les cotisations}
+Dans cette fonctionnalité, nous devons fournir à l'administrateur du syndicat les outils nécessaires pour ajouter ou supprimer des contributions. Chaque contribution crée doit inclure le nom de contributeur et la date à laquelle elle a eu lieu.
+\subsubsection{Gérer les dépenses}
 Pour les dépenses, la même histoire s'applique avec une seule exception : la dépense doit inclure un type de dépense au lieu d'un nom d'utilisateur.
 
 De plus, l'application doit permettre à l'administrateur d'ajouter de nouveaux types de dépenses ou de changer le nom des autres.
 
 \subsection{Sprint Backlog}
+$  $
 \begin{center}
-  \begin{tabular}{ | m{1cm} | m{9cm}| m{2cm} | m{2cm} |} 
+  \begin{table}[h!]
+  \begin{tabular}{ | m{2cm} | m{7cm}| m{3cm} | m{2cm} |} 
    \hline
    GitHub ID & Sprint Backlog & Acteur & Priorité \\ [0.5ex] 
    \hline\hline
-   \#18 & en tant qu'Administrateur,je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses& Administrateur & ELEVEE \\ 
+   \#18 & En tant qu'Administrateur,je veux avoir la possibilité d'ajouter un type de dépenses à la liste des dépenses prédéfinies dans l'application afin de mieux catégoriser les dépenses& Administrateur & ELEVEE \\ 
    \hline
    \#20  & En tant qu'utilisateur je veux avoir la possibilité d'ajouter une dépense à la liste des dépenses en spécifiant le type, le montant, et la date (qui doit être le jour même par défaut) afin d'enregistrer les dépenses mois. & Administrateur & ELEVEE \\
    \hline
@@ -306,20 +358,28 @@ De plus, l'application doit permettre à l'administrateur d'ajouter de nouveaux 
    \#20  & En tant qu'utilisateur je veux avoir la possibilité de supprimer une dépense de la liste des dépenses afin d'éliminer les enregistrements incorrects. & Administrateur & MOYEN \\
    \hline
   \end{tabular}
+  \caption{Backlog du 3eme sprint}
+  \end{table}
 \end{center}
-\subsection{conception}
-Dans le troisième sprint, nous avons abordé le reste des backlogs produits principalement parce qu'ils se concentrent tous sur la gestion des opérations. 
+\subsection{Conception}
+Dans le troisième sprint, nous avons abordé le reste des backlogs produits parce qu'ils se concentrent tous sur la gestion des opérations. 
 
 Nous avons dû donner à l'administrateur la possibilité de créer ou de supprimer de nouvelles contributions, d'ajouter et de modifier des types de dépenses, ainsi que de créer ou de supprimer des dépenses.
 
-\subsubsection{diagramme de cas d'utilisation}
-En analysant les backlogs des sprints sélectionnés, nous constatons qu'un seul acteur est impliqué, à savoir l'administrateur. Ce dernier est responsable des actions suivantes : l'ajout ou la suppression d'une dépense, l'ajout ou la modification d'un type de dépense, ainsi que l'ajout ou la suppression d'une cotisation.
+\subsubsection{Diagramme de cas d'utilisation}
+En analysant les backlogs de sprint, nous constatons qu'un seul acteur est impliqué, à savoir l'administrateur. Ce dernier est responsable des actions suivantes : l'ajout ou la suppression d'une dépense, l'ajout ou la modification d'un type de dépense, ainsi que l'ajout ou la suppression d'une cotisation.
 \input{Diagrammes/sprint3 Usecase.tex}
 $ $
-\subsubsection{diagramme de classe}
+\newpage
+\subsubsection{Diagramme de classe}
 En suivant le même principe, nous avons créé deux vues où l'administrateur peut ajouter des contributions et des dépenses. Ces deux vues utilisent des UiStates (ContributionUiState et ExpenseUiState) pour obtenir les données à afficher sur l'interface utilisateur.
 
 Pour les modèles, nous avons utilisé les mêmes modèles créés lors du deuxième sprint.
+ \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{dcm 3.png}
+        \caption{Diagramme de classe métier pour Sprint 3}
+    \end{figure}
 
 Nous avons également chargé l'interface DataService et la classe FireBaseDataService avec les fonctions nécessaires pour atteindre les objectifs de ce sprint. Nous avons ajouté :
 \begin{enumerate}
@@ -330,104 +390,117 @@ Nous avons également chargé l'interface DataService et la classe FireBaseDataS
 \end{enumerate}
     
 Pour ces deux vues, nous avons utilisé OperationViewModel pour gérer la logique derrière les vues implémentées. Il contient toutes les fonctions différentes appelées par l'interface utilisateur et dispose des fonctions nécessaires pour mettre à jour les vues en fonction des réponses du service ou des interactions de l'utilisateur.
-
+\input{Diagrammes/sprint3 class diag.tex}
 Il convient de noter que les opérations liées à la suppression des opérations (qu'il s'agisse de cotisations ou de dépenses) sont gérées via le MonthViewModel, car nous avons opté pour la gestuelle de glissement pour supprimer les opérations.
 
-\input{Diagrammes/sprint3 class diag.tex}
 $ $
-\subsection{Realisation}
-\subsubsection{l'acces au menu latéral}
+\newpage
+\subsection{Réalisation}
+\subsubsection{L'accès au menu latéral} 
+Le menu latéral (pour l'administrateur) à gauche, a droit un message d'erreur en cas de suppression d'une opération non effectué au mois courant.
+
 \begin{figure}[!htbp]
   \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
           \includegraphics[width=\linewidth]{Screenshots/6.png}
-          \caption{ menu latéral accesible par l'administrateur}
+          \caption{ Menu latéral accesible par l'administrateur}
   \end{minipage}%
   \begin{minipage}{0.20\textwidth}
     \hfill
   \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
         \includegraphics[width=\linewidth]{Screenshots/4.png}
-        \caption{ message d'erreur si l'administrateur essaye d'ajouter ou supprimer une operation avec un date ancien}
-\end{minipage}%
-  \end{figure}
-  \subsubsection{ajout de depense}
+        \caption{ Message d'erreur si l'administrateur essaye d'ajouter ou supprimer une opération avec une date ancienne}
+  \end{minipage}%
+\end{figure}
+$ $
+  \subsubsection{Ajout de dépense}
+  L'interface d'ajout des dépenses et modification des types des dépenses.
   \begin{figure}[!htbp]
     \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
             \includegraphics[width=\linewidth]{Screenshots/c2.png}
-            \caption{ exemple d'interface pour ajouter des depenses}
+            \caption{ Exemple d'interface pour ajouter des dépenses}
     \end{minipage}%
     \begin{minipage}{0.20\textwidth}
       \hfill
     \end{minipage}
   \begin{minipage}[t]{0.4\textwidth}
           \includegraphics[width=\linewidth]{Screenshots/c5.png}
-          \caption{ exemple d'opération en cours ( ajout de depense) }
+          \caption{ Exemple d'opération en cours ( ajout de dépense) }
   \end{minipage}%
-    \end{figure}
-    \begin{figure}[!htbp]
+\end{figure}
+$ $
+\newpage
+Interface pour sélectionner la date (calendrier) à gauche, message de réussir d'ajout d'opération à droit.
+\begin{figure}[!htbp]
       \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
         \includegraphics[width=\linewidth]{Screenshots/c7.png}
-        \caption{ calendrier pour selectionner la date de depense}
+        \caption{ Calendrier pour sélectionner la date de dépense}
           \end{minipage}%
           \begin{minipage}{0.20\textwidth}
             \hfill
           \end{minipage}
       \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
               \includegraphics[width=\linewidth]{Screenshots/c6.png}
-              \caption{ exemple de message de reussit d'ajout de depenses}
+              \caption{ Exemple de message de réussit d'ajout de dépenses}
       \end{minipage}%
       \end{figure}
-
-      \subsubsection{ajout et modidication de type de depense}
-
+      $ $
+      \newpage
+      \subsubsection{Ajout et modification de type de dépense}
+      Interface d'ajout d'un nouveau type de dépense et de modification d'un type de dépense
       \begin{figure}[!htbp]
         \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
                 \includegraphics[width=\linewidth]{Screenshots/c3.png}
-                \caption{ interface d'ajout d'un noveau type de depense a la liste des types des depenses}
+                \caption{ Interface d'ajout d'un nouveau type de dépense a la liste des types des dépenses}
         \end{minipage}%
         \begin{minipage}{0.20\textwidth}
           \hfill
         \end{minipage}
       \begin{minipage}[t]{0.4\textwidth}
               \includegraphics[width=\linewidth]{Screenshots/c4.png}
-              \caption{ interface de modification d'un  type de depense}
+              \caption{ Interface de modification d'un  type de dépense}
       \end{minipage}%
         \end{figure}
-
-      \subsubsection{ ajout de cotisation}
+        $ $
+        \newpage
+      \subsubsection{ Ajout de cotisation}
+      Interface d'ajout de cotisation.
       \begin{figure}[!htbp]
         \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
                 \includegraphics[width=\linewidth]{Screenshots/c8.png}
-                \caption{ exemple d'interface pour ajouter des cotisation}
+                \caption{ Exemple d'interface pour ajouter des cotisation}
         \end{minipage}%
         \begin{minipage}{0.20\textwidth}
           \hfill
         \end{minipage}
       \begin{minipage}[t]{0.4\textwidth}
               \includegraphics[width=\linewidth]{Screenshots/c9.png}
-              \caption{ exemple d'opération en cours ( ajout de cotisation)}
+              \caption{ Exemple d'opération en cours ( ajout de cotisation)}
       \end{minipage}%
         \end{figure}
+        $ $
+\newpage
+Interface montrant le message de réussir d'ajout de cotisation.
         \begin{figure}[!htbp]
           \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
                   \includegraphics[width=\linewidth]{Screenshots/c10.png}
-                  \caption{ exemple de message de reussit d'ajout de cotisation}
+                  \caption{ Exemple de message de réussit d'ajout de cotisation}
           \end{minipage}%
-          \end{figure}
-
-
-  \subsubsection{suppression des operations}
+        \end{figure}
+      \newpage
+  \subsubsection{Suppression des opérations}
+  Interface d'opération de mois 2 montrant la possibilité de glissement pour suppression.
   \begin{figure}[!htbp]
     \begin{minipage}[t]{0.4\textwidth}    %% b or t, default is c
             \includegraphics[width=\linewidth]{Screenshots/3.png}
-            \caption{ exemple de suppression d'une operation par l'administrateur}
+            \caption{ Exemple de suppression d'une opération par l'administrateur}
     \end{minipage}%
     \begin{minipage}{0.20\textwidth}
       \hfill
     \end{minipage}
   \begin{minipage}[t]{0.4\textwidth}
           \includegraphics[width=\linewidth]{Screenshots/5.png}
-          \caption{ message de reussit}
+          \caption{ Message de réussit}
   \end{minipage}%
     \end{figure}
 
