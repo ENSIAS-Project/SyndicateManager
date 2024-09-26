@@ -1,4 +1,4 @@
-\begin{figure}
+\begin{figure}[htb!]
         \begin{tikzpicture}
 
         \umlclass[x=-1,y=3,type=interface,scale = 0.8,fill=blue!10]{DataService}{
@@ -55,7 +55,8 @@
             + type :String \\
             + value : Long \\
             + date : Date  \\
-
+            + Spendtype : SpendType \\
+            + user : User \\
           }{
           } 
           \umlclass[x=0,y=-5,scale = 0.8,fill=yellow!10]{ViewModel}{
@@ -63,7 +64,7 @@
             } 
           
           \umlclass[x=1,y=-9,scale = 0.8,fill=yellow!10]{MonthViewModel}{
-              - dataService: DataService
+              - dataService: DataService\\
               + monthList :  Flow<List<Month>$ $> \\
             }{
               + constructor(dataService: DataService) \\ % TODO: find the correct way to represent the constructor
@@ -80,6 +81,6 @@
         \umlaggreg[]{MonthViewModel}{Operation}
         \umlaggreg[geometry=|-,anchors=20 and 0]{MonthViewModel}{Month}
         \end{tikzpicture}
-        \caption{le diagramme de Class pour Sprint 2}
+        \caption{Le diagramme de Class pour Sprint 2}
         \label{fig : Class diagram Sprint 1}
     \end{figure}

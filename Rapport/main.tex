@@ -3,6 +3,15 @@
 \usepackage[T1]{fontenc} % more info visit : https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
 \usepackage{graphicx} % package to load images
 \usepackage[french]{babel} % set language to french
+\usepackage{hyperref} % to add links to table of content
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=black,  %choose some color if you want links to stand out
+    urlcolor=[RGB]{0.5,0.5,0.5},
+    citecolor = [RGB]{0.8,0.5,0.5}
+}
+
 \usepackage{titlesec} % customise the look of the start of the chapters
 \usepackage[a4paper,width=160mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry} % set papersize and margins
 \setlength{\headheight}{14.49998pt} % needed for fancyhdr
@@ -17,13 +26,15 @@
 \usepackage{caption} % for captioning
 \usepackage{subcaption} % for multiple figs 
 \usepackage{biblatex} % for references
-\addbibresource{reference.bib} % set file with refs
+\addbibresource{ref.bib} % set file with refs
 \usepackage{csquotes} % biblatex recommend it
 \usepackage{lipsum} % generate dummy text
 \usepackage{array} % for tables
 \usepackage{wrapfig}
 % for UML diagrammes
 \usepackage{tikz-uml}
+% for gantt diagram
+\usepackage{pgfgantt}
 % set default path to images
 \graphicspath{ {Images/}}  
 
@@ -90,9 +101,12 @@
       \raggedright\textit{Sous la direction de :}\\
         
         Pr EL HAMLAOUI Mahmoud
+        \\
+        \raggedright\textit{Membre de Jury :}\\
+        Pr NASSAR Mahmoud
     \end{minipage}%
        \vspace{1.8cm}
-       Department Informatique\\
+       Départment Informatique\\
        ENSIAS - UM5\\
        Année Académique 2023/2024
    \end{center}
@@ -101,12 +115,12 @@
 \shipout\null
 \stepcounter{page} % in order to count for the blank page
 %-- les differents parties --
-\chapter*{Remerciments} % add or remove * to enable/disable numbering
-\addcontentsline{toc}{chapter}{Remerciments}
+\chapter*{Remerciement} % add or remove * to enable/disable numbering
+\addcontentsline{toc}{chapter}{Remerciements}
 \input{Chapters/remerciments}
 
-\chapter*{Resume} % add or remove * to enable/disable numbering
-\addcontentsline{toc}{chapter}{Resume}
+\chapter*{Résumé} % add or remove * to enable/disable numbering
+\addcontentsline{toc}{chapter}{Résumé}
 \input{Chapters/resume}
 
 \chapter*{Abstract} % add or remove * to enable/disable numbering
@@ -117,27 +131,31 @@
 \listoffigures % table des figures
 \addcontentsline{toc}{chapter}{Table des figures}
 \listoftables % table des tableau
-\addcontentsline{toc}{chapter}{Liste des tableax}
+\addcontentsline{toc}{chapter}{Liste des tableaux}
 
 
 \chapter{Introduction générale} % add or remove * to enable/disable numbering
 %\addcontentsline{toc}{chapter}{Introduction générale}
 \input{Chapters/introduction}
 
-\chapter{Contexte générale  de projet} % add or remove * to enable/disable numbering
+\chapter{Contexte général  de projet} % add or remove * to enable/disable numbering
 \input{Chapters/chapitre1}
 
-\chapter{Spécification techniques}
+\chapter{Spécifications techniques}
 \input{Chapters/chapitre2}
 
-\chapter{Deroulement des Sprints}
+\chapter{Déroulement des Sprints}
 \input{Chapters/chapitre3}
+
+\chapter{Conclusion}
+
+\input{Chapters/conclusion.tex}
 
 \appendix
 
 \addcontentsline{toc}{chapter}{ Bibliographie}
 \printbibliography
-\chapter{annexes} % add or remove * to enable/disable numbering
+\chapter{Annexes} % add or remove * to enable/disable numbering
 \input{Chapters/annexes}
 
 \end{document}
